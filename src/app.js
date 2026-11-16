@@ -203,18 +203,51 @@ function setupFilterListeners() {
   });
 }
 
-// Interactive Leaflet Map
+// Interactive Leaflet Map (%100 Ücretsiz & Açık Kaynak: OpenStreetMap + OpenRailwayMap)
 function initMap() {
   const mapElement = document.getElementById("rail-map");
   if (!mapElement) return;
 
-  // Center around Europe
-  mapInstance = L.map("rail-map").setView([56.9, -5.45], 8);
+  // Center around Scottish Highlands
+  mapInstance = L.map("rail-map", {
+    center: [56.9, -5.45],
+    zoom: 8,
+    scrollWheelZoom: false // prevents accidental scroll trap on page
+  });
 
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a> | LocoMotion',
-    maxZoom: 18
-  }).addTo(mapInstance);
+  // 1. %100 ÜCRETSİZ STANDART HARİTA: OpenStreetMap (API anahtarsız, sıfır maliyet)
+  const osmStandard = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> Katkıda Bulunanlar'
+  });
+
+  // 2. %100 ÜCRETSİZ TOPOGRAFİK DAĞ HARİTASI: OpenTopoMap (Alpler ve dağ rotaları için mükemmel)
+  const openTopo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+    maxZoom: 17,
+    attribution: 'Harita: &copy; <a href="https://opentopomap.org" target="_blank">OpenTopoMap</a>'
+  });
+
+  // 3. %100 ÜCRETSİZ DEMİRYOLU KATMANI: OpenRailwayMap (Tüm dünyadaki gerçek tren rayları ve hatları)
+  const railwayLayer = L.tileLayer("https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: 'Demiryolu Ağı: &copy; <a href="https://www.openrailwaymap.org" target="_blank">OpenRailwayMap</a>'
+  });
+
+  // Varsayılan olarak OpenStreetMap ve OpenRailwayMap ray katmanını aç
+  osmStandard.addTo(mapInstance);
+  railwayLayer.addTo(mapInstance);
+
+  // Kullanıcı için Harita Katman Seçici Kontrolü
+  const baseMaps = {
+    "🗺️ OpenStreetMap (Standart)": osmStandard,
+    "🏔️ OpenTopoMap (Dağ & Arazi)": openTopo
+  };
+
+  const overlayMaps = {
+    "🚂 Gerçek Ray Hatları (OpenRailwayMap)": railwayLayer
+  };
+
+  L.control.layers(baseMaps, overlayMaps, { position: "topright" }).addTo(mapInstance);
 
   // Plot all stops for Jacobite
   const jacobite = routesData.find(r => r.id === "jacobite-steam-train");
@@ -230,7 +263,7 @@ function initMap() {
         color: "#153230",
         weight: 2,
         opacity: 1,
-        fillOpacity: 0.9
+        fillOpacity: 0.95
       }).addTo(mapInstance);
 
       marker.bindPopup(`
@@ -242,10 +275,10 @@ function initMap() {
     });
 
     const trainLine = L.polyline(polylineCoords, {
-      color: "#153230",
-      weight: 4,
-      dashArray: "8, 6",
-      opacity: 0.8
+      color: "#b18331",
+      weight: 5,
+      dashArray: "10, 8",
+      opacity: 0.9
     }).addTo(mapInstance);
 
     trainLine.bindPopup("<strong>The Jacobite Rota Hattı</strong><br>Fort William ➔ Mallaig");
