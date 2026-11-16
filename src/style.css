@@ -119,6 +119,26 @@ body {
   letter-spacing: 0.05em;
 }
 
+.btn-admin-pill {
+  background: var(--accent-gold);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(200, 150, 62, 0.3);
+}
+
+.btn-admin-pill:hover {
+  background: #b18331;
+  transform: translateY(-1px);
+}
+
 /* Hero Section */
 .hero-section {
   position: relative;
