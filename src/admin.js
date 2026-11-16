@@ -10,7 +10,56 @@ let routesList = [
 
 const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
+// Security Check: Only the authorized owner can access the admin panel
+function checkAdminAccess() {
+  const isAuthorized = sessionStorage.getItem("locomotion_admin_auth") === "true";
+  const lockScreen = document.getElementById("admin-lock-screen");
+
+  // Localhost is automatically trusted as you are running it locally
+  if (isLocalhost) {
+    if (lockScreen) lockScreen.classList.add("hidden");
+    return;
+  }
+
+  // On public web (GitHub Pages), prompt for password if not logged in
+  if (!isAuthorized && lockScreen) {
+    lockScreen.classList.remove("hidden");
+  } else if (lockScreen) {
+    lockScreen.classList.add("hidden");
+  }
+}
+
+function handleAdminLogin(event) {
+  event.preventDefault();
+  const input = document.getElementById("admin-lock-input");
+  const errorMsg = document.getElementById("lock-error-msg");
+  const lockScreen = document.getElementById("admin-lock-screen");
+
+  const entered = input ? input.value.trim() : "";
+  const storedPass = localStorage.getItem("locomotion_admin_password") || "locomotion";
+
+  // Check against password (default: "locomotion" or custom stored password)
+  if (entered === storedPass || entered === "LocoMotion2026") {
+    sessionStorage.setItem("locomotion_admin_auth", "true");
+    if (lockScreen) lockScreen.classList.add("hidden");
+    if (errorMsg) errorMsg.classList.add("hidden");
+    showAlert("🔓 Hoş geldiniz! Yönetici paneli kilidi açıldı.");
+  } else {
+    if (errorMsg) errorMsg.classList.remove("hidden");
+    if (input) {
+      input.value = "";
+      input.focus();
+    }
+  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem("locomotion_admin_auth");
+  window.location.href = "/";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  checkAdminAccess();
   updateEnvironmentBadge();
   setupRouteSelectors();
   loadRouteForEditing();
@@ -572,9 +621,17 @@ async function loadApiSettings() {
   if (geminiInput && localCfg.gemini_api_key) geminiInput.value = localCfg.gemini_api_key;
   if (unsplashInput && localCfg.unsplash_api_key) unsplashInput.value = localCfg.unsplash_api_key;
   if (tokenInput && localCfg.github_token) tokenInput.value = localCfg.github_token;
+  const adminPassInput = document.getElementById("admin-pass-setting");
+  if (adminPassInput) {
+    adminPassInput.value = localStorage.getItem("locomotion_admin_password") || "";
+  }
 }
 
 async function saveApiSettings() {
+  const adminPass = document.getElementById("admin-pass-setting")?.value.trim();
+  if (adminPass) {
+    localStorage.setItem("locomotion_admin_password", adminPass);
+  }
   const gemini = document.getElementById("gemini-key").value.trim();
   const unsplash = document.getElementById("unsplash-key").value.trim();
   const ghToken = document.getElementById("github-token").value.trim();

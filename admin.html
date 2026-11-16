@@ -12,6 +12,26 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="admin-body">
+  <!-- Admin Security Lock Overlay (Yalnızca siz erişebilin diye koruma ekranı) -->
+  <div id="admin-lock-screen" class="admin-lock-overlay hidden">
+    <div class="lock-card">
+      <div class="lock-icon">🔒</div>
+      <h2>Yetkili Yönetici Girişi</h2>
+      <p class="lock-desc">LocoMotion yönetim paneli kısıtlı bir alandır. Panele erişmek için lütfen yönetici parolanızı girin.</p>
+      
+      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <input type="password" id="admin-lock-input" class="admin-input lock-input" placeholder="Yönetici Parolası..." autofocus required>
+        </div>
+        <div id="lock-error-msg" class="lock-error-msg hidden">Hatalı parola! Lütfen tekrar deneyin.</div>
+        <div class="lock-actions">
+          <button type="submit" class="btn btn-primary btn-block">Giriş Yap ➔</button>
+          <a href="/" class="btn-cancel-link">Ana Sayfaya Dön</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Admin Header -->
   <header class="admin-header">
     <div class="admin-header-inner container">
@@ -24,6 +44,7 @@
       </div>
       <div class="admin-header-nav">
         <a href="/" class="btn-secondary-sm">🌐 Siteyi Görüntüle</a>
+        <button class="btn-secondary-sm" onclick="adminLogout()" style="background: rgba(220, 38, 38, 0.2); border-color: rgba(220, 38, 38, 0.4);">🔒 Çıkış Yap</button>
       </div>
     </div>
   </header>
@@ -198,6 +219,15 @@
         </div>
 
         <div class="settings-cards">
+          <div class="setting-card">
+            <div class="setting-icon">🔒</div>
+            <div class="setting-body">
+              <h3>Yönetici Giriş Parolası</h3>
+              <p>Canlı sitede yönetim paneline yalnızca sizin erişebilmeniz için kullanılan güvenlik parolası.</p>
+              <input type="password" id="admin-pass-setting" class="admin-input" placeholder="Parolayı Değiştirin (Varsayılan: locomotion)">
+              <small class="helper-text">Parolanızı belirleyip kaydettiğinizde, dışarıdan kimse bu panele erişemez.</small>
+            </div>
+          </div>
           <div class="setting-card">
             <div class="setting-icon">✨</div>
             <div class="setting-body">

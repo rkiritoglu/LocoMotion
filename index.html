@@ -29,8 +29,9 @@
         <a href="#hakkinda" class="nav-item" onclick="openAboutModal()">Hakkında & Manifest</a>
       </nav>
       <div class="header-actions">
-        <a href="admin.html" class="btn-admin-pill" title="İçerik, görseller ve API ayarlarını yönet">
-          <span>⚙️</span> Yönetim Paneli
+        <!-- Bu buton sadece localhost'ta geliştiriciye görünür; yayınlanan canlı sitede normal ziyaretçilere tamamen gizlidir -->
+        <a href="admin.html" id="admin-pill-link" class="btn-admin-pill" style="display: none;" title="Yönetim Paneli (Yalnızca Yerelde Görünür)">
+          <span>⚙️</span> Yönetici Paneli
         </a>
       </div>
     </div>

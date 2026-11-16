@@ -1,5 +1,92 @@
 /* LocoMotion Admin Styling */
 
+/* Admin Security Lock Overlay */
+.admin-lock-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, #173735 0%, #0c1a18 100%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-lock-overlay.hidden {
+  display: none !important;
+}
+
+.lock-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  border: 2px solid var(--accent-gold);
+}
+
+.lock-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.lock-card h2 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.lock-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.lock-input {
+  text-align: center;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  padding: 12px;
+}
+
+.lock-error-msg {
+  color: #dc2626;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.lock-error-msg.hidden {
+  display: none;
+}
+
+.lock-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-cancel-link {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.btn-cancel-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 .admin-body {
   background-color: #f1ede4;
   color: #1a2528;
