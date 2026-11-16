@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocoMotion — Yönetim Paneli & İçerik Merkezi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="admin-body">
+  <!-- Admin Header -->
+  <header class="admin-header">
+    <div class="admin-header-inner container">
+      <div class="logo-area" onclick="window.location.href='/'">
+        <span class="train-icon">🚂</span>
+        <div class="logo-text">
+          <span class="brand-title">LocoMotion</span>
+          <span class="brand-subtitle">Yönetim & Arka Plan Paneli</span>
+        </div>
+      </div>
+      <div class="admin-header-nav">
+        <a href="/" class="btn-secondary-sm">🌐 Siteyi Görüntüle</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-layout container">
+    <!-- Sidebar Tabs -->
+    <aside class="admin-sidebar">
+      <nav class="admin-menu">
+        <button class="admin-menu-item active" onclick="switchAdminTab('content')">
+          <span class="icon">✍️</span> Rotalar & Yazılar
+        </button>
+        <button class="admin-menu-item" onclick="switchAdminTab('images')">
+          <span class="icon">🖼️</span> Görsel Yönetimi
+        </button>
+        <button class="admin-menu-item" onclick="switchAdminTab('suggest')">
+          <span class="icon">💡</span> Yeni Konu Öner
+        </button>
+        <button class="admin-menu-item" onclick="switchAdminTab('api')">
+          <span class="icon">🔑</span> API Tanımlamaları
+        </button>
+        <button class="admin-menu-item" onclick="switchAdminTab('git')">
+          <span class="icon">🚀</span> GitHub Yayınlama
+        </button>
+      </nav>
+
+      <div class="sidebar-status-box">
+        <div class="status-indicator">
+          <span class="status-dot online"></span>
+          <span>Yerel Sunucu Aktif</span>
+        </div>
+        <p class="status-url">http://localhost:8080</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- Alert Message Box -->
+      <div id="admin-alert" class="admin-alert hidden"></div>
+
+      <!-- TAB 1: Content Editor -->
+      <section id="tab-content" class="admin-tab-pane active">
+        <div class="pane-header">
+          <div>
+            <h2>Rotalar ve Gezi Yazıları</h2>
+            <p class="pane-desc">Mevcut rotaları seçin, metinleri düzenleyin veya yeni bölümler ekleyin.</p>
+          </div>
+          <div class="pane-actions">
+            <select id="route-selector" class="admin-select" onchange="loadRouteForEditing()">
+              <!-- Options loaded via JS -->
+            </select>
+            <button class="btn btn-primary" onclick="saveCurrentRoute()">💾 Değişiklikleri Kaydet</button>
+          </div>
+        </div>
+
+        <div class="editor-grid">
+          <div class="editor-pane">
+            <div class="pane-sub-header">
+              <span>Markdown & Frontmatter Metni</span>
+              <span id="char-count" class="badge-dim">0 karakter</span>
+            </div>
+            <textarea id="markdown-editor" class="admin-textarea" placeholder="Rota markdown içeriği..."></textarea>
+          </div>
+          <div class="preview-pane">
+            <div class="pane-sub-header">
+              <span>Canlı Önizleme</span>
+              <span class="badge-dim">Görünüm</span>
+            </div>
+            <div id="markdown-preview" class="preview-content"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Image Manager -->
+      <section id="tab-images" class="admin-tab-pane">
+        <div class="pane-header">
+          <div>
+            <h2>Görsel Kütüphanesi</h2>
+            <p class="pane-desc">AI tarafından üretilen veya yüklediğiniz tüm telifsiz görselleri yönetin.</p>
+          </div>
+          <div class="pane-actions">
+            <label class="btn btn-secondary-sm upload-btn">
+              ➕ Yeni Görsel Yükle
+              <input type="file" id="image-upload-input" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
+            </label>
+          </div>
+        </div>
+
+        <div class="images-grid" id="admin-images-grid">
+          <!-- Loaded via JS -->
+        </div>
+      </section>
+
+      <!-- TAB 3: Suggest New Topic -->
+      <section id="tab-suggest" class="admin-tab-pane">
+        <div class="pane-header">
+          <div>
+            <h2>Yapay Zekaya Yeni Rota / Konu Öner</h2>
+            <p class="pane-desc">Aklınızdaki tren rotasını, geçmesini istediğiniz durakları veya tarihi hadiseleri not edin.</p>
+          </div>
+        </div>
+
+        <div class="suggest-form-card">
+          <div class="form-group">
+            <label for="sug-title">Tren Rotası veya Konu Başlığı *</label>
+            <input type="text" id="sug-title" class="admin-input" placeholder="Örn: Glacier Express (Zermatt - St. Moritz) veya Trans-Sibirya Gece Treni">
+          </div>
+          <div class="form-group">
+            <label for="sug-region">Ülke / Bölge</label>
+            <input type="text" id="sug-region" class="admin-input" placeholder="Örn: İsviçre Alpleri, Japonya, Norveç Fiyortları">
+          </div>
+          <div class="form-group">
+            <label for="sug-notes">Gezgin Notları & Vurgulanmasını İstediğiniz Detaylar</label>
+            <textarea id="sug-notes" class="admin-textarea-sm" placeholder="Örn: Kış manzarasına ve donmuş göllere özellikle odaklanılsın. Vagon içi yerel peynir fondü tadımı ve tarihi viyadük mühendisliği anlatılsın."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="submitTopicSuggestion()">💡 Öneriyi Kaydet & AI Kuyruğuna Ekle</button>
+        </div>
+
+        <h3 class="sub-heading">Kayıtlı Öneri Havuzu</h3>
+        <div id="suggestions-list" class="suggestions-list">
+          <!-- Suggestions injected by JS -->
+        </div>
+      </section>
+
+      <!-- TAB 4: API Settings -->
+      <section id="tab-api" class="admin-tab-pane">
+        <div class="pane-header">
+          <div>
+            <h2>API ve Servis Tanımlamaları</h2>
+            <p class="pane-desc">İçerik araştırması, görsel üretimi ve GitHub senkronizasyonu için gerekli anahtarlar.</p>
+          </div>
+          <button class="btn btn-primary" onclick="saveApiSettings()">💾 Anahtarları Kaydet</button>
+        </div>
+
+        <div class="settings-cards">
+          <div class="setting-card">
+            <div class="setting-icon">✨</div>
+            <div class="setting-body">
+              <h3>Google Gemini API Anahtarı</h3>
+              <p>Otonom araştırma ve birinci şahıs gezi yazısı üretimi için kullanılır.</p>
+              <input type="password" id="gemini-key" class="admin-input" placeholder="AIzaSy...">
+              <small class="helper-text">Mevcut Durum: <span id="gemini-status" class="badge-status">Kontrol ediliyor...</span></small>
+            </div>
+          </div>
+
+          <div class="setting-card">
+            <div class="setting-icon">📷</div>
+            <div class="setting-body">
+              <h3>Unsplash / Görsel Arama API Anahtarı (Opsiyonel)</h3>
+              <p>Web üzerinden gerçek mekan ve tren referans fotoğraflarını çekmek için kullanılır.</p>
+              <input type="password" id="unsplash-key" class="admin-input" placeholder="Client-ID ...">
+              <small class="helper-text">Mevcut Durum: <span id="unsplash-status" class="badge-status">Kontrol ediliyor...</span></small>
+            </div>
+          </div>
+
+          <div class="setting-card">
+            <div class="setting-icon">🐙</div>
+            <div class="setting-body">
+              <h3>GitHub Kişisel Erişim Jetonu (Personal Access Token)</h3>
+              <p>Tek tıkla sitenizi GitHub Pages üzerinde yayınlamak ve deponuza göndermek için gereklidir.</p>
+              <input type="password" id="github-token" class="admin-input" placeholder="ghp_...">
+              <small class="helper-text">İzinler: <code>repo</code> ve <code>workflow</code> yetkileri gereklidir.</small>
+            </div>
+          </div>
+
+          <div class="setting-card">
+            <div class="setting-icon">📦</div>
+            <div class="setting-body">
+              <h3>GitHub Depo Bilgisi</h3>
+              <p>Yayınlanacak GitHub deposu adı veya adresi.</p>
+              <input type="text" id="github-repo" class="admin-input" placeholder="Örn: kullanici-adi/locomotion veya https://github.com/user/locomotion">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: GitHub Publishing -->
+      <section id="tab-git" class="admin-tab-pane">
+        <div class="pane-header">
+          <div>
+            <h2>GitHub ile Canlıya Yayınlama (Deploy)</h2>
+            <p class="pane-desc">Yerelde düzenlediğiniz tüm yazıları, haritaları ve görselleri GitHub'a gönderin ve GitHub Pages ile dünyaya açın.</p>
+          </div>
+          <button class="btn btn-primary" onclick="publishToGithub()">🚀 Şimdi GitHub'a Gönder</button>
+        </div>
+
+        <div class="git-status-grid">
+          <div class="git-card">
+            <h3>Git Çalışma Ağacı Durumu</h3>
+            <div class="git-info-row">
+              <strong>Aktif Dal:</strong> <span id="git-branch" class="code-badge">main</span>
+            </div>
+            <div class="git-info-row">
+              <strong>Son İşleme (Commit):</strong> <span id="git-last-commit" class="code-badge">-</span>
+            </div>
+            <div class="git-info-row">
+              <strong>Uzak Sunucu (Remote):</strong> <span id="git-remote" class="code-badge">-</span>
+            </div>
+            
+            <div class="form-group" style="margin-top: 18px;">
+              <label for="commit-msg">İşleme Mesajı (Commit Message)</label>
+              <input type="text" id="commit-msg" class="admin-input" value="feat: yeni rota ve gorseller eklendi">
+            </div>
+
+            <div class="changed-files-box">
+              <span class="sub-label">Değişen / Bekleyen Dosyalar:</span>
+              <ul id="git-changed-list" class="changed-list">
+                <!-- Injected via JS -->
+              </ul>
+            </div>
+          </div>
+
+          <div class="git-card guide-card">
+            <h3>🌍 GitHub Pages ile Ücretsiz Yayınlama</h3>
+            <p>Sitenizi tüm dünyanın okuyabileceği canlı bir web sitesine dönüştürmek çok kolay:</p>
+            <ol class="guide-steps">
+              <li>GitHub'da <code>locomotion</code> adında yeni bir depo (repository) oluşturun.</li>
+              <li>API sekmesinden GitHub Depo Adınızı ve Token'ınızı girip kaydedin.</li>
+              <li>Yukarıdaki <strong>"Şimdi GitHub'a Gönder"</strong> butonuna basın.</li>
+              <li>GitHub deponuzda <strong>Settings ➔ Pages</strong> sekmesine gidin.</li>
+              <li><strong>Source</strong> kısmından <strong>"Deploy from a branch"</strong> ve <code>main / (root)</code> seçip <strong>Save</strong> deyin.</li>
+              <li>Siteniz birkaç saniye içinde <code>https://kullanici-adiniz.github.io/locomotion/</code> adresinde yayında olacaktır!</li>
+            </ol>
+          </div>
+        </div>
+
+        <div id="git-log-box" class="git-log-box hidden">
+          <h4>İşlem Günlüğü:</h4>
+          <pre id="git-log-output"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="src/admin.js"></script>
+</body>
+</html>

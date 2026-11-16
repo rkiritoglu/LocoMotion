@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LocoMotion — Rayların Ötesindeki Dünya | Demiryolu Keşif Günlüğü</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/passport.css">
 </head>
 <body>
   <!-- Header / Navigation -->
@@ -24,34 +25,164 @@
         </div>
       </div>
       <nav class="nav-links">
-        <a href="#rotalar" class="nav-item active" onclick="showHomeView()">Rotalar</a>
+        <a href="#rota-pasaportu" class="nav-item active">Rota Pasaportu</a>
+        <a href="#rotalar" class="nav-item">Rotalar</a>
         <a href="#harita" class="nav-item" onclick="scrollToMap()">Dünya Haritası</a>
-        <a href="#hakkinda" class="nav-item" onclick="openAboutModal()">Hakkında & Manifest</a>
+        <a href="#hakkinda" class="nav-item" onclick="openAboutModal()">Manifesto</a>
       </nav>
       <div class="header-actions">
-        <div class="tag-filter-badge">AI Gezgin Günlüğü</div>
+        <a href="admin.html" class="btn-admin-pill" title="İçerik, görseller ve API ayarlarını yönet">
+          <span>⚙️</span> Yönetim Paneli
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="hero-content container">
-      <div class="hero-badge">Öne Çıkan Rota</div>
-      <h1 class="hero-title">Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni</h1>
-      <p class="hero-desc">
-        Fort William'dan Atlantik kıyısındaki Mallaig'e uzanan 21 kemerli Glenfinnan Viyadüğü, Kelt efsaneleri ve 1745 Jakobit İsyanı'nın izinde nostaljik bir yolculuk.
-      </p>
-      <div class="hero-meta">
-        <span>📍 İskoçya, BK</span>
-        <span>⏱️ 2s 15dk</span>
-        <span>🛤️ 67 km</span>
-        <span>🚂 LMS Stanier Black Five</span>
+  <!-- TAM SAYFA ROTA PASAPORTU BÖLÜMÜ (Üst Bandın Hemen Altında) -->
+  <section class="passport-fullpage-section" id="rota-pasaportu">
+    <div class="passport-container container">
+      <!-- Passport Header Bar -->
+      <div class="passport-topbar">
+        <div class="passport-crest-title">
+          <span class="crest-icon">🛡️</span>
+          <div>
+            <span class="passport-super">LOCOMOTION WORLD RAILWAY EXPEDITION DOSSIER</span>
+            <h2 class="passport-main-title">DÜNYA DEMİRYOLLARI ROTA PASAPORTU</h2>
+          </div>
+        </div>
+        <div class="passport-selector-wrap">
+          <label for="passport-route-select">Rotayı Değiştir:</label>
+          <select id="passport-route-select" class="passport-select" onchange="switchPassportRoute(this.value)">
+            <option value="jacobite-steam-train">The Jacobite Steam Train (İskoçya)</option>
+            <option value="bernina-express">Bernina Express (İsviçre & İtalya)</option>
+            <option value="orient-express">Doğu Ekspresi / Orient Express</option>
+          </select>
+        </div>
       </div>
-      <button class="btn btn-primary" onclick="openRouteArticle('jacobite-steam-train')">
-        Yolculuğa Başla <span>➔</span>
-      </button>
+
+      <!-- Passport Dual Spread Booklet -->
+      <div class="passport-booklet">
+        <!-- SOL SAYFA: Resmi Demiryolu Vizesi & Teknik Parametreler -->
+        <div class="passport-page passport-page-left">
+          <div class="vintage-inner-border">
+            <div class="page-top-serial">
+              <span>PASAPORT NO: <strong>LM-1901-SCOT</strong></span>
+              <span>SERİ: <strong>HIGHLAND-A1</strong></span>
+            </div>
+
+            <div class="passport-hero-info">
+              <span class="passport-stamp-seal">RESMİ VİZE</span>
+              <h3 id="pass-title" class="pass-route-name">The Jacobite Steam Train</h3>
+              <p id="pass-country" class="pass-route-region">İskoçya Yaylaları, Birleşik Krallık</p>
+            </div>
+
+            <div class="passport-specs-grid">
+              <div class="spec-cell">
+                <span class="spec-label">KALKIŞ GARI</span>
+                <strong id="pass-start" class="spec-val">Fort William (Ben Nevis Eteği)</strong>
+              </div>
+              <div class="spec-cell">
+                <span class="spec-label">VARIŞ LİMANI</span>
+                <strong id="pass-end" class="spec-val">Mallaig Limanı (Atlantik Kıyısı)</strong>
+              </div>
+              <div class="spec-cell">
+                <span class="spec-label">MESAFE / SÜRE</span>
+                <strong id="pass-dist-time" class="spec-val">67 km (42 Mil) • 2s 15dk</strong>
+              </div>
+              <div class="spec-cell">
+                <span class="spec-label">LOKOMOTİF TİPİ</span>
+                <strong id="pass-engine" class="spec-val">LMS Stanier Class 5 (Black Five)</strong>
+              </div>
+              <div class="spec-cell full-width">
+                <span class="spec-label">MÜHENDİSLİK ŞAHESERİ</span>
+                <strong id="pass-engineering" class="spec-val">Glenfinnan Viyadüğü (21 Kemer, 30 m Beton Monolit)</strong>
+              </div>
+              <div class="spec-cell full-width">
+                <span class="spec-label">TAVSİYE EDİLEN KOLTUK</span>
+                <strong id="pass-seat" class="spec-val">Gidişte Sol Cam Kenarı (A veya D Koltuğu)</strong>
+              </div>
+            </div>
+
+            <!-- Vintage Rubber Stamps -->
+            <div class="stamps-container">
+              <div class="rubber-stamp stamp-red">
+                <span class="stamp-text-top">WEST HIGHLAND RY</span>
+                <span class="stamp-date">01 APR 1901</span>
+                <span class="stamp-text-bot">OFFICIAL OPENING</span>
+              </div>
+              <div class="rubber-stamp stamp-blue">
+                <span class="stamp-text-top">GLENFINNAN MONUMENT</span>
+                <span class="stamp-date">1745 RISING</span>
+                <span class="stamp-text-bot">BONNIE PRINCE CHARLIE</span>
+              </div>
+              <div class="rubber-stamp stamp-gold">
+                <span class="stamp-text-top">LOCOMOTION</span>
+                <span class="stamp-date">AI TRAVEL CERTIFIED</span>
+                <span class="stamp-text-bot">ROYALTY-FREE ARCHIVE</span>
+              </div>
+            </div>
+
+            <div class="passport-barcode-row">
+              <span class="barcode-font">||| | ||||| || |||||| | ||||||| ||| |||||</span>
+              <span class="barcode-sub">LOCOMOTION VERIFIED EXPEDITION • PASS NO 42890</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SAĞ SAYFA: Panoramik Görsel & Rota Durakları -->
+        <div class="passport-page passport-page-right">
+          <div class="passport-visual-frame">
+            <img id="pass-hero-img" src="content/routes/jacobite-steam-train/images/glenfinnan-viaduct.jpg" alt="Jacobite Steam Train" class="passport-hero-photo">
+            <div class="passport-photo-caption">
+              <span>📍 Glenfinnan Viyadüğü & Loch Shiel</span>
+              <span class="photo-credit">Fotoğraf: AI Gezgin Arşivi (Özgün & Telifsiz)</span>
+            </div>
+          </div>
+
+          <div class="passport-stops-preview">
+            <h4 class="stops-title">Önemli Rota Durakları & İstasyonlar</h4>
+            <div class="stops-timeline" id="pass-stops-timeline">
+              <div class="stop-node">
+                <span class="node-bullet"></span>
+                <div>
+                  <strong>Fort William Garı</strong>
+                  <p>Kalkış, Ben Nevis eteğinde tarihi garnizon kenti.</p>
+                </div>
+              </div>
+              <div class="stop-node">
+                <span class="node-bullet"></span>
+                <div>
+                  <strong>Glenfinnan İstasyonu & Viyadük</strong>
+                  <p>21 kemerli devasa kavis ve Shiel Gölü Kelt efsaneleri.</p>
+                </div>
+              </div>
+              <div class="stop-node">
+                <span class="node-bullet"></span>
+                <div>
+                  <strong>Arisaig Garı</strong>
+                  <p>Büyük Britanya ana karasının en batıdaki demiryolu istasyonu.</p>
+                </div>
+              </div>
+              <div class="stop-node">
+                <span class="node-bullet"></span>
+                <div>
+                  <strong>Mallaig Balıkçı Limanı</strong>
+                  <p>Son durak; Atlantik kıyısında tütsülenmiş ringa balığı ve Skye feribotu.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="passport-actions">
+            <button class="btn btn-primary" onclick="openRouteArticle('jacobite-steam-train')">
+              📖 Gezi Günlüğünü & Hikayeyi Oku <span>➔</span>
+            </button>
+            <button class="btn btn-secondary-passport" onclick="scrollToMap()">
+              🗺️ Haritada İncele
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -59,7 +190,7 @@
   <main class="container main-content" id="rotalar">
     <div class="section-header">
       <div>
-        <h2 class="section-title">Keşfedilen Rotalar</h2>
+        <h2 class="section-title">Keşfedilen Rotalar Arşivi</h2>
         <p class="section-subtitle">Rayların ritmiyle yazılmış birinci şahıs gezi günlükleri ve pratik rehberler</p>
       </div>
       <div class="filter-tabs">
@@ -71,7 +202,7 @@
     </div>
 
     <div class="routes-grid" id="routes-grid">
-      <!-- Route cards will be injected by JavaScript -->
+      <!-- Route cards injected by JavaScript -->
     </div>
 
     <!-- Interactive World Rail Map -->
@@ -79,7 +210,7 @@
       <div class="section-header">
         <div>
           <h2 class="section-title">İnteraktif Rota Haritası</h2>
-          <p class="section-subtitle">Rotaların geçtiği coğrafyalar, duraklar ve arazi yapısı</p>
+          <p class="section-subtitle">Rotaların geçtiği coğrafyalar, duraklar ve topoğrafya</p>
         </div>
       </div>
       <div id="rail-map" class="rail-map-container"></div>
@@ -91,7 +222,7 @@
     <div class="modal-window">
       <button class="modal-close-btn" onclick="closeArticleModal()" title="Kapat">&times;</button>
       <div class="modal-scrollable" id="article-body">
-        <!-- Rendered markdown content will be placed here -->
+        <!-- Rendered markdown content placed here -->
       </div>
     </div>
   </div>
