@@ -1,11 +1,97 @@
 // LocoMotion Data & Application Script
 
+const jacobiteMarkdownContent = `# Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni ile Zamanda Yolculuk
+
+> *"Lokomotifin kömür kokulu ilk nefesi peronu kapladığında, sadece İskoçya'nın batı kıyılarına doğru değil; klan savaşlarının, sürgün edilmiş prenslerin ve Viktorya dönemi demiryolu mucizelerinin tam kalbine doğru yola çıktığınızı anlarsınız."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | West Highland Line — Mallaig Uzantısı |
+| **Başlangıç - Bitiş:** | Fort William Garı ➔ Mallaig Limanı |
+| **Toplam Mesafe:** | 42 mil (~67 km) her yön |
+| **Yolculuk Süresi:** | Yaklaşık 2 saat 15 dakika (tek yön) |
+| **İkonik Mühendislik:** | Glenfinnan Viyadüğü (21 Kemer, 30 m yükseklik) |
+| **İdeal Koltuk:** | Fort William'dan kalkışta **Sol Taraf (A veya D cam kenarı)** |
+
+---
+
+## Peronda İlk Adım: Ben Nevis'in Gölgesinde Uyanış
+
+Sabah saat 09.30 suları... Britanya'nın en yüksek zirvesi olan Ben Nevis, gri ve buğulu bir bulut tülünün ardında gizlenmişti. Fort William İstasyonu'nun nostaljik peronuna adım attığım an, kulaklarımı dolduran ilk şey devasa bir canlı gibi nefes alıp veren lokomotifin ritmik tıslaması oldu. Karşımda simsiyah gövdesi, pirinç armaları ve kırmızı vagonlarıyla efsanevi **LMS Stanier 'Black Five'** duruyordu.
+
+Ahşap panelli Mark 1 vagonumun kapısını açıp ağır pirinç kolu çevirdim. Kompartımandaki ekose desenli yün kumaşların kokusu, yılların cilalı maununun rayhasıyla harmanlanmıştı. Kondüktörün gümüş düdüğü çaldı, buhar bulutları istasyon çatısını yaladı ve çelik tekerlekler ilk tok darbeyle raylara tutundu. 
+
+LocoMotion günlüğümün bu sayfasını açarken, pencereye dökülen ilk yağmur damlaları manzarayı bir suluboya tablosuna dönüştürüyordu bile.
+
+![Vagon İçi Atmosfer](content/routes/jacobite-steam-train/images/carriage-interior.jpg)
+*Pencere kenarında sıcak bir Highland çayı ve yağmurla yıkanan İskoç bozkırları.*
+
+---
+
+## Durak Durak İskoçya'nın Vahşi Ruhu
+
+### 1. Banavie ve Neptün'ün Merdiveni (Neptune's Staircase)
+Yolculuğun henüz ilk çeyreğinde tren, Caledonian Kanalı'nı kucaklayan Banavie mevkiinden geçiyor. Thomas Telford'un 19. yüzyıl başlarında inşa ettiği ve ardışık 8 havuzdan oluşan efsanevi su merdiveni, dağların suyunu denize kavuşturuyor. Tren buradan kıvrılırken lokomotifin buharı kanal boyunca süzülen teknelerin direklerine karışıyor.
+
+### 2. Glenfinnan ve 21 Kemerin Büyüsü
+Tren Loch Eil'in sakin kıyılarını geride bırakıp dağların arasına tırmanmaya başladığında kompartımandaki herkes nefesini tutmuştu. Çünkü birazdan demiryolu tarihinin en dramatik kavisi belirecekti.
+
+Lokomotif uzun bir zafer düdüğü çalarak sola doğru kıvrıldı. İşte oradaydı: **Glenfinnan Viyadüğü**. 
+
+1897 ile 1901 yılları arasında demiryolu mühendisi *"Concrete Bob"* (Beton Bob lakaplı Sir Robert McAlpine) tarafından inşa edilen bu şaheser, hiçbir taş örgü veya çelik kafes kullanılmadan, tamamen **donatısız monolitik kütle betondan** dökülmüş 21 devasa kemerden oluşuyor. Vadinin tabanındaki Finnan Nehri'nden 30 metre yukarıda süzülürken tren adeta havada asılı kalıyor.
+
+Pencereden dışarı sarktığınızda trenin kendi kıvrımını, vagonların arasından tüten kömür dumanını ve tam aşağıda uzanan esrarengiz **Loch Shiel** gölünü görüyorsunuz. Harry Potter filmlerindeki Hogwarts Express sahnesinin neden burada çekildiğini anlamak hiç zor değil; burası gerçek dünyayla efsanelerin sınırının silindiği bir coğrafya.
+
+![Glenfinnan Viyadüğü](content/routes/jacobite-steam-train/images/glenfinnan-viaduct.jpg)
+*21 kemerli Glenfinnan Viyadüğü'nden süzülen Jacobite ve uzakta pusuya yatan Loch Shiel.*
+
+### 3. Arisaig: Britanya'nın En Batı Ucu
+Glenfinnan'dan sonra tren vahşi meşe ormanları arasından geçerek Arisaig İstasyonu'na varıyor. Burası, Büyük Britanya ana karasındaki en batı demiryolu istasyonu unvanına sahip. İstasyon binasının ahşap sundurmasında asılı çiçekler ve serin okyanus rüzgarı, Atlantik kıyısına yaklaştığımızın ilk habercisi.
+
+### 4. Morar ve Efsanelerin Beyaz Kumsalları
+Raylar Loch Morar kıyısını takip ederken manzara bir kez daha kabuk değiştiriyor. 310 metrelik derinliğiyle Britanya'nın en derin tatlı su gölü olan Morar, yerel Kelt efsanelerinde *"Morag"* adında göl canavarına ev sahipliği yapar. Hemen birkaç dakika sonra ise masmavi Atlantik dalgalarının vurduğu, bembeyaz kumlarıyla ünlü **Silver Sands of Morar** (Morar Gümüş Kumsalları) selamlıyor bizi.
+
+### 5. Son Durak: Mallaig'in İsli ve Tuzlu Limanı
+Son tünelden çıkıp kıyıya indiğimizde önümüzde Mallaig Limanı açıldı. Burası yolun sonu; demir rayların bittiği ve açık deniz feribotlarının Skye Adası'na yolcu taşıdığı otantik bir balıkçı kasabası.
+
+İstasyonda perona indiğimde yüzüme çarpan tuzlu okyanus meltemi ve lokomotif tekerleklerinin altından tüten hafif buhar, bu 67 kilometrelik epik yolculuğun en güzel vedasıydı.
+
+![Mallaig Limanı Varış](content/routes/jacobite-steam-train/images/mallaig-harbour.jpg)
+*Yolculuğun son durağı: Atlantik kıyısındaki tarihi Mallaig balıkçı limanı.*
+
+---
+
+## 📜 Rayların Arkasındaki Tarih: "Bonnie Prince Charlie" ve İhanet Tepeleri
+
+Jacobite treni sadece adını bir pazarlama fikrinden almaz; doğrudan üzerinden geçtiği toprakların kanlı ve asil tarihini taşır.
+
+19 Ağustos 1745'te, sürgündeki Stuart Hanedanı'nın genç prensi **Charles Edward Stuart** (halk arasındaki adıyla *Bonnie Prince Charlie*), İskoç tacını geri almak için Fransa'dan gizlice yola çıkıp tam da viyadüğün gölgesindeki Glenfinnan kıyısına ayak bastı. Yanında sadece 7 yoldaşı vardı. Ancak İskoç klan liderleri Cameron ve MacDonald'lar gaydalar eşliğinde dağlardan inip sancağın altına girdiler. 1745 Jakobit İsyanı işte burada, Loch Shiel'in ucunda başladı.
+
+İsyan aylar sonra Culloden Ovası'nda trajik bir bozgunla sonuçlandı; klanlar dağıtıldı, ekose kilt giymek yasaklandı ve İskoçya Yaylaları asırlar sürecek bir sessizliğe gömüldü. Bugün trenle o vadiyi geçerken tepede tek başına göğe yükselen **Glenfinnan Anıtı**, o gün canını feda eden Highland savaşçılarının anısına hala nöbet tutmaktadır.
+
+---
+
+## 🧭 Gezginin Heybesi: Sahadan Pratik Tüyolar
+
+1. **Hangi Koltuğu Almalı?**
+   * Fort William'dan kalkışta **SOL TARAFTA (Left-hand side)** oturduğunuzdan emin olun. Glenfinnan Viyadüğü kavisini, lokomotifin dumanını ve Loch Shiel manzarasını en iyi bu açıdan izler ve fotoğraflarsınız. Dönüş yolunda ise bu kez deniz manzaraları sağ tarafta kalacaktır.
+2. **Fotoğrafçılık Tavsiyesi:**
+   * Pencereler eski tip açılır sürgülere sahiptir. Viyadüğe 5 dakika kala fotoğraf makinenizi hazırlayın; lokomotif sola kıvrılırken pencereden dışarı taşmayacak şekilde geniş açılı bir lensle (24-70mm) hem viyadük kemerlerini hem de gölü kadraja alın.
+3. **Mallaig'de 2 Saatlik Mola:**
+   * Tren Mallaig'de dönüşten önce yaklaşık 1.5 - 2 saat bekler. Bu sürede hemen limandaki geleneksel balıkçılara uğrayıp meşe odununda tütsülenmiş ringa balığı (*Mallaig Kippers*) ya da taze İskoç midyesi tatmadan dönmeyin.
+4. **Bilet Uyarısı:**
+   * Jacobite, özellikle yaz aylarında aylar öncesinden tükenir. Biletinizi West Coast Railways üzerinden en az 3-4 ay önceden rezerve edin.`;
+
 const routesData = [
   {
     id: "jacobite-steam-train",
     title: "Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni",
     routeName: "The Jacobite Steam Train",
-    country: "İskoçya Yaylaları, Birleşik Krallık",
+    country: "İskoçya, Birleşik Krallık",
     category: "Buharlı Tren",
     tags: ["Buharlı Tren", "Dağ Manzarası", "Tarihi Hat"],
     heroImage: "content/routes/jacobite-steam-train/images/glenfinnan-viaduct.jpg",
@@ -14,18 +100,8 @@ const routesData = [
     distance: "67 km (42 mil)",
     duration: "2s 15dk",
     locomotive: "LMS Stanier Class 5 (Black Five)",
-    engineering: "Glenfinnan Viyadüğü (21 Kemer, 30 m Beton Monolit)",
-    recommendedSeat: "Gidişte Sol Cam Kenarı (A veya D Koltuğu)",
-    startStation: "Fort William (Ben Nevis Eteği)",
-    endStation: "Mallaig Limanı (Atlantik Kıyısı)",
-    passportSerial: "LM-1901-SCOT",
     markdownPath: "content/routes/jacobite-steam-train/index.md",
-    stopsList: [
-      { name: "Fort William Garı", desc: "Kalkış noktası, Ben Nevis eteğinde tarihi garnizon kenti." },
-      { name: "Glenfinnan Viyadüğü & Shiel Gölü", desc: "21 kemerli devasa beton kavis ve Kelt efsaneleri." },
-      { name: "Arisaig Garı", desc: "Büyük Britanya ana karasının en batıdaki demiryolu istasyonu." },
-      { name: "Mallaig Balıkçı Limanı", desc: "Son durak; Atlantik kıyısında tütsülenmiş ringa balığı ve Skye feribotu." }
-    ],
+    content: jacobiteMarkdownContent,
     coordinates: [
       { name: "Fort William", lat: 56.8198, lng: -5.1052, desc: "Başlangıç Garı, Ben Nevis eteği" },
       { name: "Glenfinnan Viyadüğü", lat: 56.8763, lng: -5.4317, desc: "21 kemerli ikonik beton viyadük & Loch Shiel" },
@@ -37,29 +113,16 @@ const routesData = [
   {
     id: "bernina-express",
     title: "Buzullardan Palmiyelere: Bernina Express",
-    routeName: "Bernina Express (Rhaetian Railway)",
-    country: "İsviçre Alpleri & İtalya",
+    routeName: "Bernina Express",
+    country: "İsviçre & İtalya",
     category: "Dağ Manzarası",
     tags: ["Dağ Manzarası", "Tarihi Hat"],
     heroImage: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80",
-    fallbackHero: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80",
     excerpt: "Chur'dan Tirano'ya 55 tünel ve 196 köprü aşarak 2253 metre rakımlı Ospizio Bernina zirvesine tırmanan UNESCO tescilli Alp rüyası.",
     distance: "144 km",
     duration: "4s 15dk",
-    locomotive: "Allegra Panoramik Elektrikli Tren",
-    engineering: "Brusio Dairesel Viyadüğü & Landwasser Viyadüğü",
-    recommendedSeat: "Gidişte Sağ Cam Kenarı (Buzul ve kanyon manzarası)",
-    startStation: "Chur Garı (İsviçre)",
-    endStation: "Tirano Garı (İtalya)",
-    passportSerial: "LM-1910-SWISS",
+    locomotive: "Rhaetian Railway Panoramik",
     markdownPath: "",
-    stopsList: [
-      { name: "Chur Garı", desc: "İsviçre'nin en eski kentinden Alplere hareket." },
-      { name: "Filisur & Landwasser", desc: "65 metre yüksekliğindeki efsanevi taş viyadük." },
-      { name: "Ospizio Bernina (2253 m)", desc: "Avrupa'nın en yüksek demiryolu geçişi ve donmuş göller." },
-      { name: "Brusio Dairesel Viyadüğü", desc: "360 derecelik spiralle irtifa kaybeden mühendislik harikası." },
-      { name: "Tirano Garı", desc: "İtalyan kahvesi ve palmiyelerle karşılanan son durak." }
-    ],
     coordinates: [
       { name: "Chur", lat: 46.8508, lng: 9.5320, desc: "İsviçre'nin en eski kenti" },
       { name: "Ospizio Bernina", lat: 46.4103, lng: 10.0194, desc: "2253m zirve ve donmuş buzul gölü" },
@@ -71,27 +134,15 @@ const routesData = [
     id: "orient-express",
     title: "Efsanelerin ve Casusların Rotası: Doğu Ekspresi",
     routeName: "Venice Simplon-Orient-Express",
-    country: "Fransa - İtalya - Avusturya - Türkiye",
+    country: "Fransa - İtalya - Türkiye",
     category: "Tarihi Hat",
     tags: ["Tarihi Hat", "Lüks Tren"],
     heroImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
-    fallbackHero: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
     excerpt: "Paris'ten Sirkeci Garı'na uzanan, Agatha Christie'nin cinayet romanlarına ve Soğuk Savaş gizemlerine beşiklik etmiş demir yolu efsanesi.",
     distance: "3,100 km",
-    duration: "5 Gün",
-    locomotive: "1920'ler Orijinal CIWL Art Deco Vagonları",
-    engineering: "Simplon Tüneli (Alpleri delen 19.8 km'lik tarihi tünel)",
-    recommendedSeat: "Grand Suite Özel Kompartıman",
-    startStation: "Paris Gare de l'Est (Fransa)",
-    endStation: "İstanbul Sirkeci Garı (Türkiye)",
-    passportSerial: "LM-1883-ORIENT",
+    duration: "5 gün",
+    locomotive: "Vintage Art Deco Vagonlar",
     markdownPath: "",
-    stopsList: [
-      { name: "Paris Gare de l'Est", desc: "Şampanya, kristal kadehler ve görkemli uğurlama." },
-      { name: "Venedik Santa Lucia", desc: "Büyük Kanal kıyısında nostaljik mola." },
-      { name: "Belgrad Garı", desc: "Balkanların kalbinden geçen tarihi hat." },
-      { name: "İstanbul Sirkeci Garı", desc: "Boğaz'ın kıyısında Doğu ile Batı'nın buluştuğu nokta." }
-    ],
     coordinates: [
       { name: "Paris Gare de l'Est", lat: 48.8768, lng: 2.3592, desc: "Şampanya ve veda valsı" },
       { name: "Venedik Santa Lucia", lat: 45.4411, lng: 12.3211, desc: "Lagün kıyısında romantik durak" },
@@ -107,58 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderRouteCards(routesData);
   initMap();
   setupFilterListeners();
-  switchPassportRoute("jacobite-steam-train");
 });
-
-// Switch Passport Route dynamically
-function switchPassportRoute(routeId) {
-  const route = routesData.find(r => r.id === routeId) || routesData[0];
-
-  const passTitle = document.getElementById("pass-title");
-  const passCountry = document.getElementById("pass-country");
-  const passStart = document.getElementById("pass-start");
-  const passEnd = document.getElementById("pass-end");
-  const passDistTime = document.getElementById("pass-dist-time");
-  const passEngine = document.getElementById("pass-engine");
-  const passEng = document.getElementById("pass-engineering");
-  const passSeat = document.getElementById("pass-seat");
-  const passHero = document.getElementById("pass-hero-img");
-  const passStops = document.getElementById("pass-stops-timeline");
-  const select = document.getElementById("passport-route-select");
-
-  if (select && select.value !== route.id) select.value = route.id;
-  if (passTitle) passTitle.innerText = route.routeName;
-  if (passCountry) passCountry.innerText = route.country;
-  if (passStart) passStart.innerText = route.startStation;
-  if (passEnd) passEnd.innerText = route.endStation;
-  if (passDistTime) passDistTime.innerText = `${route.distance} • ${route.duration}`;
-  if (passEngine) passEngine.innerText = route.locomotive;
-  if (passEng) passEng.innerText = route.engineering || "Tarihi Demir Yolu Altyapısı";
-  if (passSeat) passSeat.innerText = route.recommendedSeat || "Pencere Kenarı";
-  if (passHero) {
-    passHero.src = route.heroImage;
-    passHero.onerror = () => { passHero.src = route.fallbackHero || ""; };
-  }
-
-  // Update stops preview on the right page
-  if (passStops && route.stopsList) {
-    passStops.innerHTML = route.stopsList.map(s => `
-      <div class="stop-node">
-        <span class="node-bullet"></span>
-        <div>
-          <strong>${s.name}</strong>
-          <p>${s.desc}</p>
-        </div>
-      </div>
-    `).join("");
-  }
-
-  // Focus map on route if map is ready
-  if (mapInstance && route.coordinates && route.coordinates.length > 0) {
-    const firstCoord = route.coordinates[0];
-    mapInstance.flyTo([firstCoord.lat, firstCoord.lng], route.id === "orient-express" ? 5 : 8, { duration: 1.2 });
-  }
-}
 
 // Render Route Cards
 function renderRouteCards(routes) {
@@ -177,7 +177,7 @@ function renderRouteCards(routes) {
         <p class="card-excerpt">${route.excerpt}</p>
         <div class="card-footer">
           <span>⏱️ ${route.duration} • 🛤️ ${route.distance}</span>
-          <span class="card-read-link">Pasaport & Rehber &rarr;</span>
+          <span class="card-read-link">Keşfet &rarr;</span>
         </div>
       </div>
     </article>
@@ -208,6 +208,7 @@ function initMap() {
   const mapElement = document.getElementById("rail-map");
   if (!mapElement) return;
 
+  // Center around Europe
   mapInstance = L.map("rail-map").setView([56.9, -5.45], 8);
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
@@ -216,16 +217,16 @@ function initMap() {
   }).addTo(mapInstance);
 
   // Plot all stops for Jacobite
-  routesData.forEach(route => {
-    if (!route.coordinates) return;
+  const jacobite = routesData.find(r => r.id === "jacobite-steam-train");
+  if (jacobite && jacobite.coordinates) {
     const polylineCoords = [];
 
-    route.coordinates.forEach(point => {
+    jacobite.coordinates.forEach(point => {
       polylineCoords.push([point.lat, point.lng]);
 
       const marker = L.circleMarker([point.lat, point.lng], {
-        radius: 7,
-        fillColor: route.id === "jacobite-steam-train" ? "#c8963e" : "#153230",
+        radius: 8,
+        fillColor: "#c8963e",
         color: "#153230",
         weight: 2,
         opacity: 1,
@@ -234,59 +235,78 @@ function initMap() {
 
       marker.bindPopup(`
         <div style="font-family: 'Plus Jakarta Sans', sans-serif;">
-          <strong style="color: #153230; font-size: 13px;">${point.name}</strong>
-          <p style="margin: 3px 0 0; font-size: 11px; color: #5e6d75;">${point.desc}</p>
-          <button style="margin-top: 6px; padding: 3px 8px; font-size: 10px; background: #c8963e; color: #fff; border: none; border-radius: 3px; cursor: pointer;" onclick="openRouteArticle('${route.id}')">Pasaportu Gör</button>
+          <strong style="color: #153230; font-size: 14px;">${point.name}</strong>
+          <p style="margin: 4px 0 0; font-size: 12px; color: #5e6d75;">${point.desc}</p>
         </div>
       `);
     });
 
-    L.polyline(polylineCoords, {
-      color: route.id === "jacobite-steam-train" ? "#c8963e" : "#204b48",
-      weight: 3,
-      dashArray: "6, 6",
-      opacity: 0.85
+    const trainLine = L.polyline(polylineCoords, {
+      color: "#153230",
+      weight: 4,
+      dashArray: "8, 6",
+      opacity: 0.8
     }).addTo(mapInstance);
-  });
+
+    trainLine.bindPopup("<strong>The Jacobite Rota Hattı</strong><br>Fort William ➔ Mallaig");
+  }
+}
+
+// Built-in Markdown renderer with fallback
+function parseMarkdownSafe(mdText) {
+  if (window.marked && typeof window.marked.parse === "function") {
+    return window.marked.parse(mdText);
+  }
+  // Simple regex fallback if marked CDN is offline
+  return mdText
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+    .replace(/\!\[(.*?)\]\((.*?)\)/gim, '<img alt="$1" src="$2" />')
+    .replace(/\n\*(.*?)\*\n/gim, '<p><em>$1</em></p>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    .replace(/\n\n/gim, '<br/><br/>');
 }
 
 // Open Route Article Reader
 async function openRouteArticle(routeId) {
-  // Sync the passport section to this route too
-  switchPassportRoute(routeId);
-
   const route = routesData.find(r => r.id === routeId);
   const modal = document.getElementById("article-modal");
   const body = document.getElementById("article-body");
 
   if (!route || !modal || !body) return;
 
+  let loadedContent = route.content || "";
+
+  // Attempt fetch if markdownPath is provided
   if (route.markdownPath) {
     try {
       const response = await fetch(route.markdownPath);
-      let text = await response.text();
-
-      // Strip YAML frontmatter if present
-      text = text.replace(/^---[\s\S]*?---\n/, "");
-
-      // Custom path fix for images
-      text = text.replace(/images\//g, `content/routes/${routeId}/images/`);
-
-      body.innerHTML = marked.parse(text);
+      if (response.ok) {
+        let text = await response.text();
+        // Check that response is actually markdown and not a 404 HTML page
+        if (!text.includes("<!DOCTYPE") && !text.includes("<html")) {
+          // Strip YAML frontmatter if present
+          loadedContent = text.replace(/^---[\s\S]*?---\n/, "");
+        }
+      }
     } catch (err) {
-      body.innerHTML = `
-        <h1>${route.title}</h1>
-        <p>${route.excerpt}</p>
-        <p><em>Makale yüklenirken bir hata oluştu. Lütfen dosya yolunu kontrol edin.</em></p>
-      `;
+      console.warn("Fetch failed, using embedded fallback content:", err);
     }
+  }
+
+  if (loadedContent) {
+    // Resolve relative images correctly
+    let processedContent = loadedContent.replace(/!\[(.*?)\]\(images\//g, `![$1](content/routes/${routeId}/images/`);
+    body.innerHTML = parseMarkdownSafe(processedContent);
   } else {
     body.innerHTML = `
       <div style="text-align: center; padding: 40px 0;">
         <span style="font-size: 3rem;">🚂</span>
         <h1 style="font-family: 'Playfair Display', serif; margin-top: 16px;">${route.title}</h1>
-        <p style="color: #5e6d75; max-width: 600px; margin: 16px auto;">Bu rota günlüğü şu anda AI Gezginimiz tarafından araştırılmakta ve telifsiz fotoğrafları hazırlanmaktadır. Çok yakında yayında!</p>
-        <a href="admin.html" class="btn btn-primary" style="margin-top: 16px;">⚙️ Yönetim Panelinde Düzenle / Yeni Öneri Gir</a>
+        <p style="color: #5e6d75; max-width: 600px; margin: 16px auto;">Bu rota günlüğü şu anda AI Gezginimiz tarafından araştırılmakta ve fotoğrafları hazırlanmaktadır. Çok yakında yayında!</p>
       </div>
     `;
   }
