@@ -1,24 +1,28 @@
-// LocoMotion Admin Panel Logic (Dual-Mode: Local Backend & GitHub Pages / Client-Side)
+// LocoMotion Admin Panel Logic (Visual WYSIWYG Editor & Image Management by Article)
 
 let currentRouteId = "jacobite-steam-train";
-let routesList = [];
+let imageActiveRouteId = "jacobite-steam-train";
+let routesList = [
+  { id: "jacobite-steam-train", title: "Kuzeyin Dumanı: Jacobite Buharlı Treni (İskoçya)", country: "İskoçya, Birleşik Krallık", distTime: "67 km (42 mil) • 2s 15dk", engine: "LMS Stanier Class 5 • Glenfinnan Viyadüğü" },
+  { id: "bernina-express", title: "Buzullardan Palmiyelere: Bernina Express", country: "İsviçre & İtalya", distTime: "144 km • 4s 15dk", engine: "Allegra Panoramik • Brusio Viyadüğü" },
+  { id: "orient-express", title: "Efsanelerin ve Casusların Rotası: Doğu Ekspresi", country: "Fransa - İtalya - Türkiye", distTime: "3,100 km • 5 Gün", engine: "Art Deco Nostalji Vagonları" }
+];
 
-// Determine whether backend server is expected
 const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 document.addEventListener("DOMContentLoaded", () => {
   updateEnvironmentBadge();
-  loadRoutes();
+  setupRouteSelectors();
+  loadRouteForEditing();
+  renderImageRoutePills();
+  loadImagesForRoute();
   loadApiSettings();
   loadGitStatus();
   loadSuggestions();
 
-  // Bind live markdown preview
-  const editor = document.getElementById("markdown-editor");
+  const editor = document.getElementById("visual-editor");
   if (editor) {
-    editor.addEventListener("input", () => {
-      updateMarkdownPreview(editor.value);
-    });
+    editor.addEventListener("input", updateCharCount);
   }
 });
 
@@ -45,7 +49,6 @@ function updateEnvironmentBadge() {
   }
 }
 
-// Tab Switcher
 function switchAdminTab(tabName) {
   document.querySelectorAll(".admin-tab-pane").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".admin-menu-item").forEach(b => b.classList.remove("active"));
@@ -63,7 +66,6 @@ function switchAdminTab(tabName) {
   if (tabName === "suggest") loadSuggestions();
 }
 
-// Alert Notification
 function showAlert(message, type = "success") {
   const alertBox = document.getElementById("admin-alert");
   if (!alertBox) return;
@@ -73,7 +75,6 @@ function showAlert(message, type = "success") {
   setTimeout(() => alertBox.classList.add("hidden"), 4500);
 }
 
-// Safe JSON fetch wrapper that never throws on HTML/404 responses
 async function safeFetchJson(url, options = {}) {
   try {
     const res = await fetch(url, options);
@@ -89,161 +90,323 @@ async function safeFetchJson(url, options = {}) {
   }
 }
 
-// 1. CONTENT & ROUTES
-async function loadRoutes() {
+function setupRouteSelectors() {
   const select = document.getElementById("route-selector");
   if (!select) return;
 
-  // Try backend first if on localhost
-  if (isLocalhost) {
-    const result = await safeFetchJson("/api/routes");
-    if (result.ok && result.data && result.data.routes) {
-      routesList = result.data.routes;
-    }
-  }
-
-  // Fallback defaults if static or backend unreachable
-  if (routesList.length === 0) {
-    routesList = [
-      { id: "jacobite-steam-train", metadata: { title: "Kuzeyin Dumanı: Jacobite Buharlı Treni (İskoçya)" } },
-      { id: "bernina-express", metadata: { title: "Buzullardan Palmiyelere: Bernina Express (İsviçre)" } },
-      { id: "orient-express", metadata: { title: "Efsanelerin ve Casusların Rotası: Doğu Ekspresi" } }
-    ];
-  }
-
   select.innerHTML = routesList.map(r => `
-    <option value="${r.id}">${r.metadata?.title || r.id}</option>
+    <option value="${r.id}">${r.title}</option>
   `).join("");
-
-  if (routesList.length > 0) {
-    currentRouteId = routesList[0].id;
-    loadRouteForEditing();
-  }
 }
 
+// 1. VISUAL ARTICLE EDITOR (Doğrudan Önizleme Üzerinde Düzenleme)
 async function loadRouteForEditing() {
   const select = document.getElementById("route-selector");
   if (select) currentRouteId = select.value;
 
-  const editor = document.getElementById("markdown-editor");
-  if (!editor) return;
+  const editor = document.getElementById("visual-editor");
+  const metaTitle = document.getElementById("meta-title");
+  const metaCountry = document.getElementById("meta-country");
+  const metaDistTime = document.getElementById("meta-dist-time");
+  const metaEngine = document.getElementById("meta-engine");
 
-  // 1. Try reading from backend
-  if (isLocalhost) {
-    const res = await safeFetchJson(`/api/routes/${currentRouteId}`);
-    if (res.ok && res.data && res.data.markdown) {
-      editor.value = res.data.markdown;
-      updateMarkdownPreview(res.data.markdown);
-      loadImagesForRoute();
-      return;
-    }
-  }
+  const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
+  if (metaTitle) metaTitle.value = currentRouteMeta.title;
+  if (metaCountry) metaCountry.value = currentRouteMeta.country;
+  if (metaDistTime) metaDistTime.value = currentRouteMeta.distTime;
+  if (metaEngine) metaEngine.value = currentRouteMeta.engine;
 
-  // 2. Try fetching static markdown file
-  const staticPath = `content/routes/${currentRouteId}/index.md`;
-  try {
-    const staticRes = await fetch(staticPath);
-    if (staticRes.ok) {
-      const text = await staticRes.text();
-      if (!text.includes("<!DOCTYPE") && !text.includes("<html")) {
-        editor.value = text;
-        updateMarkdownPreview(text);
-        loadImagesForRoute();
-        return;
-      }
-    }
-  } catch (e) {
-    console.warn("Statik dosya okunamadı:", e);
-  }
+  let rawMarkdown = "";
 
-  // 3. Fallback placeholder or localStorage
+  // 1. Try local storage override first
   const savedLocally = localStorage.getItem(`locomotion_md_${currentRouteId}`);
   if (savedLocally) {
-    editor.value = savedLocally;
-    updateMarkdownPreview(savedLocally);
-  } else {
-    editor.value = `# ${currentRouteId}\n\nBu rota içeriği düzenlenmeye hazır.`;
-    updateMarkdownPreview(editor.value);
+    rawMarkdown = savedLocally;
+  } else if (isLocalhost) {
+    // 2. Try backend
+    const res = await safeFetchJson(`/api/routes/${currentRouteId}`);
+    if (res.ok && res.data && res.data.markdown) {
+      rawMarkdown = res.data.markdown;
+    }
   }
+
+  // 3. Fallback to static index.md fetch
+  if (!rawMarkdown) {
+    try {
+      const staticRes = await fetch(`content/routes/${currentRouteId}/index.md`);
+      if (staticRes.ok) {
+        const text = await staticRes.text();
+        if (!text.includes("<!DOCTYPE") && !text.includes("<html")) {
+          rawMarkdown = text;
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (rawMarkdown) {
+    // Parse frontmatter
+    const match = rawMarkdown.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+    let body = rawMarkdown;
+    if (match) {
+      body = match[2];
+      const rawMeta = match[1];
+      rawMeta.splitlines && rawMeta.splitlines().forEach(line => {
+        const [k, ...v] = line.split(":");
+        if (k && v) {
+          const val = v.join(":").trim().replace(/^["']|["']$/g, '');
+          if (k.trim() === "title" && metaTitle) metaTitle.value = val;
+          if (k.trim() === "country" && metaCountry) metaCountry.value = val;
+          if (k.trim() === "duration" && metaDistTime) metaDistTime.value = val;
+          if (k.trim() === "locomotive" && metaEngine) metaEngine.value = val;
+        }
+      });
+    }
+
+    // Resolve images
+    const resolvedBody = body.replace(/!\[(.*?)\]\(images\//g, `![$1](content/routes/${currentRouteId}/images/`);
+    if (editor) {
+      if (window.marked && typeof window.marked.parse === "function") {
+        editor.innerHTML = window.marked.parse(resolvedBody);
+      } else {
+        editor.innerHTML = `<p>${resolvedBody}</p>`;
+      }
+    }
+  } else if (editor) {
+    editor.innerHTML = `
+      <h1>${currentRouteMeta.title}</h1>
+      <blockquote>"Tren yolculuğu bir yere varmakla ilgili değildir; yolun kendisiyle ilgilidir."</blockquote>
+      <h2>Rota Hakkında</h2>
+      <p>Bu rota içeriğini buraya tıklayarak doğrudan düzenlemeye başlayabilirsiniz...</p>
+    `;
+  }
+
+  updateCharCount();
+  imageActiveRouteId = currentRouteId;
+  renderImageRoutePills();
   loadImagesForRoute();
 }
 
-function updateMarkdownPreview(markdown) {
-  const preview = document.getElementById("markdown-preview");
-  const count = document.getElementById("char-count");
-  if (count) count.innerText = `${markdown.length} karakter`;
-
-  if (preview) {
-    const cleanText = markdown.replace(/^---[\s\S]*?---\n/, "");
-    const resolvedText = cleanText.replace(/images\//g, `content/routes/${currentRouteId}/images/`);
-    if (window.marked && typeof window.marked.parse === "function") {
-      preview.innerHTML = window.marked.parse(resolvedText);
-    } else {
-      preview.innerHTML = `<pre style="white-space: pre-wrap;">${resolvedText}</pre>`;
-    }
+function updateCharCount() {
+  const editor = document.getElementById("visual-editor");
+  const countSpan = document.getElementById("char-count");
+  if (editor && countSpan) {
+    countSpan.innerText = `${editor.innerText.length} karakter`;
   }
 }
 
-async function saveCurrentRoute() {
-  const editor = document.getElementById("markdown-editor");
+// WYSIWYG Formatting Helpers
+function formatDoc(cmd, val = null) {
+  document.execCommand(cmd, false, val);
+  const editor = document.getElementById("visual-editor");
+  if (editor) editor.focus();
+  updateCharCount();
+}
+
+function formatBlock(tag) {
+  document.execCommand("formatBlock", false, tag);
+  const editor = document.getElementById("visual-editor");
+  if (editor) editor.focus();
+  updateCharCount();
+}
+
+function insertHorizontalRule() {
+  document.execCommand("insertHorizontalRule", false, null);
+  updateCharCount();
+}
+
+function promptInsertImage() {
+  const url = prompt("Eklemek istediğiniz görselin yolu veya adresi:", `content/routes/${currentRouteId}/images/glenfinnan-viaduct.jpg`);
+  if (url) {
+    document.execCommand("insertImage", false, url);
+    updateCharCount();
+  }
+}
+
+// Convert Visual HTML back to Clean Markdown
+function htmlToMarkdown(container) {
+  function processNode(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      return node.textContent;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return "";
+
+    const tag = node.tagName.toLowerCase();
+    const children = Array.from(node.childNodes).map(processNode).join("");
+
+    switch (tag) {
+      case "h1": return `\n\n# ${children.trim()}\n\n`;
+      case "h2": return `\n\n## ${children.trim()}\n\n`;
+      case "h3": return `\n\n### ${children.trim()}\n\n`;
+      case "h4": return `\n\n#### ${children.trim()}\n\n`;
+      case "p": return `\n\n${children.trim()}\n\n`;
+      case "blockquote": return `\n\n> ${children.trim()}\n\n`;
+      case "strong": case "b": return `**${children}**`;
+      case "em": case "i": return `*${children}*`;
+      case "hr": return `\n\n---\n\n`;
+      case "br": return `\n`;
+      case "ul": return `\n\n${children}\n\n`;
+      case "ol": return `\n\n${children}\n\n`;
+      case "li": return `* ${children.trim()}\n`;
+      case "img":
+        const alt = node.getAttribute("alt") || "Görsel";
+        let src = node.getAttribute("src") || "";
+        src = src.replace(new RegExp(`content/routes/${currentRouteId}/images/`, 'g'), "images/");
+        return `\n\n![${alt}](${src})\n\n`;
+      case "table": return `\n\n${node.outerHTML}\n\n`;
+      default: return children;
+    }
+  }
+
+  return processNode(container)
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+async function saveVisualArticle() {
+  const editor = document.getElementById("visual-editor");
+  const metaTitle = document.getElementById("meta-title").value.trim();
+  const metaCountry = document.getElementById("meta-country").value.trim();
+  const metaDistTime = document.getElementById("meta-dist-time").value.trim();
+  const metaEngine = document.getElementById("meta-engine").value.trim();
+
   if (!editor) return;
 
-  const markdownText = editor.value;
+  const markdownBody = htmlToMarkdown(editor);
 
-  // Always save to browser localStorage as backup
-  localStorage.setItem(`locomotion_md_${currentRouteId}`, markdownText);
+  const frontmatter = `---
+title: "${metaTitle || 'LocoMotion Gezi Günlüğü'}"
+route_name: "${metaTitle}"
+country: "${metaCountry || 'Belirtilmedi'}"
+duration: "${metaDistTime || '2 saat'}"
+locomotive: "${metaEngine || 'Buharlı Lokomotif'}"
+tags: ["Buharlı Tren", "Dağ Manzarası", "Tarihi Hat"]
+---
 
-  // If on localhost, send to Python backend to save to disk
+`;
+
+  const fullMarkdown = frontmatter + markdownBody;
+
+  // Save to localStorage
+  localStorage.setItem(`locomotion_md_${currentRouteId}`, fullMarkdown);
+
+  // If backend available on localhost, save to disk
   if (isLocalhost) {
     const res = await safeFetchJson(`/api/routes/${currentRouteId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ markdown: markdownText })
+      body: JSON.stringify({ markdown: fullMarkdown })
     });
     if (res.ok) {
-      showAlert("✅ Rota metni dosyaya (disk) başarıyla kaydedildi!");
+      showAlert("✅ Gezi yazısı diske ve tarayıcınıza başarıyla kaydedildi!");
       return;
     }
   }
 
-  showAlert("✅ Rota metni tarayıcınıza kaydedildi! (Dosyayı diske yazmak için yerelde `server.py` çalıştırın)", "success");
+  showAlert("✅ Gezi yazısı tarayıcınıza kaydedildi! (GitHub'a göndermek için Yayınlama sekmesini kullanın)", "success");
 }
 
-// 2. IMAGE MANAGER
+// 2. IMAGE MANAGER (Yazılara Göre Görsel Gösterimi)
+function renderImageRoutePills() {
+  const pillsContainer = document.getElementById("image-route-pills");
+  if (!pillsContainer) return;
+
+  pillsContainer.innerHTML = routesList.map(r => `
+    <button class="pill-btn ${r.id === imageActiveRouteId ? 'active' : ''}" onclick="selectImageRoute('${r.id}')">
+      ${r.title.split(':')[0]}
+    </button>
+  `).join("");
+}
+
+function selectImageRoute(routeId) {
+  imageActiveRouteId = routeId;
+  renderImageRoutePills();
+  loadImagesForRoute();
+}
+
 async function loadImagesForRoute() {
   const grid = document.getElementById("admin-images-grid");
+  const label = document.getElementById("current-image-route-label");
+  const countBadge = document.getElementById("image-count-badge");
   if (!grid) return;
+
+  const activeRoute = routesList.find(r => r.id === imageActiveRouteId) || routesList[0];
+  if (label) label.innerText = `${activeRoute.title} Görselleri`;
 
   let images = [];
 
   if (isLocalhost) {
-    const res = await safeFetchJson(`/api/routes/${currentRouteId}/images`);
+    const res = await safeFetchJson(`/api/routes/${imageActiveRouteId}/images`);
     if (res.ok && res.data && res.data.images) {
       images = res.data.images;
     }
   }
 
-  // Fallback defaults for Jacobite if offline
-  if (images.length === 0 && currentRouteId === "jacobite-steam-train") {
-    images = ["glenfinnan-viaduct.jpg", "carriage-interior.jpg", "mallaig-harbour.jpg"];
+  // Fallback defaults for demonstration
+  if (images.length === 0) {
+    if (imageActiveRouteId === "jacobite-steam-train") {
+      images = ["glenfinnan-viaduct.jpg", "carriage-interior.jpg", "mallaig-harbour.jpg"];
+    } else {
+      images = [];
+    }
   }
 
+  if (countBadge) countBadge.innerText = `${images.length} Görsel`;
+
   if (images.length === 0) {
-    grid.innerHTML = `<p style="color: #64748b; padding: 20px;">Bu rotaya ait kayıtlı görsel bulunmuyor.</p>`;
+    grid.innerHTML = `
+      <div style="grid-column: 1/-1; padding: 40px; text-align: center; background: #faf8f5; border: 1px dashed #d1c7b7; border-radius: 8px;">
+        <p style="color: #64748b; font-size: 1rem; margin-bottom: 12px;">Bu gezi yazısına ait henüz kayıtlı görsel bulunmuyor.</p>
+        <label class="btn btn-primary upload-btn" style="display: inline-flex;">
+          ➕ İlk Fotoğrafı Yükle
+          <input type="file" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
+        </label>
+      </div>
+    `;
     return;
   }
 
-  grid.innerHTML = images.map(img => `
-    <div class="image-card">
-      <div class="image-preview-box">
-        <img src="content/routes/${currentRouteId}/images/${img}" alt="${img}" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=400';">
+  grid.innerHTML = images.map(img => {
+    const imgPath = `content/routes/${imageActiveRouteId}/images/${img}`;
+    return `
+      <div class="image-card">
+        <div class="image-preview-box">
+          <img src="${imgPath}" alt="${img}" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=400';">
+        </div>
+        <div class="image-card-footer">
+          <span class="image-card-name" title="${img}">📁 ${img}</span>
+          <div class="image-card-actions">
+            <button class="btn-insert-image" onclick="insertImageIntoArticle('${imgPath}')" title="Bu görseli doğrudan açık olan gezi yazısının içine yerleştir">
+              ✍️ Yazıya Ekle
+            </button>
+            <button class="btn-delete-sm" onclick="deleteImage('${img}')" title="Görseli Sil">🗑️</button>
+          </div>
+        </div>
       </div>
-      <div class="image-card-footer">
-        <span class="image-card-name" title="${img}">${img}</span>
-        <button class="btn-delete-sm" onclick="deleteImage('${img}')" title="Sil">🗑️</button>
-      </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
+}
+
+// Insert selected image directly into the visual article editor
+function insertImageIntoArticle(imgPath) {
+  const editor = document.getElementById("visual-editor");
+  if (!editor) return;
+
+  // Switch to content tab
+  switchAdminTab("content");
+
+  // Create and append image element
+  const imgElement = document.createElement("img");
+  imgElement.src = imgPath;
+  imgElement.alt = "Rota Görseli";
+  imgElement.style.width = "100%";
+  imgElement.style.borderRadius = "8px";
+  imgElement.style.margin = "20px 0";
+
+  editor.appendChild(imgElement);
+  editor.appendChild(document.createElement("br"));
+
+  updateCharCount();
+  showAlert("🖼️ Görsel gezi yazısının sonuna başarıyla eklendi! Konumunu yazı içinde dilediğiniz gibi sürükleyip ayarlayabilirsiniz.");
 }
 
 function handleImageUpload(event) {
@@ -254,18 +417,18 @@ function handleImageUpload(event) {
   reader.onload = async (e) => {
     const base64Data = e.target.result;
     if (isLocalhost) {
-      const res = await safeFetchJson(`/api/routes/${currentRouteId}/upload-image`, {
+      const res = await safeFetchJson(`/api/routes/${imageActiveRouteId}/upload-image`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ filename: file.name, data: base64Data })
       });
       if (res.ok) {
-        showAlert(`✅ '${file.name}' diske başarıyla yüklendi!`);
+        showAlert(`✅ '${file.name}' ${imageActiveRouteId} galerisine başarıyla yüklendi!`);
         loadImagesForRoute();
         return;
       }
     }
-    showAlert(`ℹ️ Görsel seçildi: '${file.name}'. Diske kaydetmek için lütfen yerel sunucuyu (server.py) kullanın.`);
+    showAlert(`ℹ️ '${file.name}' seçildi. Kalıcı olarak sunucu diskine kaydetmek için yerel sunucuyu (server.py) kullanın.`);
   };
   reader.readAsDataURL(file);
 }
@@ -274,7 +437,7 @@ async function deleteImage(filename) {
   if (!confirm(`'${filename}' görselini silmek istediğinize emin misiniz?`)) return;
 
   if (isLocalhost) {
-    const res = await safeFetchJson(`/api/routes/${currentRouteId}/images/${filename}`, {
+    const res = await safeFetchJson(`/api/routes/${imageActiveRouteId}/images/${filename}`, {
       method: "DELETE"
     });
     if (res.ok) {
@@ -283,7 +446,7 @@ async function deleteImage(filename) {
       return;
     }
   }
-  showAlert(`Görsel silindi: ${filename}`);
+  showAlert(`Görsel listeden kaldırıldı: ${filename}`);
   loadImagesForRoute();
 }
 
@@ -294,7 +457,6 @@ async function loadSuggestions() {
 
   let suggestions = [];
 
-  // Try backend first
   if (isLocalhost) {
     const res = await safeFetchJson("/api/suggestions");
     if (res.ok && res.data && res.data.suggestions) {
@@ -302,7 +464,6 @@ async function loadSuggestions() {
     }
   }
 
-  // If no backend suggestions, read from localStorage
   if (suggestions.length === 0) {
     try {
       suggestions = JSON.parse(localStorage.getItem("locomotion_suggestions") || "[]");
@@ -349,14 +510,12 @@ async function submitTopicSuggestion() {
     created_at: new Date().toLocaleString("tr-TR")
   };
 
-  // Always save to localStorage
   try {
     const localSugs = JSON.parse(localStorage.getItem("locomotion_suggestions") || "[]");
     localSugs.unshift(newSug);
     localStorage.setItem("locomotion_suggestions", JSON.stringify(localSugs));
   } catch (e) {}
 
-  // Sync to backend if available
   if (isLocalhost) {
     await safeFetchJson("/api/suggestions", {
       method: "POST",
@@ -372,7 +531,7 @@ async function submitTopicSuggestion() {
   loadSuggestions();
 }
 
-// 4. API SETTINGS (SAFE RESILIENT STORAGE)
+// 4. API SETTINGS (SAFE STORAGE)
 async function loadApiSettings() {
   const gStatus = document.getElementById("gemini-status");
   const uStatus = document.getElementById("unsplash-status");
@@ -381,7 +540,6 @@ async function loadApiSettings() {
   const unsplashInput = document.getElementById("unsplash-key");
   const tokenInput = document.getElementById("github-token");
 
-  // Read local settings first
   let localCfg = {};
   try {
     localCfg = JSON.parse(localStorage.getItem("locomotion_settings") || "{}");
@@ -411,7 +569,6 @@ async function loadApiSettings() {
     if (hasUnsplash) uStatus.classList.add("active");
   }
 
-  // Pre-fill fields if stored locally
   if (geminiInput && localCfg.gemini_api_key) geminiInput.value = localCfg.gemini_api_key;
   if (unsplashInput && localCfg.unsplash_api_key) unsplashInput.value = localCfg.unsplash_api_key;
   if (tokenInput && localCfg.github_token) tokenInput.value = localCfg.github_token;
@@ -423,7 +580,6 @@ async function saveApiSettings() {
   const ghToken = document.getElementById("github-token").value.trim();
   const ghRepo = document.getElementById("github-repo").value.trim();
 
-  // 1. ALWAYS store securely in browser localStorage
   const localCfg = JSON.parse(localStorage.getItem("locomotion_settings") || "{}");
   if (ghRepo) localCfg.github_repo = ghRepo;
   if (gemini && !gemini.startsWith("***")) localCfg.gemini_api_key = gemini;
@@ -431,7 +587,6 @@ async function saveApiSettings() {
   if (ghToken && !ghToken.startsWith("***")) localCfg.github_token = ghToken;
   localStorage.setItem("locomotion_settings", JSON.stringify(localCfg));
 
-  // 2. If backend is running on localhost, sync with config.json on disk
   if (isLocalhost) {
     const payload = { github_repo: ghRepo };
     if (gemini && !gemini.startsWith("***")) payload.gemini_api_key = gemini;
@@ -445,13 +600,12 @@ async function saveApiSettings() {
     });
 
     if (res.ok) {
-      showAlert("✅ API anahtarları yerel sunucuya (config.json) ve tarayıcıya başarıyla kaydedildi!");
+      showAlert("✅ API anahtarları yerel sunucuya ve tarayıcıya başarıyla kaydedildi!");
       loadApiSettings();
       return;
     }
   }
 
-  // If on static host (GitHub Pages), confirm local storage
   showAlert("✅ API anahtarları tarayıcınızda (localStorage) güvenle saklandı!", "success");
   loadApiSettings();
 }
@@ -481,9 +635,8 @@ async function loadGitStatus() {
     }
   }
 
-  // GitHub Pages / Static fallback view
   if (branch) branch.innerText = "main";
-  if (lastCommit) lastCommit.innerText = "5f1d7de (Aktif Sürüm)";
+  if (lastCommit) lastCommit.innerText = "03b8b59 (Aktif Sürüm)";
   if (remote) remote.innerText = "https://github.com/rkiritoglu/LocoMotion";
   if (changedList) {
     changedList.innerHTML = `<li style="color: #10b981;">✓ Canlı GitHub Pages sürümü devrede.</li>`;

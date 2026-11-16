@@ -19,7 +19,7 @@
         <span class="train-icon">🚂</span>
         <div class="logo-text">
           <span class="brand-title">LocoMotion</span>
-          <span class="brand-subtitle">Yönetim & Arka Plan Paneli</span>
+          <span class="brand-subtitle">Yönetim & Görsel Paneli</span>
         </div>
       </div>
       <div class="admin-header-nav">
@@ -33,10 +33,10 @@
     <aside class="admin-sidebar">
       <nav class="admin-menu">
         <button class="admin-menu-item active" onclick="switchAdminTab('content')">
-          <span class="icon">✍️</span> Rotalar & Yazılar
+          <span class="icon">✍️</span> Gezi Yazısı Düzenle
         </button>
         <button class="admin-menu-item" onclick="switchAdminTab('images')">
-          <span class="icon">🖼️</span> Görsel Yönetimi
+          <span class="icon">🖼️</span> Yazılara Göre Görseller
         </button>
         <button class="admin-menu-item" onclick="switchAdminTab('suggest')">
           <span class="icon">💡</span> Yeni Konu Öner
@@ -50,11 +50,7 @@
       </nav>
 
       <div class="sidebar-status-box">
-        <div class="status-indicator">
-          <span class="status-dot online"></span>
-          <span>Yerel Sunucu Aktif</span>
-        </div>
-        <p class="status-url">http://localhost:8080</p>
+        <!-- Injected via admin.js -->
       </div>
     </aside>
 
@@ -63,52 +59,96 @@
       <!-- Alert Message Box -->
       <div id="admin-alert" class="admin-alert hidden"></div>
 
-      <!-- TAB 1: Content Editor -->
+      <!-- TAB 1: Visual Article Editor (Doğrudan Önizleme Penceresinde Düzenleme) -->
       <section id="tab-content" class="admin-tab-pane active">
         <div class="pane-header">
           <div>
-            <h2>Rotalar ve Gezi Yazıları</h2>
-            <p class="pane-desc">Mevcut rotaları seçin, metinleri düzenleyin veya yeni bölümler ekleyin.</p>
+            <h2>Gezi Yazısı Görsel Editörü</h2>
+            <p class="pane-desc">Doğrudan yazı üzerinde düzenleme yapın; değişiklikleri anında görün.</p>
           </div>
           <div class="pane-actions">
             <select id="route-selector" class="admin-select" onchange="loadRouteForEditing()">
               <!-- Options loaded via JS -->
             </select>
-            <button class="btn btn-primary" onclick="saveCurrentRoute()">💾 Değişiklikleri Kaydet</button>
+            <button class="btn btn-primary" onclick="saveVisualArticle()">💾 Değişiklikleri Kaydet</button>
           </div>
         </div>
 
-        <div class="editor-grid">
-          <div class="editor-pane">
-            <div class="pane-sub-header">
-              <span>Markdown & Frontmatter Metni</span>
-              <span id="char-count" class="badge-dim">0 karakter</span>
+        <!-- Meta Bilgileri Accordion (Frontmatter yerine temiz form) -->
+        <details class="meta-accordion" open>
+          <summary class="meta-summary">
+            <span>🗂️ Rota Pasaportu & Künye Bilgileri (Tıklayıp Açın/Kapatın)</span>
+            <span class="toggle-icon">▼</span>
+          </summary>
+          <div class="meta-form-grid">
+            <div class="form-group">
+              <label for="meta-title">Yazı Ana Başlığı</label>
+              <input type="text" id="meta-title" class="admin-input" placeholder="Yazı Başlığı">
             </div>
-            <textarea id="markdown-editor" class="admin-textarea" placeholder="Rota markdown içeriği..."></textarea>
+            <div class="form-group">
+              <label for="meta-country">Ülke / Bölge</label>
+              <input type="text" id="meta-country" class="admin-input" placeholder="İskoçya, Birleşik Krallık">
+            </div>
+            <div class="form-group">
+              <label for="meta-dist-time">Mesafe ve Süre</label>
+              <input type="text" id="meta-dist-time" class="admin-input" placeholder="67 km (42 mil) • 2s 15dk">
+            </div>
+            <div class="form-group">
+              <label for="meta-engine">Lokomotif & Mühendislik</label>
+              <input type="text" id="meta-engine" class="admin-input" placeholder="LMS Stanier Class 5 • Glenfinnan Viyadüğü">
+            </div>
           </div>
-          <div class="preview-pane">
-            <div class="pane-sub-header">
-              <span>Canlı Önizleme</span>
-              <span class="badge-dim">Görünüm</span>
-            </div>
-            <div id="markdown-preview" class="preview-content"></div>
+        </details>
+
+        <!-- Visual WYSIWYG Formatting Toolbar -->
+        <div class="wysiwyg-toolbar">
+          <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="Kalın"><strong>B</strong></button>
+          <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="İtalik"><em>I</em></button>
+          <span class="tool-divider"></span>
+          <button type="button" class="tool-btn" onclick="formatBlock('h2')" title="Büyük Başlık (H2)">H2</button>
+          <button type="button" class="tool-btn" onclick="formatBlock('h3')" title="Alt Başlık (H3)">H3</button>
+          <button type="button" class="tool-btn" onclick="formatBlock('blockquote')" title="Alıntı Kutusu">❝ Alıntı</button>
+          <span class="tool-divider"></span>
+          <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Madde İmleri">• Liste</button>
+          <button type="button" class="tool-btn" onclick="insertHorizontalRule()" title="Ayraç Çizgisi">— Çizgi</button>
+          <button type="button" class="tool-btn highlight" onclick="promptInsertImage()" title="Yazıya Görsel Ekle">🖼️ Görsel Ekle</button>
+          <span class="tool-status" id="char-count">0 karakter</span>
+        </div>
+
+        <!-- Single Visual Interactive Editor Pane -->
+        <div class="visual-editor-container">
+          <div id="visual-editor" class="visual-article-editor" contenteditable="true" spellcheck="false" placeholder="Gezi yazısı içeriği burada görünecektir. Doğrudan tıklayıp yazabilirsiniz...">
+            <!-- Article content will be injected and directly editable here -->
           </div>
         </div>
       </section>
 
-      <!-- TAB 2: Image Manager -->
+      <!-- TAB 2: Image Manager (Yazılara Göre Görsel Gösterimi) -->
       <section id="tab-images" class="admin-tab-pane">
         <div class="pane-header">
           <div>
-            <h2>Görsel Kütüphanesi</h2>
-            <p class="pane-desc">AI tarafından üretilen veya yüklediğiniz tüm telifsiz görselleri yönetin.</p>
+            <h2>Yazılara Göre Görsel Galerisi</h2>
+            <p class="pane-desc">Her gezi yazısına ait özel fotoğrafları inceleyin, yenilerini yükleyin veya yazıya ekleyin.</p>
           </div>
           <div class="pane-actions">
             <label class="btn btn-secondary-sm upload-btn">
-              ➕ Yeni Görsel Yükle
+              ➕ Bu Yazıya Yeni Fotoğraf Yükle
               <input type="file" id="image-upload-input" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
             </label>
           </div>
+        </div>
+
+        <!-- Route Filter Tabs for Images -->
+        <div class="image-route-selector-bar">
+          <label>Aktif Gezi Yazısı:</label>
+          <div class="route-pills" id="image-route-pills">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <div class="images-section-title">
+          <h3 id="current-image-route-label">The Jacobite Buharlı Treni Görselleri</h3>
+          <span class="badge-dim" id="image-count-badge">3 Görsel</span>
         </div>
 
         <div class="images-grid" id="admin-images-grid">
@@ -193,7 +233,7 @@
             <div class="setting-body">
               <h3>GitHub Depo Bilgisi</h3>
               <p>Yayınlanacak GitHub deposu adı veya adresi.</p>
-              <input type="text" id="github-repo" class="admin-input" placeholder="Örn: kullanici-adi/locomotion veya https://github.com/user/locomotion">
+              <input type="text" id="github-repo" class="admin-input" placeholder="Örn: rkiritoglu/LocoMotion">
             </div>
           </div>
         </div>
@@ -244,7 +284,7 @@
               <li>Yukarıdaki <strong>"Şimdi GitHub'a Gönder"</strong> butonuna basın.</li>
               <li>GitHub deponuzda <strong>Settings ➔ Pages</strong> sekmesine gidin.</li>
               <li><strong>Source</strong> kısmından <strong>"Deploy from a branch"</strong> ve <code>main / (root)</code> seçip <strong>Save</strong> deyin.</li>
-              <li>Siteniz birkaç saniye içinde <code>https://kullanici-adiniz.github.io/locomotion/</code> adresinde yayında olacaktır!</li>
+              <li>Siteniz birkaç saniye içinde <code>https://rkiritoglu.github.io/LocoMotion/</code> adresinde yayında olacaktır!</li>
             </ol>
           </div>
         </div>
