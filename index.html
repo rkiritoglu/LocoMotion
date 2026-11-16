@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocoMotion — Rayların Ötesindeki Dünya | Demiryolu Keşif Günlüğü</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="header-inner container">
+      <div class="logo-area" onclick="showHomeView()">
+        <span class="train-icon">🚂</span>
+        <div class="logo-text">
+          <span class="brand-title">LocoMotion</span>
+          <span class="brand-subtitle">Rayların Ötesindeki Dünya</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#rotalar" class="nav-item active" onclick="showHomeView()">Rotalar</a>
+        <a href="#harita" class="nav-item" onclick="scrollToMap()">Dünya Haritası</a>
+        <a href="#hakkinda" class="nav-item" onclick="openAboutModal()">Hakkında & Manifest</a>
+      </nav>
+      <div class="header-actions">
+        <div class="tag-filter-badge">AI Gezgin Günlüğü</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="hero-badge">Öne Çıkan Rota</div>
+      <h1 class="hero-title">Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni</h1>
+      <p class="hero-desc">
+        Fort William'dan Atlantik kıyısındaki Mallaig'e uzanan 21 kemerli Glenfinnan Viyadüğü, Kelt efsaneleri ve 1745 Jakobit İsyanı'nın izinde nostaljik bir yolculuk.
+      </p>
+      <div class="hero-meta">
+        <span>📍 İskoçya, BK</span>
+        <span>⏱️ 2s 15dk</span>
+        <span>🛤️ 67 km</span>
+        <span>🚂 LMS Stanier Black Five</span>
+      </div>
+      <button class="btn btn-primary" onclick="openRouteArticle('jacobite-steam-train')">
+        Yolculuğa Başla <span>➔</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Main Content Grid -->
+  <main class="container main-content" id="rotalar">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Keşfedilen Rotalar</h2>
+        <p class="section-subtitle">Rayların ritmiyle yazılmış birinci şahıs gezi günlükleri ve pratik rehberler</p>
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-filter="all">Tümü</button>
+        <button class="filter-btn" data-filter="Buharlı Tren">Buharlı</button>
+        <button class="filter-btn" data-filter="Dağ Manzarası">Dağ & Viyadük</button>
+        <button class="filter-btn" data-filter="Tarihi Hat">Tarihi Hatlar</button>
+      </div>
+    </div>
+
+    <div class="routes-grid" id="routes-grid">
+      <!-- Route cards will be injected by JavaScript -->
+    </div>
+
+    <!-- Interactive World Rail Map -->
+    <section class="map-section" id="harita">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">İnteraktif Rota Haritası</h2>
+          <p class="section-subtitle">Rotaların geçtiği coğrafyalar, duraklar ve arazi yapısı</p>
+        </div>
+      </div>
+      <div id="rail-map" class="rail-map-container"></div>
+    </section>
+  </main>
+
+  <!-- Route Detail Modal / Reader -->
+  <div id="article-modal" class="modal-backdrop hidden">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeArticleModal()" title="Kapat">&times;</button>
+      <div class="modal-scrollable" id="article-body">
+        <!-- Rendered markdown content will be placed here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div id="about-modal" class="modal-backdrop hidden">
+    <div class="modal-window about-window">
+      <button class="modal-close-btn" onclick="closeAboutModal()" title="Kapat">&times;</button>
+      <div class="about-content">
+        <h2>LocoMotion Manifestosu</h2>
+        <p class="about-quote">"Bir tren bileti, yalnızca bir koltuk numarası değil; zamanın ve coğrafyanın derinliklerine açılan bir davetiyedir."</p>
+        <p><strong>LocoMotion</strong>, dünyanın en büyüleyici demiryolu hatlarını, tarihi istasyonları, vagonlarda cereyan eden tarihi hadiseleri ve rayların kıvrıldığı dağ boğazlarını konu alan bağımsız bir demiryolu gezi günlüğüdür.</p>
+        <p>İçerikler; birinci şahıs edebi gezgin anlatımı, derinlemesine coğrafi/tarihi araştırmalar ve yapay zeka tarafından gerçek mekan fotoğrafları referans alınarak üretilmiş telifsiz görsellerle harmanlanarak hazırlanır.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <span class="brand-title">LocoMotion</span>
+        <p>Dünya raylarında birinci şahıs gezi günlükleri ve demiryolu kültürü.</p>
+      </div>
+      <div class="footer-right">
+        <p>© 2026 LocoMotion. Tüm hakları raylar üzerinde saklıdır.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="src/app.js"></script>
+</body>
+</html>
