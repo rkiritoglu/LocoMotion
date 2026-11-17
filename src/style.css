@@ -469,7 +469,120 @@ body {
   color: #2c383e;
 }
 
+/* ==========================================================================
+   FULL WEB PAGE ARTICLE VIEW (AŞAĞI DOĞRU UZAYAN NORMAL WEB SAYFASI)
+   ========================================================================== */
+
+.article-page-view {
+  min-height: 85vh;
+  padding: 36px 0 80px 0;
+  background: var(--bg-main);
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.article-page-view.hidden {
+  display: none !important;
+}
+
+.hero-section.hidden,
+.main-content.hidden {
+  display: none !important;
+}
+
+.article-nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 960px;
+  margin: 0 auto 24px auto;
+  padding: 0 20px;
+}
+
+.btn-back-to-routes {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  color: var(--primary);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.btn-back-to-routes:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  transform: translateX(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.article-nav-category {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background: var(--accent-gold-soft);
+  padding: 8px 18px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(200, 150, 62, 0.2);
+}
+
+.article-card-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 56px 64px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(21, 50, 48, 0.08);
+}
+
+.article-content {
+  line-height: 1.85;
+  font-size: 1.1rem;
+  color: #2c383e;
+}
+
+.article-bottom-nav {
+  max-width: 960px;
+  margin: 40px auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px 0 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 768px) {
+  .article-card-wrapper {
+    padding: 30px 18px;
+    border-radius: var(--radius-sm);
+  }
+  .article-nav-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .article-bottom-nav {
+    flex-direction: column;
+    gap: 14px;
+    align-items: stretch;
+  }
+  .article-bottom-nav .btn-back-to-routes {
+    justify-content: center;
+  }
+}
+
 /* Article Markdown Typography */
+.article-content h1,
 .modal-scrollable h1 {
   font-family: var(--font-serif);
   font-size: 2.3rem;
@@ -478,6 +591,7 @@ body {
   line-height: 1.25;
 }
 
+.article-content h2,
 .modal-scrollable h2 {
   font-family: var(--font-serif);
   font-size: 1.6rem;
@@ -488,6 +602,7 @@ body {
   padding-bottom: 8px;
 }
 
+.article-content h3,
 .modal-scrollable h3 {
   font-family: var(--font-sans);
   font-size: 1.2rem;
@@ -497,6 +612,7 @@ body {
   margin-bottom: 10px;
 }
 
+.article-content blockquote,
 .modal-scrollable blockquote {
   font-family: var(--font-serif);
   font-style: italic;
@@ -509,10 +625,12 @@ body {
   color: #3f4e55;
 }
 
+.article-content p,
 .modal-scrollable p {
   margin-bottom: 18px;
 }
 
+.article-content img,
 .modal-scrollable img {
   width: 100%;
   border-radius: var(--radius-md);
@@ -520,6 +638,7 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+.article-content em,
 .modal-scrollable em {
   display: block;
   font-size: 0.88rem;
@@ -528,6 +647,7 @@ body {
   margin-bottom: 24px;
 }
 
+.article-content table,
 .modal-scrollable table {
   width: 100%;
   border-collapse: collapse;
@@ -537,23 +657,31 @@ body {
   overflow: hidden;
 }
 
-.modal-scrollable th, .modal-scrollable td {
+.article-content th,
+.article-content td,
+.modal-scrollable th,
+.modal-scrollable td {
   padding: 12px 18px;
   border: 1px solid var(--border-subtle);
   text-align: left;
 }
 
+.article-content th,
 .modal-scrollable th {
   background: var(--primary);
   color: #fff;
   font-weight: 600;
 }
 
-.modal-scrollable ol, .modal-scrollable ul {
+.article-content ol,
+.article-content ul,
+.modal-scrollable ol,
+.modal-scrollable ul {
   padding-left: 28px;
   margin-bottom: 20px;
 }
 
+.article-content li,
 .modal-scrollable li {
   margin-bottom: 10px;
 }

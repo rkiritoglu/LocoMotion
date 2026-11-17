@@ -868,6 +868,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   initMap();
   setupFilterListeners();
   setupAdminVisibility();
+
+  if (window.location.hash.startsWith("#rota-")) {
+    handleHashNavigation();
+  }
 });
 
 // Load any custom routes added from admin or backend
@@ -1073,13 +1077,20 @@ function parseMarkdownSafe(mdText) {
     .replace(/\n\n/gim, '<br/><br/>');
 }
 
-// Open Route Article Reader
+// Open Route Article Page (Normal Web Sayfası Olarak Aşağı Uzayan Görünüm)
 async function openRouteArticle(routeId) {
   const route = routesData.find(r => r.id === routeId);
-  const modal = document.getElementById("article-modal");
+  const hero = document.querySelector(".hero-section");
+  const mainGrid = document.getElementById("rotalar");
+  const articlePage = document.getElementById("article-page");
   const body = document.getElementById("article-body");
+  const navCategory = document.getElementById("article-nav-category");
 
-  if (!route || !modal || !body) return;
+  if (!route || !articlePage || !body) return;
+
+  if (navCategory) {
+    navCategory.innerText = `${route.category || 'Demiryolu Rotası'} • ${route.country || ''}`;
+  }
 
   let loadedContent = route.content || "";
 
@@ -1110,28 +1121,62 @@ async function openRouteArticle(routeId) {
     `;
   }
 
-  modal.classList.remove("hidden");
-  document.body.style.overflow = "hidden";
+  // Switch to Article Full Web Page view (hide hero and routes list)
+  if (hero) hero.classList.add("hidden");
+  if (mainGrid) mainGrid.classList.add("hidden");
+  articlePage.classList.remove("hidden");
+
+  // Keep body overflow normal so page extends and scrolls naturally downwards
+  document.body.style.overflow = "auto";
+
+  // Update hash for deep link and browser back/forward buttons
+  if (window.location.hash !== "#rota-" + routeId) {
+    window.location.hash = "rota-" + routeId;
+  }
+
+  // Update nav link active state
+  document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+
+  // Smooth scroll to top of page
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showHomeView() {
+  const hero = document.querySelector(".hero-section");
+  const mainGrid = document.getElementById("rotalar");
+  const articlePage = document.getElementById("article-page");
+
+  if (articlePage) articlePage.classList.add("hidden");
+  if (hero) hero.classList.remove("hidden");
+  if (mainGrid) mainGrid.classList.remove("hidden");
+
+  // Reset hash if it was a route hash
+  if (window.location.hash.startsWith("#rota-")) {
+    history.pushState(null, "", window.location.pathname + window.location.search);
+  }
+
+  document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+  const routesLink = document.querySelector('a[href="#rotalar"]');
+  if (routesLink) routesLink.classList.add("active");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function closeArticleModal() {
-  const modal = document.getElementById("article-modal");
-  if (modal) {
-    modal.classList.add("hidden");
-    document.body.style.overflow = "auto";
-  }
+  showHomeView();
 }
 
 window.onclick = function(event) {
-  const articleModal = document.getElementById("article-modal");
   const aboutModal = document.getElementById("about-modal");
-  if (event.target === articleModal) closeArticleModal();
   if (event.target === aboutModal) closeAboutModal();
 };
 
 function scrollToMap() {
-  const mapSec = document.getElementById("harita");
-  if (mapSec) mapSec.scrollIntoView({ behavior: "smooth" });
+  showHomeView();
+  setTimeout(() => {
+    const mapSec = document.getElementById("harita");
+    if (mapSec) mapSec.scrollIntoView({ behavior: "smooth" });
+  }, 100);
 }
 
 function openAboutModal() {
@@ -1144,6 +1189,15 @@ function closeAboutModal() {
   if (modal) modal.classList.add("hidden");
 }
 
-function showHomeView() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+// Browser History & Hash Navigation Support
+window.addEventListener("hashchange", handleHashNavigation);
+
+function handleHashNavigation() {
+  const hash = window.location.hash;
+  if (hash.startsWith("#rota-")) {
+    const routeId = hash.replace("#rota-", "");
+    openRouteArticle(routeId);
+  } else if (!hash || hash === "#rotalar") {
+    showHomeView();
+  }
 }
