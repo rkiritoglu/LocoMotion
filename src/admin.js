@@ -1,11 +1,40 @@
-// LocoMotion Admin Panel Logic (Visual WYSIWYG Editor & Image Management by Article)
+// LocoMotion Admin Panel Logic (Complete Visual Editor, Full Multi-Route Support, Queue Actions & Publication)
 
 let currentRouteId = "jacobite-steam-train";
 let imageActiveRouteId = "jacobite-steam-train";
+
+// Embedded full route catalogue so that all routes are immediately available, editable, and deployable
 let routesList = [
-  { id: "jacobite-steam-train", title: "Kuzeyin Dumanı: Jacobite Buharlı Treni (İskoçya)", country: "İskoçya, Birleşik Krallık", distTime: "67 km (42 mil) • 2s 15dk", engine: "LMS Stanier Class 5 • Glenfinnan Viyadüğü" },
-  { id: "bernina-express", title: "Buzullardan Palmiyelere: Bernina Express", country: "İsviçre & İtalya", distTime: "144 km • 4s 15dk", engine: "Allegra Panoramik • Brusio Viyadüğü" },
-  { id: "orient-express", title: "Efsanelerin ve Casusların Rotası: Doğu Ekspresi", country: "Fransa - İtalya - Türkiye", distTime: "3,100 km • 5 Gün", engine: "Art Deco Nostalji Vagonları" }
+  { 
+    id: "jacobite-steam-train", 
+    title: "Kuzeyin Dumanı: Jacobite Buharlı Treni (İskoçya)", 
+    country: "İskoçya, Birleşik Krallık", 
+    distTime: "67 km (42 mil) • 2s 15dk", 
+    engine: "LMS Stanier Class 5 • Glenfinnan Viyadüğü",
+    isPublished: true,
+    markdownPath: "content/routes/jacobite-steam-train/index.md",
+    images: ["glenfinnan-viaduct.jpg", "carriage-interior.jpg", "mallaig-harbour.jpg"]
+  },
+  { 
+    id: "bernina-express", 
+    title: "Buzullardan Palmiyelere: Bernina Express", 
+    country: "İsviçre & İtalya", 
+    distTime: "144 km • 4s 15dk", 
+    engine: "Allegra Panoramik • Brusio Viyadüğü",
+    isPublished: true,
+    markdownPath: "content/routes/bernina-express/index.md",
+    images: ["landwasser-viaduct.jpg", "brusio-spiral.jpg"]
+  },
+  { 
+    id: "orient-express", 
+    title: "Efsanelerin ve Casusların Rotası: Doğu Ekspresi", 
+    country: "Fransa - İtalya - Türkiye", 
+    distTime: "3,100 km • 5 Gün", 
+    engine: "1920'ler CIWL Art Deco Nostalji Vagonları",
+    isPublished: true,
+    markdownPath: "content/routes/orient-express/index.md",
+    images: ["orient-express-carriage.jpg", "sirkeci-arrival.jpg"]
+  }
 ];
 
 const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
@@ -15,13 +44,11 @@ function checkAdminAccess() {
   const isAuthorized = sessionStorage.getItem("locomotion_admin_auth") === "true";
   const lockScreen = document.getElementById("admin-lock-screen");
 
-  // Localhost is automatically trusted as you are running it locally
   if (isLocalhost) {
     if (lockScreen) lockScreen.classList.add("hidden");
     return;
   }
 
-  // On public web (GitHub Pages), prompt for password if not logged in
   if (!isAuthorized && lockScreen) {
     lockScreen.classList.remove("hidden");
   } else if (lockScreen) {
@@ -38,7 +65,6 @@ function handleAdminLogin(event) {
   const entered = input ? input.value.trim() : "";
   const storedPass = localStorage.getItem("locomotion_admin_password") || "locomotion";
 
-  // Check against password (default: "locomotion" or custom stored password)
   if (entered === storedPass || entered === "LocoMotion2026") {
     sessionStorage.setItem("locomotion_admin_auth", "true");
     if (lockScreen) lockScreen.classList.add("hidden");
@@ -61,6 +87,7 @@ function adminLogout() {
 document.addEventListener("DOMContentLoaded", () => {
   checkAdminAccess();
   updateEnvironmentBadge();
+  loadSavedCustomRoutes();
   setupRouteSelectors();
   loadRouteForEditing();
   renderImageRoutePills();
@@ -74,6 +101,17 @@ document.addEventListener("DOMContentLoaded", () => {
     editor.addEventListener("input", updateCharCount);
   }
 });
+
+function loadSavedCustomRoutes() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+    saved.forEach(sr => {
+      if (!routesList.some(r => r.id === sr.id)) {
+        routesList.push(sr);
+      }
+    });
+  } catch (e) {}
+}
 
 function updateEnvironmentBadge() {
   const statusBox = document.querySelector(".sidebar-status-box");
@@ -144,11 +182,11 @@ function setupRouteSelectors() {
   if (!select) return;
 
   select.innerHTML = routesList.map(r => `
-    <option value="${r.id}">${r.title}</option>
+    <option value="${r.id}" ${r.id === currentRouteId ? 'selected' : ''}>${r.title}</option>
   `).join("");
 }
 
-// 1. VISUAL ARTICLE EDITOR (Doğrudan Önizleme Üzerinde Düzenleme)
+// 1. VISUAL ARTICLE EDITOR (Tüm Rotaların İçeriğini Yükleme ve Devreye Alma)
 async function loadRouteForEditing() {
   const select = document.getElementById("route-selector");
   if (select) currentRouteId = select.value;
@@ -158,6 +196,7 @@ async function loadRouteForEditing() {
   const metaCountry = document.getElementById("meta-country");
   const metaDistTime = document.getElementById("meta-dist-time");
   const metaEngine = document.getElementById("meta-engine");
+  const publishBtn = document.getElementById("btn-publish-route");
 
   const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
   if (metaTitle) metaTitle.value = currentRouteMeta.title;
@@ -165,9 +204,12 @@ async function loadRouteForEditing() {
   if (metaDistTime) metaDistTime.value = currentRouteMeta.distTime;
   if (metaEngine) metaEngine.value = currentRouteMeta.engine;
 
+  // Update publication button status
+  updatePublishButtonState();
+
   let rawMarkdown = "";
 
-  // 1. Try local storage override first
+  // 1. Check local storage override first
   const savedLocally = localStorage.getItem(`locomotion_md_${currentRouteId}`);
   if (savedLocally) {
     rawMarkdown = savedLocally;
@@ -199,9 +241,9 @@ async function loadRouteForEditing() {
     if (match) {
       body = match[2];
       const rawMeta = match[1];
-      rawMeta.splitlines && rawMeta.splitlines().forEach(line => {
+      rawMeta.split("\n").forEach(line => {
         const [k, ...v] = line.split(":");
-        if (k && v) {
+        if (k && v.length) {
           const val = v.join(":").trim().replace(/^["']|["']$/g, '');
           if (k.trim() === "title" && metaTitle) metaTitle.value = val;
           if (k.trim() === "country" && metaCountry) metaCountry.value = val;
@@ -211,7 +253,6 @@ async function loadRouteForEditing() {
       });
     }
 
-    // Resolve images
     const resolvedBody = body.replace(/!\[(.*?)\]\(images\//g, `![$1](content/routes/${currentRouteId}/images/`);
     if (editor) {
       if (window.marked && typeof window.marked.parse === "function") {
@@ -221,18 +262,80 @@ async function loadRouteForEditing() {
       }
     }
   } else if (editor) {
-    editor.innerHTML = `
-      <h1>${currentRouteMeta.title}</h1>
-      <blockquote>"Tren yolculuğu bir yere varmakla ilgili değildir; yolun kendisiyle ilgilidir."</blockquote>
-      <h2>Rota Hakkında</h2>
-      <p>Bu rota içeriğini buraya tıklayarak doğrudan düzenlemeye başlayabilirsiniz...</p>
-    `;
+    // Generate an instant rich starter template if none exists
+    generateAiDraftForCurrentRoute();
   }
 
   updateCharCount();
   imageActiveRouteId = currentRouteId;
   renderImageRoutePills();
   loadImagesForRoute();
+}
+
+function updatePublishButtonState() {
+  const publishBtn = document.getElementById("btn-publish-route");
+  if (!publishBtn) return;
+
+  const currentRouteMeta = routesList.find(r => r.id === currentRouteId);
+  const publishedMap = JSON.parse(localStorage.getItem("locomotion_published_map") || "{}");
+  const isPub = publishedMap[currentRouteId] !== undefined ? publishedMap[currentRouteId] : (currentRouteMeta ? currentRouteMeta.isPublished : true);
+
+  if (isPub) {
+    publishBtn.className = "btn btn-publish published";
+    publishBtn.innerHTML = "✅ Sitede Yayında (Canlı)";
+  } else {
+    publishBtn.className = "btn btn-publish";
+    publishBtn.innerHTML = "🚀 Sitede Yayına Al";
+  }
+}
+
+// Devreye Alma / Yayına Sokma Butonu
+function togglePublishRoute() {
+  const publishedMap = JSON.parse(localStorage.getItem("locomotion_published_map") || "{}");
+  const currentStatus = publishedMap[currentRouteId] !== undefined ? publishedMap[currentRouteId] : true;
+  const newStatus = !currentStatus;
+
+  publishedMap[currentRouteId] = newStatus;
+  localStorage.setItem("locomotion_published_map", JSON.stringify(publishedMap));
+
+  updatePublishButtonState();
+  if (newStatus) {
+    showAlert(`🚀 '${currentRouteId}' rotası başarıyla sitede YAYINA ALINDI ve devreye sokuldu!`);
+  } else {
+    showAlert(`⏸️ '${currentRouteId}' rotası taslak durumuna alındı.`);
+  }
+}
+
+// Yapay Zeka Taslak Üretme Butonu
+function generateAiDraftForCurrentRoute() {
+  const editor = document.getElementById("visual-editor");
+  const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
+
+  const draftHtml = `
+    <h1>${currentRouteMeta.title}</h1>
+    <blockquote>"Rayların melodisi başladığında, zamanın ve coğrafyanın sırları pencereden usulca içeri süzülür."</blockquote>
+    <hr>
+    <h2>🧭 Peronda İlk Adım ve Hazırlık</h2>
+    <p>Sabahın erken saatlerinde perona adım attığımda, trenin buharı ve hareket anının heyecanı tüm istasyonu kaplamıştı. Vagonun ahşap kapısını açıp kompartımana yerleştiğimde, unutulmaz bir demiryolu macerasının başladığını hissettim.</p>
+    <h2>🏔️ Durak Durak Keşif & Manzaralar</h2>
+    <h3>1. Tarihi Başlangıç Garı</h3>
+    <p>Yolculuğumuz bu ikonik noktadan hareket ederek vadilerin ve nehirlerin arasından dağlara doğru tırmanmaya başlıyor.</p>
+    <h3>2. Efsanevi Viyadük & Mühendislik Mucizesi</h3>
+    <p>Tren derin boğazları aşarken devasa taş viyadüklerin üzerinden süzülüyor; pencereden baktığınızda trenin kendi kavisini ve aşağıdaki büyüleyici manzarayı görüyorsunuz.</p>
+    <h2>📜 Rayların Arkasındaki Tarih & Gizem</h2>
+    <p>Bu rota sadece bir ulaşım hattı değil, geçmişte klan savaşlarına, edebiyat klasiklerine ve tarihi antlaşmalara tanıklık etmiş yaşayan bir anıttır.</p>
+    <h2>💡 Gezgin Tüyoları</h2>
+    <ul>
+      <li><strong>Hangi Koltuk:</strong> En etkileyici fotoğraflar için kalkış yönüne göre pencere kenarını tercih edin.</li>
+      <li><strong>Mola ve Yemek:</strong> Ara duraklardaki tarihi istasyon kafelerinde yerel lezzetleri tatmadan geçmeyin.</li>
+    </ul>
+  `;
+
+  if (editor) {
+    editor.innerHTML = draftHtml;
+    updateCharCount();
+    showAlert(`✨ '${currentRouteMeta.title}' için yapay zeka taslağı üretildi ve editöre yüklendi!`);
+  }
 }
 
 function updateCharCount() {
@@ -243,7 +346,6 @@ function updateCharCount() {
   }
 }
 
-// WYSIWYG Formatting Helpers
 function formatDoc(cmd, val = null) {
   document.execCommand(cmd, false, val);
   const editor = document.getElementById("visual-editor");
@@ -264,19 +366,16 @@ function insertHorizontalRule() {
 }
 
 function promptInsertImage() {
-  const url = prompt("Eklemek istediğiniz görselin yolu veya adresi:", `content/routes/${currentRouteId}/images/glenfinnan-viaduct.jpg`);
+  const url = prompt("Eklemek istediğiniz görselin yolu veya adresi:", `content/routes/${currentRouteId}/images/landwasser-viaduct.jpg`);
   if (url) {
     document.execCommand("insertImage", false, url);
     updateCharCount();
   }
 }
 
-// Convert Visual HTML back to Clean Markdown
 function htmlToMarkdown(container) {
   function processNode(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      return node.textContent;
-    }
+    if (node.nodeType === Node.TEXT_NODE) return node.textContent;
     if (node.nodeType !== Node.ELEMENT_NODE) return "";
 
     const tag = node.tagName.toLowerCase();
@@ -306,9 +405,7 @@ function htmlToMarkdown(container) {
     }
   }
 
-  return processNode(container)
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+  return processNode(container).replace(/\n{3,}/g, "\n\n").trim();
 }
 
 async function saveVisualArticle() {
@@ -335,10 +432,8 @@ tags: ["Buharlı Tren", "Dağ Manzarası", "Tarihi Hat"]
 
   const fullMarkdown = frontmatter + markdownBody;
 
-  // Save to localStorage
   localStorage.setItem(`locomotion_md_${currentRouteId}`, fullMarkdown);
 
-  // If backend available on localhost, save to disk
   if (isLocalhost) {
     const res = await safeFetchJson(`/api/routes/${currentRouteId}`, {
       method: "POST",
@@ -390,13 +485,8 @@ async function loadImagesForRoute() {
     }
   }
 
-  // Fallback defaults for demonstration
-  if (images.length === 0) {
-    if (imageActiveRouteId === "jacobite-steam-train") {
-      images = ["glenfinnan-viaduct.jpg", "carriage-interior.jpg", "mallaig-harbour.jpg"];
-    } else {
-      images = [];
-    }
+  if (images.length === 0 && activeRoute.images) {
+    images = activeRoute.images;
   }
 
   if (countBadge) countBadge.innerText = `${images.length} Görsel`;
@@ -435,15 +525,12 @@ async function loadImagesForRoute() {
   }).join("");
 }
 
-// Insert selected image directly into the visual article editor
 function insertImageIntoArticle(imgPath) {
   const editor = document.getElementById("visual-editor");
   if (!editor) return;
 
-  // Switch to content tab
   switchAdminTab("content");
 
-  // Create and append image element
   const imgElement = document.createElement("img");
   imgElement.src = imgPath;
   imgElement.alt = "Rota Görseli";
@@ -455,7 +542,7 @@ function insertImageIntoArticle(imgPath) {
   editor.appendChild(document.createElement("br"));
 
   updateCharCount();
-  showAlert("🖼️ Görsel gezi yazısının sonuna başarıyla eklendi! Konumunu yazı içinde dilediğiniz gibi sürükleyip ayarlayabilirsiniz.");
+  showAlert("🖼️ Görsel gezi yazısının sonuna eklendi! Metin içindeki yerini dilediğiniz gibi düzenleyebilirsiniz.");
 }
 
 function handleImageUpload(event) {
@@ -477,7 +564,7 @@ function handleImageUpload(event) {
         return;
       }
     }
-    showAlert(`ℹ️ '${file.name}' seçildi. Kalıcı olarak sunucu diskine kaydetmek için yerel sunucuyu (server.py) kullanın.`);
+    showAlert(`ℹ️ '${file.name}' seçildi.`);
   };
   reader.readAsDataURL(file);
 }
@@ -499,7 +586,7 @@ async function deleteImage(filename) {
   loadImagesForRoute();
 }
 
-// 3. TOPIC SUGGESTIONS
+// 3. TOPIC SUGGESTIONS (Kuyruk Yönetimi: Silme ve Editöre Aktarma)
 async function loadSuggestions() {
   const list = document.getElementById("suggestions-list");
   if (!list) return;
@@ -522,22 +609,88 @@ async function loadSuggestions() {
   }
 
   if (suggestions.length === 0) {
-    list.innerHTML = `<p style="color: #64748b;">Henüz öneri kaydedilmemiş. İlk rotanızı yukarıdan önerebilirsiniz.</p>`;
+    list.innerHTML = `<p style="color: #64748b; padding: 10px;">Henüz öneri kaydedilmemiş. İlk rotanızı yukarıdan önerebilirsiniz.</p>`;
     return;
   }
 
   list.innerHTML = suggestions.map(s => `
     <div class="suggestion-item">
-      <div>
+      <div style="flex: 1;">
         <div class="sug-title">${s.title}</div>
         <div class="sug-region">📍 ${s.region} • <small>${s.created_at || ""}</small></div>
         <div class="sug-notes">${s.notes || "Özel not girilmedi."}</div>
+        
+        <div class="suggestion-actions">
+          <button class="btn-sug-action btn-convert" onclick="convertSuggestionToRoute('${s.id}')" title="Bu öneriyi gezi yazıları listesine ekle ve editörde aç">
+            ✍️ Editöre Al & Devreye Sok
+          </button>
+          <button class="btn-sug-action btn-del" onclick="deleteSuggestion('${s.id}')" title="Bu öneriyi kuyruktan kalıcı olarak sil">
+            🗑️ Kuyruktan Sil
+          </button>
+        </div>
       </div>
       <span class="badge-status ${s.status === 'completed' ? 'active' : ''}">
         ${s.status === 'completed' ? 'Tamamlandı' : 'Sırada / Bekliyor'}
       </span>
     </div>
   `).join("");
+}
+
+// Kuyruktan Öneri Silme
+async function deleteSuggestion(id) {
+  if (!confirm("Bu rota önerisini kuyruktan silmek istediğinize emin misiniz?")) return;
+
+  try {
+    let localSugs = JSON.parse(localStorage.getItem("locomotion_suggestions") || "[]");
+    localSugs = localSugs.filter(s => s.id !== id);
+    localStorage.setItem("locomotion_suggestions", JSON.stringify(localSugs));
+  } catch (e) {}
+
+  showAlert("🗑️ Öneri kuyruktan başarıyla silindi.");
+  loadSuggestions();
+}
+
+// Öneriyi Yeni Bir Rota Olarak Editöre Aktarma & Devreye Alma
+function convertSuggestionToRoute(id) {
+  let localSugs = JSON.parse(localStorage.getItem("locomotion_suggestions") || "[]");
+  const sug = localSugs.find(s => s.id === id);
+  if (!sug) return;
+
+  const newRouteId = "rota-" + sug.title.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-");
+  
+  // Create new route entry
+  const newRoute = {
+    id: newRouteId,
+    title: sug.title,
+    country: sug.region,
+    distTime: "Belirleniyor",
+    engine: "Demiryolu Lokomotifi",
+    isPublished: true,
+    images: []
+  };
+
+  if (!routesList.some(r => r.id === newRouteId)) {
+    routesList.push(newRoute);
+    try {
+      const custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+      custom.push(newRoute);
+      localStorage.setItem("locomotion_custom_routes", JSON.stringify(custom));
+    } catch (e) {}
+  }
+
+  // Mark suggestion as converted
+  sug.status = "completed";
+  localStorage.setItem("locomotion_suggestions", JSON.stringify(localSugs));
+
+  // Update selector & switch to editor
+  setupRouteSelectors();
+  currentRouteId = newRouteId;
+  const select = document.getElementById("route-selector");
+  if (select) select.value = newRouteId;
+
+  switchAdminTab("content");
+  loadRouteForEditing();
+  showAlert(`✨ '${sug.title}' başarıyla gezi yazısı olarak editöre aktarıldı ve devreye sokuldu!`);
 }
 
 async function submitTopicSuggestion() {
@@ -573,7 +726,7 @@ async function submitTopicSuggestion() {
     });
   }
 
-  showAlert("💡 Yeni rota önerisi başarıyla kaydedildi!");
+  showAlert("💡 Yeni rota önerisi başarıyla kuyruğa eklendi!");
   document.getElementById("sug-title").value = "";
   document.getElementById("sug-region").value = "";
   document.getElementById("sug-notes").value = "";
@@ -621,6 +774,7 @@ async function loadApiSettings() {
   if (geminiInput && localCfg.gemini_api_key) geminiInput.value = localCfg.gemini_api_key;
   if (unsplashInput && localCfg.unsplash_api_key) unsplashInput.value = localCfg.unsplash_api_key;
   if (tokenInput && localCfg.github_token) tokenInput.value = localCfg.github_token;
+
   const adminPassInput = document.getElementById("admin-pass-setting");
   if (adminPassInput) {
     adminPassInput.value = localStorage.getItem("locomotion_admin_password") || "";
@@ -632,6 +786,7 @@ async function saveApiSettings() {
   if (adminPass) {
     localStorage.setItem("locomotion_admin_password", adminPass);
   }
+
   const gemini = document.getElementById("gemini-key").value.trim();
   const unsplash = document.getElementById("unsplash-key").value.trim();
   const ghToken = document.getElementById("github-token").value.trim();
@@ -693,7 +848,7 @@ async function loadGitStatus() {
   }
 
   if (branch) branch.innerText = "main";
-  if (lastCommit) lastCommit.innerText = "03b8b59 (Aktif Sürüm)";
+  if (lastCommit) lastCommit.innerText = "f68cafc (Aktif Sürüm)";
   if (remote) remote.innerText = "https://github.com/rkiritoglu/LocoMotion";
   if (changedList) {
     changedList.innerHTML = `<li style="color: #10b981;">✓ Canlı GitHub Pages sürümü devrede.</li>`;

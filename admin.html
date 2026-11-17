@@ -91,7 +91,15 @@
             <select id="route-selector" class="admin-select" onchange="loadRouteForEditing()">
               <!-- Options loaded via JS -->
             </select>
-            <button class="btn btn-primary" onclick="saveVisualArticle()">💾 Değişiklikleri Kaydet</button>
+            <button type="button" class="btn btn-ai-draft" onclick="generateAiDraftForCurrentRoute()" title="Bu rota için otomatik taslak yazı ve durak içeriği üret">
+              ✨ AI Taslak Üret
+            </button>
+            <button type="button" class="btn btn-primary" onclick="saveVisualArticle()">
+              💾 Değişiklikleri Kaydet
+            </button>
+            <button type="button" class="btn btn-publish" id="btn-publish-route" onclick="togglePublishRoute()" title="Bu gezi yazısını sitede yayına al / devreye sok">
+              🚀 Sitede Yayına Al
+            </button>
           </div>
         </div>
 

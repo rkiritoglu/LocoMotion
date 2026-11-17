@@ -25,8 +25,6 @@ Sabah saat 09.30 suları... Britanya'nın en yüksek zirvesi olan Ben Nevis, gri
 
 Ahşap panelli Mark 1 vagonumun kapısını açıp ağır pirinç kolu çevirdim. Kompartımandaki ekose desenli yün kumaşların kokusu, yılların cilalı maununun rayhasıyla harmanlanmıştı. Kondüktörün gümüş düdüğü çaldı, buhar bulutları istasyon çatısını yaladı ve çelik tekerlekler ilk tok darbeyle raylara tutundu. 
 
-LocoMotion günlüğümün bu sayfasını açarken, pencereye dökülen ilk yağmur damlaları manzarayı bir suluboya tablosuna dönüştürüyordu bile.
-
 ![Vagon İçi Atmosfer](content/routes/jacobite-steam-train/images/carriage-interior.jpg)
 *Pencere kenarında sıcak bir Highland çayı ve yağmurla yıkanan İskoç bozkırları.*
 
@@ -35,56 +33,112 @@ LocoMotion günlüğümün bu sayfasını açarken, pencereye dökülen ilk yağ
 ## Durak Durak İskoçya'nın Vahşi Ruhu
 
 ### 1. Banavie ve Neptün'ün Merdiveni (Neptune's Staircase)
-Yolculuğun henüz ilk çeyreğinde tren, Caledonian Kanalı'nı kucaklayan Banavie mevkiinden geçiyor. Thomas Telford'un 19. yüzyıl başlarında inşa ettiği ve ardışık 8 havuzdan oluşan efsanevi su merdiveni, dağların suyunu denize kavuşturuyor. Tren buradan kıvrılırken lokomotifin buharı kanal boyunca süzülen teknelerin direklerine karışıyor.
+Yolculuğun henüz ilk çeyreğinde tren, Caledonian Kanalı'nı kucaklayan Banavie mevkiinden geçiyor. Thomas Telford'un 19. yüzyıl başlarında inşa ettiği ve ardışık 8 havuzdan oluşan efsanevi su merdiveni, dağların suyunu denize kavuşturuyor.
 
 ### 2. Glenfinnan ve 21 Kemerin Büyüsü
-Tren Loch Eil'in sakin kıyılarını geride bırakıp dağların arasına tırmanmaya başladığında kompartımandaki herkes nefesini tutmuştu. Çünkü birazdan demiryolu tarihinin en dramatik kavisi belirecekti.
-
-Lokomotif uzun bir zafer düdüğü çalarak sola doğru kıvrıldı. İşte oradaydı: **Glenfinnan Viyadüğü**. 
-
-1897 ile 1901 yılları arasında demiryolu mühendisi *"Concrete Bob"* (Beton Bob lakaplı Sir Robert McAlpine) tarafından inşa edilen bu şaheser, hiçbir taş örgü veya çelik kafes kullanılmadan, tamamen **donatısız monolitik kütle betondan** dökülmüş 21 devasa kemerden oluşuyor. Vadinin tabanındaki Finnan Nehri'nden 30 metre yukarıda süzülürken tren adeta havada asılı kalıyor.
-
-Pencereden dışarı sarktığınızda trenin kendi kıvrımını, vagonların arasından tüten kömür dumanını ve tam aşağıda uzanan esrarengiz **Loch Shiel** gölünü görüyorsunuz. Harry Potter filmlerindeki Hogwarts Express sahnesinin neden burada çekildiğini anlamak hiç zor değil; burası gerçek dünyayla efsanelerin sınırının silindiği bir coğrafya.
+1897 ile 1901 yılları arasında Sir Robert McAlpine tarafından inşa edilen bu şaheser, hiçbir taş örgü veya çelik kafes kullanılmadan, tamamen **donatısız monolitik kütle betondan** dökülmüş 21 devasa kemerden oluşuyor. Vadinin tabanındaki Finnan Nehri'nden 30 metre yukarıda süzülürken tren adeta havada asılı kalıyor.
 
 ![Glenfinnan Viyadüğü](content/routes/jacobite-steam-train/images/glenfinnan-viaduct.jpg)
 *21 kemerli Glenfinnan Viyadüğü'nden süzülen Jacobite ve uzakta pusuya yatan Loch Shiel.*
 
-### 3. Arisaig: Britanya'nın En Batı Ucu
-Glenfinnan'dan sonra tren vahşi meşe ormanları arasından geçerek Arisaig İstasyonu'na varıyor. Burası, Büyük Britanya ana karasındaki en batı demiryolu istasyonu unvanına sahip. İstasyon binasının ahşap sundurmasında asılı çiçekler ve serin okyanus rüzgarı, Atlantik kıyısına yaklaştığımızın ilk habercisi.
+### 3. Arisaig ve Morar'ın Gümüş Kumsalları
+Britanya ana karasındaki en batı demiryolu istasyonu Arisaig ve ardından 310 metrelik derinliğiyle Kelt efsanelerine konu olan Loch Morar...
 
-### 4. Morar ve Efsanelerin Beyaz Kumsalları
-Raylar Loch Morar kıyısını takip ederken manzara bir kez daha kabuk değiştiriyor. 310 metrelik derinliğiyle Britanya'nın en derin tatlı su gölü olan Morar, yerel Kelt efsanelerinde *"Morag"* adında göl canavarına ev sahipliği yapar. Hemen birkaç dakika sonra ise masmavi Atlantik dalgalarının vurduğu, bembeyaz kumlarıyla ünlü **Silver Sands of Morar** (Morar Gümüş Kumsalları) selamlıyor bizi.
-
-### 5. Son Durak: Mallaig'in İsli ve Tuzlu Limanı
-Son tünelden çıkıp kıyıya indiğimizde önümüzde Mallaig Limanı açıldı. Burası yolun sonu; demir rayların bittiği ve açık deniz feribotlarının Skye Adası'na yolcu taşıdığı otantik bir balıkçı kasabası.
-
-İstasyonda perona indiğimde yüzüme çarpan tuzlu okyanus meltemi ve lokomotif tekerleklerinin altından tüten hafif buhar, bu 67 kilometrelik epik yolculuğun en güzel vedasıydı.
+### 4. Son Durak: Mallaig Limanı
+Rayların bittiği, tütsülenmiş ringa balıklarının kokusu ve feribotların Skye Adası'na yolcu taşıdığı otantik Atlantik balıkçı kasabası.
 
 ![Mallaig Limanı Varış](content/routes/jacobite-steam-train/images/mallaig-harbour.jpg)
-*Yolculuğun son durağı: Atlantik kıyısındaki tarihi Mallaig balıkçı limanı.*
+*Yolculuğun son durağı: Atlantik kıyısındaki tarihi Mallaig balıkçı limanı.*`;
+
+const berninaMarkdownContent = `# Buzullardan Palmiyelere: Bernina Express ile Alplerin Kalbine Yolculuk
+
+> *"Sabah Chur'un serin vadisinde başladığınız yolculukta, önce 2253 metredeki buzulların fırtınasını buğulu camdan izler; birkaç saat sonra İtalya'nın Tirano kasabasında palmiyelerin altında espresso yudumlarsınız. Bernina, raylar üstünde dört mevsimin tek bir güne sığdığı bir Alp mucizesidir."*
 
 ---
 
-## 📜 Rayların Arkasındaki Tarih: "Bonnie Prince Charlie" ve İhanet Tepeleri
+## 🗂️ Rota Pasaportu
 
-Jacobite treni sadece adını bir pazarlama fikrinden almaz; doğrudan üzerinden geçtiği toprakların kanlı ve asil tarihini taşır.
-
-19 Ağustos 1745'te, sürgündeki Stuart Hanedanı'nın genç prensi **Charles Edward Stuart** (halk arasındaki adıyla *Bonnie Prince Charlie*), İskoç tacını geri almak için Fransa'dan gizlice yola çıkıp tam da viyadüğün gölgesindeki Glenfinnan kıyısına ayak bastı. Yanında sadece 7 yoldaşı vardı. Ancak İskoç klan liderleri Cameron ve MacDonald'lar gaydalar eşliğinde dağlardan inip sancağın altına girdiler. 1745 Jakobit İsyanı işte burada, Loch Shiel'in ucunda başladı.
-
-İsyan aylar sonra Culloden Ovası'nda trajik bir bozgunla sonuçlandı; klanlar dağıtıldı, ekose kilt giymek yasaklandı ve İskoçya Yaylaları asırlar sürecek bir sessizliğe gömüldü. Bugün trenle o vadiyi geçerken tepede tek başına göğe yükselen **Glenfinnan Anıtı**, o gün canını feda eden Highland savaşçılarının anısına hala nöbet tutmaktadır.
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Albula & Bernina Hatları (UNESCO Dünya Mirası) |
+| **Başlangıç - Bitiş:** | Chur (İsviçre) ➔ Tirano (İtalya) |
+| **Toplam Mesafe:** | 144 km (55 Tünel, 196 Köprü ve Viyadük) |
+| **Yolculuk Süresi:** | Yaklaşık 4 saat 15 dakika |
+| **Zirve Noktası:** | Ospizio Bernina (2,253 m rakım) |
+| **İdeal Koltuk:** | Chur'dan kalkışta **Sağ Taraf** (Viyadükler ve buzul manzarası) |
 
 ---
 
-## 🧭 Gezginin Heybesi: Sahadan Pratik Tüyolar
+## Peronda İlk Adım: İsviçre'nin En Eski Kentinden Zirvelere
 
-1. **Hangi Koltuğu Almalı?**
-   * Fort William'dan kalkışta **SOL TARAFTA (Left-hand side)** oturduğunuzdan emin olun. Glenfinnan Viyadüğü kavisini, lokomotifin dumanını ve Loch Shiel manzarasını en iyi bu açıdan izler ve fotoğraflarsınız. Dönüş yolunda ise bu kez deniz manzaraları sağ tarafta kalacaktır.
-2. **Fotoğrafçılık Tavsiyesi:**
-   * Pencereler eski tip açılır sürgülere sahiptir. Viyadüğe 5 dakika kala fotoğraf makinenizi hazırlayın; lokomotif sola kıvrılırken pencereden dışarı taşmayacak şekilde geniş açılı bir lensle (24-70mm) hem viyadük kemerlerini hem de gölü kadraja alın.
-3. **Mallaig'de 2 Saatlik Mola:**
-   * Tren Mallaig'de dönüşten önce yaklaşık 1.5 - 2 saat bekler. Bu sürede hemen limandaki geleneksel balıkçılara uğrayıp meşe odununda tütsülenmiş ringa balığı (*Mallaig Kippers*) ya da taze İskoç midyesi tatmadan dönmeyin.
-4. **Bilet Uyarısı:**
-   * Jacobite, özellikle yaz aylarında aylar öncesinden tükenir. Biletinizi West Coast Railways üzerinden en az 3-4 ay önceden rezerve edin.`;
+Chur İstasyonu'nun peronunda beni bekleyen parlak kırmızı panoramik vagonlar, tavanına kadar uzanan devasa pencereleriyle adeta gökyüzünü kompartımana davet ediyordu. Kondüktörün hareket işaretiyle tren sessizce süzülmeye başladığında, dar hatlı (1000 mm) Rhaetian Railway raylarının dişli mekanizması olmadan, saf sürtünmeyle yüzde 7'lik dik eğimleri nasıl tırmandığını hayranlıkla izledim.
+
+![Landwasser Viyadüğü](content/routes/bernina-express/images/landwasser-viaduct.jpg)
+*65 metre yükseklikteki Landwasser Viyadüğü'nden doğrudan dağın kalbindeki tünele giren kırmızı tren.*
+
+---
+
+## Durak Durak Alp Rüyası
+
+### 1. Landwasser Viyadüğü ve Uçurumun Kıyısı
+65 metre aşağıdaki nehir yatağından göğe yükselen beş kireçtaşı kemerin üzerinden geçerken altınızda hiçbir korkuluk veya toprak hissetmiyorsunuz; tren havada uçuyor ve viyadüğün bittiği noktada saniyeler içinde dimdik bir kaya duvarının içine oyulmuş tünele dalıyor.
+
+### 2. Ospizio Bernina: 2253 Metrede Donmuş Zaman
+Tırmanış devam ettikçe çam ormanları yerini çıplak kayalıklara ve donmuş göllere bıraktı. **Ospizio Bernina İstasyonu**'na vardığımızda rakım tam 2253 metreydi. Lago Bianco kıyısında bembeyaz Alp zirveleri nefes kesiciydi.
+
+### 3. Brusio Dairesel Viyadüğü: Mühendisliğin 360 Derecelik Valsı
+İsviçre sınırını geçip İtalya'ya doğru alçalırken, tren mühendislik tarihinin en zarif çözümüne yaklaştı: **Brusio Dairesel Viyadüğü**. Tren çok dik dağ yamacından inerken vadinin ortasına 360 derecelik dairesel bir taş viyadük inşa edilmiş.
+
+![Brusio Dairesel Viyadüğü](content/routes/bernina-express/images/brusio-spiral.jpg)
+*Mühendislik mucizesi: 360 derecelik Brusio dairesel viyadüğünden süzülen tren ve İtalyan vadisi.*
+
+### 4. Son Durak: Tirano'da Palmiyeler ve Espresso
+Dağ fırtınaları geride kalıp İtalyan sınırındaki Tirano'ya ulaştığımızda hava sıcaklığı 15 derece birden artmıştı. İstasyondan çıkıp meydandaki kafede otururken Alpler arkamda dev gibi yükseliyordu.`;
+
+const orientMarkdownContent = `# Efsanelerin ve Casusların Rotası: Doğu Ekspresi ile Paris'ten İstanbul'a
+
+> *"Kondüktörün frakındaki pirinç düğmeler, kristal kadehlerde çınlayan şampanya ve Paris'ten Boğaz'ın tuzlu sularına uzanan 3100 kilometrelik bir efsane... Orient Express bir ulaşım aracı değil; tarihin, entrikaların ve edebiyatın en şatafatlı sahnesidir."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Orijinal 1883 Orient Express Güzergahı |
+| **Başlangıç - Bitiş:** | Paris Gare de l'Est ➔ İstanbul Sirkeci Garı |
+| **Toplam Mesafe:** | ~3,100 km (Kıtalararası Lüks Rota) |
+| **Yolculuk Süresi:** | 5 Gün / 4 Gece |
+| **İkonik Vagon:** | 1920'ler Orijinal Lalique Kristalli 'Voiture-Restaurant' |
+| **Tarihi Olay:** | 1929 Çerkezköy Kar Mahsur Kalışı & Agatha Christie Efsanesi |
+
+---
+
+## Paris'te Vals: Gare de l'Est'ten Uğurlanış
+
+Paris'in tarihi Doğu Garı'nda perona adım attığımda, zaman 1920'lerde donup kalmış gibiydi. Gece mavisi ve altın sarısı işlemeli vagonların önünde beyaz eldivenli görevliler yolcuları selamlıyordu. Kompartımanıma girdiğimde cilalı tik ağacı kaplamalar, Fransız Lalique kristal aplikler ve pelüş kadife koltuklar beni karşıladı.
+
+![Orient Express Vagon İçi](content/routes/orient-express/images/orient-express-carriage.jpg)
+*1920'lerin orijinal maun panelleri, kristal aplikleri ve nostaljik Art Deco kompartıman zarafeti.*
+
+---
+
+## Durak Durak Kıtaları Aşan Masal
+
+### 1. Simplon Tüneli ve Venedik Suları
+İsviçre Alpleri'ni delen 19.8 kilometrelik devasa Simplon Tüneli'nden geçtikten sonra tren Venedik lagünlerinin kıyısına yanaştı; Santa Lucia İstasyonu'nda gondolların gölgesinde verilen kısa bir mola, yolculuğun en romantik duraklarından biriydi.
+
+### 2. Balkanların Gizemi ve Kar Fırtınaları
+Venedik geride kalıp tren Budapeşte ve Bükreş ovalarına süzülürken kompartıman hayatı kendi küçük dünyasını kurmuştu. Akşam yemeğinde gümüş servislerle sunulan Fransız mutfağı ve piyano vagonundan yükselen caz ezgileri unutulmazdı.
+
+### 3. Tarihi Hadise: 1929 Çerkezköy Mahsur Kalışı
+1929 kışında Orient Express, İstanbul'a yalnızca 100 kilometre kala Çerkezköy yakınlarında devasa bir kar fırtınasına yakalanıp 6 gün boyunca mahsur kalmıştı. Eksi 25 derecede yolcuların hayatta kalma mücadelesi Agatha Christie'ye ilham verdi.
+
+### 4. Şarkın Kapısı: Sirkeci Garı'nda Görkemli Varış
+Beş gün süren masal, Boğaz'ın kokusu ve minarelerin silueti belirdiğinde sona yaklaştı. Tren Sirkeci Garı'nın görkemli kemerleri altına süzüldüğünde perondaki fenerler geceyi aydınlatıyordu.
+
+![Sirkeci Garı Varış](content/routes/orient-express/images/sirkeci-arrival.jpg)
+*Orient Express'in son durağı: Boğaz'ın kıyısındaki tarihi İstanbul Sirkeci Garı.*`;
 
 const routesData = [
   {
@@ -117,14 +171,17 @@ const routesData = [
     country: "İsviçre & İtalya",
     category: "Dağ Manzarası",
     tags: ["Dağ Manzarası", "Tarihi Hat"],
-    heroImage: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80",
+    heroImage: "content/routes/bernina-express/images/landwasser-viaduct.jpg",
+    fallbackHero: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80",
     excerpt: "Chur'dan Tirano'ya 55 tünel ve 196 köprü aşarak 2253 metre rakımlı Ospizio Bernina zirvesine tırmanan UNESCO tescilli Alp rüyası.",
     distance: "144 km",
     duration: "4s 15dk",
-    locomotive: "Rhaetian Railway Panoramik",
-    markdownPath: "",
+    locomotive: "Allegra Panoramik Elektrikli Tren",
+    markdownPath: "content/routes/bernina-express/index.md",
+    content: berninaMarkdownContent,
     coordinates: [
       { name: "Chur", lat: 46.8508, lng: 9.5320, desc: "İsviçre'nin en eski kenti" },
+      { name: "Landwasser Viyadüğü", lat: 46.6806, lng: 9.7042, desc: "65m yüksekliğinde kireçtaşı viyadük" },
       { name: "Ospizio Bernina", lat: 46.4103, lng: 10.0194, desc: "2253m zirve ve donmuş buzul gölü" },
       { name: "Brusio Viyadüğü", lat: 46.2575, lng: 10.1265, desc: "Dairesel 360 derece viyadük mucizesi" },
       { name: "Tirano", lat: 46.2162, lng: 10.1740, desc: "İtalyan palmiyeleri ve espresso kokulu varış" }
@@ -137,15 +194,18 @@ const routesData = [
     country: "Fransa - İtalya - Türkiye",
     category: "Tarihi Hat",
     tags: ["Tarihi Hat", "Lüks Tren"],
-    heroImage: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
+    heroImage: "content/routes/orient-express/images/orient-express-carriage.jpg",
+    fallbackHero: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
     excerpt: "Paris'ten Sirkeci Garı'na uzanan, Agatha Christie'nin cinayet romanlarına ve Soğuk Savaş gizemlerine beşiklik etmiş demir yolu efsanesi.",
     distance: "3,100 km",
     duration: "5 gün",
-    locomotive: "Vintage Art Deco Vagonlar",
-    markdownPath: "",
+    locomotive: "1920'ler CIWL Art Deco Nostalji Vagonları",
+    markdownPath: "content/routes/orient-express/index.md",
+    content: orientMarkdownContent,
     coordinates: [
       { name: "Paris Gare de l'Est", lat: 48.8768, lng: 2.3592, desc: "Şampanya ve veda valsı" },
       { name: "Venedik Santa Lucia", lat: 45.4411, lng: 12.3211, desc: "Lagün kıyısında romantik durak" },
+      { name: "Simplon Tüneli", lat: 46.3211, lng: 8.0125, desc: "19.8 km Alpleri delen tünel" },
       { name: "İstanbul Sirkeci Garı", lat: 41.0150, lng: 28.9778, desc: "Şarkın kapısı, Boğaz'a varış" }
     ]
   }
@@ -170,7 +230,6 @@ function setupAdminVisibility() {
   }
 
   // Gizli Yönetici Erişimi (Site Sahibi için):
-  // 1. Klavyeden Ctrl + Shift + A (veya Cmd + Shift + A) tuşlarına basıldığında yönetim paneline gider.
   window.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
       e.preventDefault();
@@ -178,7 +237,6 @@ function setupAdminVisibility() {
     }
   });
 
-  // 2. Tren logosuna 3 kez arka arkaya tıklandığında yönetim paneline yönlendirir.
   let logoClickCount = 0;
   let logoClickTimer = null;
   const trainIcon = document.querySelector(".logo-area");
@@ -239,41 +297,35 @@ function setupFilterListeners() {
   });
 }
 
-// Interactive Leaflet Map (%100 Ücretsiz & Açık Kaynak: OpenStreetMap + OpenRailwayMap)
+// Interactive Leaflet Map
 function initMap() {
   const mapElement = document.getElementById("rail-map");
   if (!mapElement) return;
 
-  // Center around Scottish Highlands
   mapInstance = L.map("rail-map", {
-    center: [56.9, -5.45],
-    zoom: 8,
-    scrollWheelZoom: false // prevents accidental scroll trap on page
+    center: [52.0, 5.0],
+    zoom: 5,
+    scrollWheelZoom: false
   });
 
-  // 1. %100 ÜCRETSİZ STANDART HARİTA: OpenStreetMap (API anahtarsız, sıfır maliyet)
   const osmStandard = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> Katkıda Bulunanlar'
   });
 
-  // 2. %100 ÜCRETSİZ TOPOGRAFİK DAĞ HARİTASI: OpenTopoMap (Alpler ve dağ rotaları için mükemmel)
   const openTopo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
     maxZoom: 17,
     attribution: 'Harita: &copy; <a href="https://opentopomap.org" target="_blank">OpenTopoMap</a>'
   });
 
-  // 3. %100 ÜCRETSİZ DEMİRYOLU KATMANI: OpenRailwayMap (Tüm dünyadaki gerçek tren rayları ve hatları)
   const railwayLayer = L.tileLayer("https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: 'Demiryolu Ağı: &copy; <a href="https://www.openrailwaymap.org" target="_blank">OpenRailwayMap</a>'
   });
 
-  // Varsayılan olarak OpenStreetMap ve OpenRailwayMap ray katmanını aç
   osmStandard.addTo(mapInstance);
   railwayLayer.addTo(mapInstance);
 
-  // Kullanıcı için Harita Katman Seçici Kontrolü
   const baseMaps = {
     "🗺️ OpenStreetMap (Standart)": osmStandard,
     "🏔️ OpenTopoMap (Dağ & Arazi)": openTopo
@@ -285,17 +337,17 @@ function initMap() {
 
   L.control.layers(baseMaps, overlayMaps, { position: "topright" }).addTo(mapInstance);
 
-  // Plot all stops for Jacobite
-  const jacobite = routesData.find(r => r.id === "jacobite-steam-train");
-  if (jacobite && jacobite.coordinates) {
+  // Plot all stops for all routes
+  routesData.forEach(route => {
+    if (!route.coordinates) return;
     const polylineCoords = [];
 
-    jacobite.coordinates.forEach(point => {
+    route.coordinates.forEach(point => {
       polylineCoords.push([point.lat, point.lng]);
 
       const marker = L.circleMarker([point.lat, point.lng], {
-        radius: 8,
-        fillColor: "#c8963e",
+        radius: 7,
+        fillColor: route.id === "jacobite-steam-train" ? "#c8963e" : (route.id === "bernina-express" ? "#dc2626" : "#2563eb"),
         color: "#153230",
         weight: 2,
         opacity: 1,
@@ -306,27 +358,24 @@ function initMap() {
         <div style="font-family: 'Plus Jakarta Sans', sans-serif;">
           <strong style="color: #153230; font-size: 14px;">${point.name}</strong>
           <p style="margin: 4px 0 0; font-size: 12px; color: #5e6d75;">${point.desc}</p>
+          <button style="margin-top: 6px; padding: 4px 8px; font-size: 11px; background: #c8963e; color: #fff; border: none; border-radius: 4px; cursor: pointer;" onclick="openRouteArticle('${route.id}')">Yazıyı Oku</button>
         </div>
       `);
     });
 
-    const trainLine = L.polyline(polylineCoords, {
-      color: "#b18331",
-      weight: 5,
-      dashArray: "10, 8",
-      opacity: 0.9
+    L.polyline(polylineCoords, {
+      color: route.id === "jacobite-steam-train" ? "#c8963e" : (route.id === "bernina-express" ? "#dc2626" : "#2563eb"),
+      weight: 4,
+      dashArray: "8, 6",
+      opacity: 0.85
     }).addTo(mapInstance);
-
-    trainLine.bindPopup("<strong>The Jacobite Rota Hattı</strong><br>Fort William ➔ Mallaig");
-  }
+  });
 }
 
-// Built-in Markdown renderer with fallback
 function parseMarkdownSafe(mdText) {
   if (window.marked && typeof window.marked.parse === "function") {
     return window.marked.parse(mdText);
   }
-  // Simple regex fallback if marked CDN is offline
   return mdText
     .replace(/^# (.*$)/gim, '<h1>$1</h1>')
     .replace(/^## (.*$)/gim, '<h2>$1</h2>')
@@ -349,25 +398,21 @@ async function openRouteArticle(routeId) {
 
   let loadedContent = route.content || "";
 
-  // Attempt fetch if markdownPath is provided
   if (route.markdownPath) {
     try {
       const response = await fetch(route.markdownPath);
       if (response.ok) {
         let text = await response.text();
-        // Check that response is actually markdown and not a 404 HTML page
         if (!text.includes("<!DOCTYPE") && !text.includes("<html")) {
-          // Strip YAML frontmatter if present
           loadedContent = text.replace(/^---[\s\S]*?---\n/, "");
         }
       }
     } catch (err) {
-      console.warn("Fetch failed, using embedded fallback content:", err);
+      console.warn("Using embedded fallback:", err);
     }
   }
 
   if (loadedContent) {
-    // Resolve relative images correctly
     let processedContent = loadedContent.replace(/!\[(.*?)\]\(images\//g, `![$1](content/routes/${routeId}/images/`);
     body.innerHTML = parseMarkdownSafe(processedContent);
   } else {
@@ -375,7 +420,7 @@ async function openRouteArticle(routeId) {
       <div style="text-align: center; padding: 40px 0;">
         <span style="font-size: 3rem;">🚂</span>
         <h1 style="font-family: 'Playfair Display', serif; margin-top: 16px;">${route.title}</h1>
-        <p style="color: #5e6d75; max-width: 600px; margin: 16px auto;">Bu rota günlüğü şu anda AI Gezginimiz tarafından araştırılmakta ve fotoğrafları hazırlanmaktadır. Çok yakında yayında!</p>
+        <p style="color: #5e6d75; max-width: 600px; margin: 16px auto;">Bu rota günlüğü hazırlanıyor. Çok yakında yayında!</p>
       </div>
     `;
   }
@@ -384,7 +429,6 @@ async function openRouteArticle(routeId) {
   document.body.style.overflow = "hidden";
 }
 
-// Close Modal
 function closeArticleModal() {
   const modal = document.getElementById("article-modal");
   if (modal) {
@@ -393,7 +437,6 @@ function closeArticleModal() {
   }
 }
 
-// Modal Backdrop Click
 window.onclick = function(event) {
   const articleModal = document.getElementById("article-modal");
   const aboutModal = document.getElementById("about-modal");
