@@ -145,11 +145,14 @@
             <h2>Yazılara Göre Görsel Galerisi</h2>
             <p class="pane-desc">Her gezi yazısına ait fotoğrafları inceleyin, yenilerini yükleyin veya yazıya ekleyin.</p>
           </div>
-          <div class="pane-actions">
+          <div class="pane-actions" style="display: flex; gap: 8px;">
             <label class="btn btn-secondary-sm upload-btn">
               ➕ Bu Yazıya Fotoğraf Yükle
               <input type="file" id="image-upload-input" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
             </label>
+            <button type="button" class="btn btn-secondary-sm" onclick="deleteAllImagesForActiveRoute()" style="background: rgba(220, 38, 38, 0.08); border-color: rgba(220, 38, 38, 0.3); color: #dc2626;" title="Aktif seçili rotanın tüm fotoğraflarını temizler">
+              🗑️ Tüm Görselleri Sil
+            </button>
           </div>
         </div>
 
@@ -261,6 +264,27 @@
               <h3>GitHub Depo Bilgisi</h3>
               <p>Yayınlanacak GitHub deposu adı veya adresi.</p>
               <input type="text" id="github-repo" class="admin-input" placeholder="Örn: rkiritoglu/LocoMotion">
+            </div>
+          </div>
+
+          <!-- Veri & Önbellek Sıfırlama Yönetimi -->
+          <div class="setting-card reset-card" style="border-left: 4px solid #dc2626; grid-column: 1 / -1; margin-top: 15px;">
+            <div class="setting-icon">🧹</div>
+            <div class="setting-body">
+              <h3 style="color: #dc2626;">Veri Senkronizasyonu & Sıfırlama Araçları</h3>
+              <p>Arka plandaki veriler ile ekrandaki görüntü arasında tutarsızlık yaşadığınızda veya temiz bir başlangıç yapmak istediğinizde aşağıdaki seçenekleri kullanabilirsiniz:</p>
+              
+              <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+                <button type="button" class="btn btn-secondary-sm" onclick="clearAllLocalCacheAndReload()" style="background: #fff; border: 1px solid #d1c7b7; color: #1e293b; padding: 10px 16px; font-weight: 600;">
+                  🧹 Tarayıcı Önbelleğini & Taslakları Temizle
+                </button>
+                <button type="button" class="btn btn-secondary-sm" onclick="deleteAllImagesForActiveRoute()" style="background: #fff; border: 1px solid #f87171; color: #dc2626; padding: 10px 16px; font-weight: 600;">
+                  🗑️ Aktif Rotanın Görsellerini Sil
+                </button>
+                <button type="button" class="btn btn-secondary-sm" onclick="resetAllSystemData()" style="background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 10px 16px; font-weight: 700;">
+                  🔄 Fabrika Ayarlarına Sıfırla (Tam Temizlik)
+                </button>
+              </div>
             </div>
           </div>
         </div>

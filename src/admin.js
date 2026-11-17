@@ -249,6 +249,60 @@ let routesList = [
     isPublished: true,
     content: orientMarkdownContent,
     images: ["orient-express-carriage.jpg", "sirkeci-arrival.jpg"]
+  },
+  {
+    id: "flam-railway",
+    title: "Fiyortların Zirvesine: Flåm Demiryolu (Norveç)",
+    country: "Norveç Fiyortları",
+    distTime: "20.2 km • 1 Saat",
+    engine: "El 17 Özel Çift Frenli Dağ Lokomotifi",
+    isPublished: true,
+    images: ["flam-fjord-train.jpg", "kjosfossen-waterfall.jpg"]
+  },
+  {
+    id: "tren-a-las-nubes",
+    title: "Bulutların Treni: Tren a las Nubes (Arjantin)",
+    country: "And Dağları, Arjantin",
+    distTime: "217 km • 8 Saat",
+    engine: "Yüksek İrtifa Dizel Lokomotifi",
+    isPublished: true,
+    images: ["andes-valley.jpg", "polvorilla-bridge.jpg"]
+  },
+  {
+    id: "kandy-ella",
+    title: "Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella (Sri Lanka)",
+    country: "Seylan Tepeleri, Sri Lanka",
+    distTime: "140 km • 6 Saat",
+    engine: "Class S12 Mavi Dizel Lokomotif",
+    isPublished: true,
+    images: ["blue-train-tea-fields.jpg", "nine-arches-bridge.jpg"]
+  },
+  {
+    id: "sunrise-izumo",
+    title: "Gece Güneşi: Sunrise Express (Japonya)",
+    country: "Honshu & Shikoku, Japonya",
+    distTime: "953 km • 12 Saat",
+    engine: "285 Series EMU Sunrise Express",
+    isPublished: true,
+    images: ["tokyo-night-departure.jpg", "fuji-morning-view.jpg"]
+  },
+  {
+    id: "rovos-rail",
+    title: "Afrika'nın Gururu: Rovos Rail Safari Ekspresi",
+    country: "Güney Afrika",
+    distTime: "1,600 km • 3 Gün",
+    engine: "Klasik Buharlı / Dizel Safari Lokomotifi",
+    isPublished: true,
+    images: ["rovos-safari-train.jpg", "karoo-sunset.jpg"]
+  },
+  {
+    id: "rocky-mountaineer",
+    title: "Vahşi Batının Zirvesi: Rocky Mountaineer (Kanada)",
+    country: "Kanada Kayalık Dağları",
+    distTime: "900 km • 2 Gün",
+    engine: "GP40-2W Dizel Lokomotif",
+    isPublished: true,
+    images: ["rocky-mountains.jpg", "canadian-river-canyon.jpg"]
   }
 ];
 
@@ -394,15 +448,19 @@ async function loadRouteForEditing() {
 
   let rawMarkdown = "";
 
-  // 1. Check local storage, but ignore stale short placeholders
-  const savedLocally = localStorage.getItem(`locomotion_md_${currentRouteId}`);
-  if (savedLocally && savedLocally.length > 350 && !savedLocally.includes("düzenlenmeye hazır")) {
-    rawMarkdown = savedLocally;
-  } else if (isLocalhost) {
-    // 2. Try backend
+  // 1. Yerel sunucudaki disk dosyasını her zaman birincil doğruluk kaynağı olarak al
+  if (isLocalhost) {
     const res = await safeFetchJson(`/api/routes/${currentRouteId}`);
     if (res.ok && res.data && res.data.markdown && res.data.markdown.length > 200) {
       rawMarkdown = res.data.markdown;
+    }
+  }
+
+  // 2. Eğer diskten alınamadıysa tarayıcı önbelleğine bak
+  if (!rawMarkdown) {
+    const savedLocally = localStorage.getItem(`locomotion_md_${currentRouteId}`);
+    if (savedLocally && savedLocally.length > 350 && !savedLocally.includes("düzenlenmeye hazır")) {
+      rawMarkdown = savedLocally;
     }
   }
 
@@ -823,6 +881,66 @@ async function deleteImage(filename) {
   }
   showAlert(`Görsel listeden kaldırıldı: ${filename}`);
   loadImagesForRoute();
+}
+
+async function deleteAllImagesForActiveRoute() {
+  const currentRouteMeta = routesList.find(r => r.id === imageActiveRouteId) || routesList[0];
+  if (!confirm(`'${currentRouteMeta.title}' rotasına ait TÜM görseller silinsin mi? Bu işlem geri alınamaz.`)) return;
+
+  if (isLocalhost) {
+    const res = await safeFetchJson(`/api/routes/${imageActiveRouteId}/images`, {
+      method: "DELETE"
+    });
+    if (res.ok) {
+      showAlert(`🗑️ '${currentRouteMeta.title}' rotasının tüm görselleri başarıyla temizlendi.`);
+      loadImagesForRoute();
+      return;
+    }
+  }
+  showAlert(`Görseller temizlendi.`);
+  loadImagesForRoute();
+}
+
+function clearAllLocalCacheAndReload() {
+  if (!confirm("Tarayıcınızdaki tüm geçici taslaklar ve önbellek temizlenecek, diskteki orijinal veriler yüklenecektir. Emin misiniz?")) return;
+
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith("locomotion_")) {
+      keysToRemove.push(key);
+    }
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+  sessionStorage.clear();
+
+  showAlert("🧹 Tüm tarayıcı önbelleği başarıyla temizlendi! Sayfa disk verileriyle yenileniyor...", "success");
+  setTimeout(() => window.location.reload(), 1000);
+}
+
+async function resetAllSystemData() {
+  if (!confirm("⚠️ DİKKAT: Tüm sistem fabrika ayarlarına döndürülecek, tarayıcı önbelleği ve geçici veriler tamamen sıfırlanacaktır. Devam etmek istiyor musunuz?")) return;
+
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith("locomotion_")) {
+      keysToRemove.push(key);
+    }
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+  sessionStorage.clear();
+
+  if (isLocalhost) {
+    await safeFetchJson("/api/reset", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reset: true })
+    });
+  }
+
+  showAlert("🔄 Tüm sistem fabrika ayarlarına sıfırlandı! Sayfa yenileniyor...", "success");
+  setTimeout(() => window.location.reload(), 1200);
 }
 
 // 3. AI TOPIC SUGGESTER & CURATED INSPIRATIONS

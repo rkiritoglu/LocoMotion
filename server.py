@@ -326,6 +326,11 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({"success": False, "error": str(e), "logs": logs}, 500)
             return
 
+        elif path == "/api/reset":
+            write_json_file(SUGGESTIONS_FILE, {"suggestions": []})
+            self.send_json({"success": True, "message": "Sistem verileri ve öneri havuzu başarıyla sıfırlandı."})
+            return
+
         self.send_json({"error": "Endpoint not found"}, 404)
 
     def do_DELETE(self):
@@ -342,6 +347,19 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({"success": True, "message": f"{filename} deleted"})
             else:
                 self.send_json({"error": "Image not found"}, 404)
+            return
+
+        elif path.startswith("/api/routes/") and path.endswith("/images"):
+            parts = path.split("/")
+            route_id = parts[3]
+            img_dir = ROUTES_DIR / route_id / "images"
+            deleted_count = 0
+            if img_dir.exists():
+                for f in img_dir.iterdir():
+                    if f.is_file():
+                        f.unlink()
+                        deleted_count += 1
+            self.send_json({"success": True, "deleted_count": deleted_count, "message": f"{deleted_count} görsel silindi"})
             return
 
         elif path.startswith("/api/suggestions/"):
