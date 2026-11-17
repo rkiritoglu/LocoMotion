@@ -312,6 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateEnvironmentBadge();
   loadSavedCustomRoutes();
   setupRouteSelectors();
+  initCuratedTopics();
   loadRouteForEditing();
   renderCuratedRoutes();
   renderImageRoutePills();
@@ -319,6 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadApiSettings();
   loadGitStatus();
   loadSuggestions();
+  setupClipboardPasteForStudio();
 
   const editor = document.getElementById("visual-editor");
   if (editor) {
@@ -525,6 +527,7 @@ async function loadRouteForEditing() {
           this.src = "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800";
         };
       });
+      setupEditorImageInteractions();
     }
   } else if (editor) {
     generateAiDraftForCurrentRoute();
@@ -613,6 +616,7 @@ function generateAiDraftForCurrentRoute() {
 
   if (editor) {
     editor.innerHTML = detailedDraft;
+    setupEditorImageInteractions();
     updateCharCount();
     showAlert(`✨ '${title}' için detaylı ve zengin makale taslağı başarıyla oluşturuldu!`);
   }
@@ -645,12 +649,134 @@ function insertHorizontalRule() {
   updateCharCount();
 }
 
-function promptInsertImage() {
-  const url = prompt("Eklemek istediğiniz görselin yolu veya adresi:", `content/routes/${currentRouteId}/images/landwasser-viaduct.jpg`);
-  if (url) {
-    document.execCommand("insertImage", false, url);
-    updateCharCount();
+let editorTargetImageToReplace = null;
+let editorInsertMode = "append"; // "marker", "replace", "append"
+
+function openStudioForInsertionAtCursor() {
+  const editor = document.getElementById("visual-editor");
+  if (!editor) return;
+
+  // Remove any leftover target markers
+  const existingMarker = document.getElementById("editor-image-insert-target");
+  if (existingMarker) existingMarker.remove();
+
+  // Create new marker
+  const marker = document.createElement("div");
+  marker.id = "editor-image-insert-target";
+  marker.className = "image-insert-target-marker";
+  marker.setAttribute("contenteditable", "false");
+  marker.innerHTML = `📍 [Görsel Stüdyosu'nda Üretilecek Fotoğraf Buraya Eklenecek...]`;
+
+  // Try to insert at selection
+  const sel = window.getSelection();
+  let inserted = false;
+  if (sel && sel.rangeCount > 0) {
+    const range = sel.getRangeAt(0);
+    if (editor.contains(range.commonAncestorContainer)) {
+      range.collapse(false);
+      range.insertNode(marker);
+      inserted = true;
+    }
   }
+
+  if (!inserted) {
+    editor.appendChild(marker);
+  }
+
+  editorInsertMode = "marker";
+  editorTargetImageToReplace = null;
+
+  openAiImageStudioModal();
+
+  const targetBadge = document.getElementById("ai-gen-target-location-badge");
+  if (targetBadge) {
+    targetBadge.innerText = "📍 İşaretli Alana Eklenecek";
+    targetBadge.className = "badge-status active";
+  }
+}
+
+function setupEditorImageInteractions() {
+  const editor = document.getElementById("visual-editor");
+  if (!editor) return;
+
+  const images = editor.querySelectorAll("img");
+  images.forEach(img => {
+    let card = img.closest(".editor-img-card");
+    if (!card) {
+      card = document.createElement("div");
+      card.className = "editor-img-card";
+      card.setAttribute("contenteditable", "false");
+
+      let captionText = img.getAttribute("alt") || "Demiryolu ve doğa manzarası.";
+      let next = img.nextElementSibling;
+      let captionElement = null;
+
+      if (next && (next.tagName.toLowerCase() === "em" || (next.tagName.toLowerCase() === "p" && next.querySelector("em")))) {
+        captionText = next.innerText.trim();
+        captionElement = next;
+      }
+
+      img.parentNode.insertBefore(card, img);
+      card.appendChild(img);
+
+      const toolbar = document.createElement("div");
+      toolbar.className = "editor-img-toolbar";
+      toolbar.innerHTML = `
+        <button type="button" class="img-bar-btn del-btn" onclick="deleteEditorImage(this)">🗑️ Resmi Sil</button>
+        <button type="button" class="img-bar-btn replace-btn" onclick="replaceEditorImage(this)">🎨 Görsel Stüdyosunda Değiştir</button>
+      `;
+      card.appendChild(toolbar);
+
+      const captionP = document.createElement("p");
+      captionP.className = "editor-img-caption";
+      captionP.setAttribute("contenteditable", "true");
+      captionP.innerHTML = `<em>${captionText}</em>`;
+      card.appendChild(captionP);
+
+      if (captionElement && captionElement.parentNode) {
+        captionElement.remove();
+      }
+    }
+  });
+}
+
+function deleteEditorImage(buttonOrElement) {
+  const card = buttonOrElement.closest(".editor-img-card") || buttonOrElement.closest("img");
+  if (!card) return;
+
+  if (confirm("Bu fotoğrafı gezi yazısından silmek istediğinize emin misiniz?")) {
+    card.remove();
+    updateCharCount();
+    showAlert("🗑️ Görsel yazıdan silindi.");
+  }
+}
+
+function replaceEditorImage(buttonOrElement) {
+  const card = buttonOrElement.closest(".editor-img-card");
+  if (!card) return;
+
+  editorTargetImageToReplace = card;
+  editorInsertMode = "replace";
+
+  const img = card.querySelector("img");
+  const alt = img ? img.getAttribute("alt") : "";
+
+  openAiImageStudioModal();
+
+  const targetBadge = document.getElementById("ai-gen-target-location-badge");
+  if (targetBadge) {
+    targetBadge.innerText = "🔄 Seçilen Görselin Yerine";
+    targetBadge.className = "badge-status active";
+  }
+
+  const promptInput = document.getElementById("ai-gen-prompt");
+  if (promptInput && alt) {
+    promptInput.value = `${alt}, cinematic 35mm photography, high detail railway`;
+  }
+}
+
+function promptInsertImage() {
+  openStudioForInsertionAtCursor();
 }
 
 function htmlToMarkdown(container) {
@@ -659,6 +785,11 @@ function htmlToMarkdown(container) {
     if (node.nodeType !== Node.ELEMENT_NODE) return "";
 
     const tag = node.tagName.toLowerCase();
+    if (node.classList && (node.classList.contains("editor-img-toolbar") || node.classList.contains("image-insert-target-marker"))) {
+      return "";
+    }
+    if (tag === "button") return "";
+
     const children = Array.from(node.childNodes).map(processNode).join("");
 
     switch (tag) {
@@ -678,6 +809,14 @@ function htmlToMarkdown(container) {
       case "img":
         const alt = node.getAttribute("alt") || "Görsel";
         let src = node.getAttribute("src") || "";
+        return `\n\n![${alt}](${src})\n\n`;
+      case "table": return `\n\n${node.outerHTML}\n\n`;
+      default: return children;
+    }
+  }
+
+  return processNode(container).replace(/\n{3,}/g, "\n\n").trim();
+}
         return `\n\n![${alt}](${src})\n\n`;
       case "table": return `\n\n${node.outerHTML}\n\n`;
       default: return children;
@@ -883,24 +1022,6 @@ async function deleteImage(filename) {
   loadImagesForRoute();
 }
 
-async function deleteAllImagesForActiveRoute() {
-  const currentRouteMeta = routesList.find(r => r.id === imageActiveRouteId) || routesList[0];
-  if (!confirm(`'${currentRouteMeta.title}' rotasına ait TÜM görseller silinsin mi? Bu işlem geri alınamaz.`)) return;
-
-  if (isLocalhost) {
-    const res = await safeFetchJson(`/api/routes/${imageActiveRouteId}/images`, {
-      method: "DELETE"
-    });
-    if (res.ok) {
-      showAlert(`🗑️ '${currentRouteMeta.title}' rotasının tüm görselleri başarıyla temizlendi.`);
-      loadImagesForRoute();
-      return;
-    }
-  }
-  showAlert(`Görseller temizlendi.`);
-  loadImagesForRoute();
-}
-
 function clearAllLocalCacheAndReload() {
   if (!confirm("Tarayıcınızdaki tüm geçici taslaklar ve önbellek temizlenecek, diskteki orijinal veriler yüklenecektir. Emin misiniz?")) return;
 
@@ -944,12 +1065,51 @@ async function resetAllSystemData() {
 }
 
 // 3. AI TOPIC SUGGESTER & CURATED INSPIRATIONS
+let curatedTopicsList = [];
+
+function initCuratedTopics() {
+  try {
+    const saved = localStorage.getItem("locomotion_curated_topics");
+    if (saved) {
+      curatedTopicsList = JSON.parse(saved);
+    }
+  } catch (e) {}
+
+  if (!curatedTopicsList || curatedTopicsList.length === 0) {
+    curatedTopicsList = [...aiCuratedDatabase];
+    try {
+      localStorage.setItem("locomotion_curated_topics", JSON.stringify(curatedTopicsList));
+    } catch (e) {}
+  }
+}
+
 function renderCuratedRoutes() {
   const container = document.getElementById("curated-routes-grid");
   if (!container) return;
 
-  container.innerHTML = aiCuratedDatabase.map(route => `
+  if (curatedTopicsList.length === 0) {
+    initCuratedTopics();
+  }
+
+  if (curatedTopicsList.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 36px 20px; background: #fff; border-radius: 12px; border: 2px dashed #cbd5e1;">
+        <span style="font-size: 2.2rem; display: block; margin-bottom: 8px;">🚂</span>
+        <strong style="color: #1e293b; font-size: 1rem;">Tüm konular temizlendi</strong>
+        <p style="color: #64748b; font-size: 0.88rem; margin: 6px 0 16px 0;">Yeni rotalar keşfetmek için yukarıdaki yapay zeka butonunu kullanabilirsiniz.</p>
+        <button type="button" class="btn btn-primary" onclick="requestAiNewTopics()" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none; padding: 10px 18px;">
+          ✨ Yapay Zekadan Yeni Konular Öner (Üret)
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = curatedTopicsList.map(route => `
     <div class="curated-card">
+      <button type="button" class="btn-curated-delete" onclick="deleteCuratedTopic('${route.id}')" title="Bu konuyu listeden sil">
+        🗑️ Sil
+      </button>
       <div>
         <div class="curated-badge-row">
           <span class="curated-region">📍 ${route.region}</span>
@@ -965,8 +1125,98 @@ function renderCuratedRoutes() {
   `).join("");
 }
 
+function deleteCuratedTopic(curatedId) {
+  if (!confirm("Bu konuyu keşif listesinden silmek istediğinize emin misiniz?")) return;
+
+  curatedTopicsList = curatedTopicsList.filter(r => r.id !== curatedId);
+  try {
+    localStorage.setItem("locomotion_curated_topics", JSON.stringify(curatedTopicsList));
+  } catch (e) {}
+
+  renderCuratedRoutes();
+  showAlert("🗑️ Konu keşif listesinden silindi.");
+}
+
+async function requestAiNewTopics() {
+  showAlert("🧠 Yapay zeka dünya demiryollarını tarıyor ve yeni ikonik rotalar keşfediyor...", "info");
+
+  let newTopics = [];
+
+  if (isLocalhost) {
+    try {
+      const res = await safeFetchJson("/api/topics/generate");
+      if (res.ok && res.data && res.data.topics && res.data.topics.length > 0) {
+        newTopics = res.data.topics;
+      }
+    } catch (e) {
+      console.warn("Topic API error:", e);
+    }
+  }
+
+  if (newTopics.length === 0) {
+    const pool = [
+      {
+        id: `glacier-express-${Date.now()}`,
+        title: "Alplerin En Yavaş Hızlı Treni: Glacier Express (İsviçre)",
+        region: "İsviçre Alpleri",
+        tag: "Buzul & Viyadük",
+        desc: "Zermatt'tan St. Moritz'e uzanan 8 saatlik panoramik masal; 291 köprü, 91 tünel ve 2033 metre rakımlı Oberalp Geçidi'ni aşan cam tavanlı İsviçre mühendislik zaferi.",
+        distTime: "291 km • 8 Saat",
+        engine: "Ge 4/4 III Panoramik Elektrikli Tren",
+        notes: "Oberalp Geçidi zirve gölü, Rhine Kanyonu ve Landwasser Viyadüğü."
+      },
+      {
+        id: `hiram-bingham-${Date.now()}`,
+        title: "İnka Gizemine Yolculuk: Belmond Hiram Bingham (Peru)",
+        region: "Kutsal Vadi & And Dağları, Peru",
+        tag: "Antik Medeniyet",
+        desc: "Cusco'dan Urubamba Nehri vadisi boyunca kayıp İnka kenti Machu Picchu'ya uzanan, 1920'lerin Pullman zarafeti ve canlı Peru müziği eşliğinde baş döndürücü tren serüveni.",
+        distTime: "92 km • 3.5 Saat",
+        engine: "Özel Pullman Klasik And Lokomotifi",
+        notes: "Urubamba Kanyonu, Aguas Calientes son durağı, sisli bulut ormanları ve teraslı İnka kalıntıları."
+      },
+      {
+        id: `darjeeling-himalayan-${Date.now()}`,
+        title: "Himalayalar'ın Buharlı Oyuncağı: Darjeeling Himalayan Railway",
+        region: "Batı Bengal & Himalayalar, Hindistan",
+        tag: "UNESCO Buharlı Oyuncak",
+        desc: "1881'den bu yana 2 fitlik dar hatta tüten D-Class buharlı lokomotifler; Kanchenjunga zirveleri ve sisli çay bahçeleri arasında spiral zikzaklarla 2200 metreye tırmanıyor.",
+        distTime: "88 km • 7 Saat",
+        engine: "Tarihi D-Class 0-4-0ST Buharlı Lokomotif",
+        notes: "Batasia Loop 360 derece dönüş noktası, Ghum İstasyonu ve el yapımı çay plantasyonları."
+      },
+      {
+        id: `california-zephyr-${Date.now()}`,
+        title: "Vahşi Amerika'nın Kalbine: California Zephyr (ABD)",
+        region: "Kayalık Dağlar & Sierra Nevada, ABD",
+        tag: "Kanyon & Vahşi Batı",
+        desc: "Chicago'dan San Francisco Körfezi'ne uzanan kıtalararası demiryolu destanı; Colorado Nehri kanyonları, Moffat Tüneli ve karla kaplı Donner Geçidi manzaraları.",
+        distTime: "3,924 km • 51 Saat",
+        engine: "GE Genesis P42DC Çift Lokomotif & Superliner",
+        notes: "Ruby Kanyonu kızıl kayalıkları, Sierra Nevada karlı zirveleri ve çift katlı Sightseer Lounge cam kubbeli vagon."
+      }
+    ];
+    const shuffled = pool.sort(() => 0.5 - Math.random());
+    newTopics = shuffled.slice(0, 2);
+  }
+
+  // Prepend to list without duplicate IDs
+  newTopics.forEach(t => {
+    if (!curatedTopicsList.some(r => r.id === t.id)) {
+      curatedTopicsList.unshift(t);
+    }
+  });
+
+  try {
+    localStorage.setItem("locomotion_curated_topics", JSON.stringify(curatedTopicsList));
+  } catch (e) {}
+
+  renderCuratedRoutes();
+  showAlert("🎉 Yapay zeka yeni ikonik demiryolu rotaları keşfetti ve listenize ekledi!", "success");
+}
+
 function selectCuratedRoute(curatedId) {
-  const curated = aiCuratedDatabase.find(r => r.id === curatedId);
+  const curated = curatedTopicsList.find(r => r.id === curatedId) || aiCuratedDatabase.find(r => r.id === curatedId);
   if (!curated) return;
 
   // Add to routes list
@@ -1350,9 +1600,157 @@ async function publishToGithub() {
   showAlert("ℹ️ Canlı GitHub Pages ortamındasınız. Değişiklikleri diske işlemek için yerel sunucunuzu kullanın.");
 }
 
-// 6. AI REFERENCE IMAGE STUDIO
+// 6. AI REFERENCE IMAGE STUDIO & CLIPBOARD PASTE
 let currentRefImageBase64 = null;
 let lastGeneratedImagePath = null;
+
+function setupClipboardPasteForStudio() {
+  const dropzone = document.getElementById("ref-paste-dropzone");
+  const modal = document.getElementById("ai-image-modal");
+
+  // Global paste handler: if modal is open OR if pasting on admin page
+  document.addEventListener("paste", (e) => {
+    if (modal && !modal.classList.contains("hidden")) {
+      handleClipboardData(e);
+    } else if (e.clipboardData && e.clipboardData.items) {
+      // If user pasted an image outside the modal, automatically open studio and populate
+      for (let i = 0; i < e.clipboardData.items.length; i++) {
+        if (e.clipboardData.items[i].type.startsWith("image/")) {
+          openStudioForInsertionAtCursor();
+          handleClipboardData(e);
+          break;
+        }
+      }
+    }
+  });
+
+  if (dropzone) {
+    dropzone.addEventListener("paste", handleClipboardData);
+
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.classList.add("dragover");
+    });
+    dropzone.addEventListener("dragleave", () => {
+      dropzone.classList.remove("dragover");
+    });
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("dragover");
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        if (file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            setReferenceImageFromData(ev.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    });
+  }
+}
+
+function handleClipboardData(e) {
+  if (!e.clipboardData) return;
+
+  // 1. Files / image items
+  const items = e.clipboardData.items;
+  if (items) {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.startsWith("image/")) {
+        const file = items[i].getAsFile();
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            setReferenceImageFromData(ev.target.result);
+          };
+          reader.readAsDataURL(file);
+          e.preventDefault();
+          return;
+        }
+      }
+    }
+  }
+
+  // 2. HTML containing img tag
+  const html = e.clipboardData.getData("text/html");
+  if (html && html.includes("<img")) {
+    const match = html.match(/src=["'](.*?)["']/i);
+    if (match && match[1]) {
+      setReferenceImageFromData(match[1]);
+      e.preventDefault();
+      return;
+    }
+  }
+
+  // 3. Plain text URL
+  const text = e.clipboardData.getData("text/plain");
+  if (text && (text.startsWith("http://") || text.startsWith("https://") || text.startsWith("data:image/"))) {
+    setReferenceImageFromData(text.trim());
+    e.preventDefault();
+    return;
+  }
+}
+
+async function pasteFromClipboardButton() {
+  try {
+    if (navigator.clipboard && navigator.clipboard.read) {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        for (const type of item.types) {
+          if (type.startsWith("image/")) {
+            const blob = await item.getType(type);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              setReferenceImageFromData(e.target.result);
+            };
+            reader.readAsDataURL(blob);
+            return;
+          }
+        }
+      }
+    }
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      const text = await navigator.clipboard.readText();
+      if (text && (text.startsWith("http://") || text.startsWith("https://") || text.startsWith("data:image/"))) {
+        setReferenceImageFromData(text.trim());
+        return;
+      }
+    }
+  } catch (err) {
+    console.warn("Clipboard read error:", err);
+  }
+  showAlert("Panoda resim algılanamadı. Web sitesindeki resme sağ tıklayıp 'Resmi Kopyala' dedikten sonra buraya tıklayıp Ctrl + V yapabilirsiniz.", "info");
+}
+
+function setReferenceImageFromData(srcOrData) {
+  currentRefImageBase64 = srcOrData;
+  const placeholder = document.getElementById("ref-placeholder");
+  const wrapper = document.getElementById("ref-preview-wrapper");
+  const img = document.getElementById("ref-preview-img");
+
+  if (img) img.src = srcOrData;
+  if (placeholder) placeholder.classList.add("hidden");
+  if (wrapper) wrapper.classList.remove("hidden");
+
+  showAlert("📋 İnternetten kopyaladığınız resim referans olarak yapıştırıldı!", "success");
+}
+
+function clearCurrentReferenceImage() {
+  currentRefImageBase64 = null;
+  const placeholder = document.getElementById("ref-placeholder");
+  const wrapper = document.getElementById("ref-preview-wrapper");
+  const img = document.getElementById("ref-preview-img");
+  const urlInput = document.getElementById("ref-modal-url");
+  const fileInput = document.getElementById("ref-modal-file");
+
+  if (img) img.src = "";
+  if (urlInput) urlInput.value = "";
+  if (fileInput) fileInput.value = "";
+  if (wrapper) wrapper.classList.add("hidden");
+  if (placeholder) placeholder.classList.remove("hidden");
+}
 
 function openAiImageStudioModal() {
   const modal = document.getElementById("ai-image-modal");
@@ -1360,13 +1758,23 @@ function openAiImageStudioModal() {
 
   const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
   const targetLabel = document.getElementById("ai-gen-target-route-label");
+  const targetLocationBadge = document.getElementById("ai-gen-target-location-badge");
   const promptInput = document.getElementById("ai-gen-prompt");
   const loading = document.getElementById("ai-gen-loading");
   const resultBox = document.getElementById("ai-gen-result-box");
   const btn = document.getElementById("btn-start-ai-gen");
 
   if (targetLabel) targetLabel.innerText = `🚂 ${currentRouteMeta.title} (${currentRouteMeta.country})`;
-  if (promptInput) {
+
+  if (targetLocationBadge) {
+    if (editorInsertMode === "replace") {
+      targetLocationBadge.innerText = "🔄 Seçilen Görsel Değiştirilecek";
+    } else {
+      targetLocationBadge.innerText = "📍 İşaretli Alana Eklenecek";
+    }
+  }
+
+  if (promptInput && (!promptInput.value || promptInput.value.includes("scenic train traveling"))) {
     promptInput.value = `${currentRouteMeta.title}, scenic train traveling through iconic landscape, viaduct, atmospheric lighting, 35mm film travel photography`;
   }
   if (loading) loading.classList.add("hidden");
@@ -1379,6 +1787,14 @@ function openAiImageStudioModal() {
 function closeAiImageStudioModal() {
   const modal = document.getElementById("ai-image-modal");
   if (modal) modal.classList.add("hidden");
+
+  // Clean up any unfulfilled target markers
+  const marker = document.getElementById("editor-image-insert-target");
+  if (marker && !lastGeneratedImagePath) {
+    marker.remove();
+  }
+  editorTargetImageToReplace = null;
+  editorInsertMode = "append";
 }
 
 function handleModalRefFile(event) {
@@ -1387,14 +1803,7 @@ function handleModalRefFile(event) {
 
   const reader = new FileReader();
   reader.onload = (e) => {
-    currentRefImageBase64 = e.target.result;
-    const previewImg = document.getElementById("ref-preview-img");
-    const placeholder = document.getElementById("ref-placeholder");
-    if (previewImg) {
-      previewImg.src = currentRefImageBase64;
-      previewImg.classList.remove("hidden");
-    }
-    if (placeholder) placeholder.classList.add("hidden");
+    setReferenceImageFromData(e.target.result);
   };
   reader.readAsDataURL(file);
 }
@@ -1402,15 +1811,7 @@ function handleModalRefFile(event) {
 function handleModalRefUrl(url) {
   const cleanUrl = url.trim();
   if (!cleanUrl) return;
-
-  currentRefImageBase64 = cleanUrl;
-  const previewImg = document.getElementById("ref-preview-img");
-  const placeholder = document.getElementById("ref-placeholder");
-  if (previewImg) {
-    previewImg.src = cleanUrl;
-    previewImg.classList.remove("hidden");
-  }
-  if (placeholder) placeholder.classList.add("hidden");
+  setReferenceImageFromData(cleanUrl);
 }
 
 async function generateRoyaltyFreeFromReference() {
@@ -1422,7 +1823,7 @@ async function generateRoyaltyFreeFromReference() {
   const resultImg = document.getElementById("ai-gen-result-img");
 
   if (!prompt && !currentRefImageBase64) {
-    showAlert("Lütfen en az bir referans görsel belirleyin veya kompozisyon açıklaması girin!", "error");
+    showAlert("Lütfen en az bir referans görsel yapıştırın veya kompozisyon açıklaması girin!", "error");
     return;
   }
 
@@ -1451,7 +1852,7 @@ async function generateRoyaltyFreeFromReference() {
     }
   }
 
-  // 2. Client-side browser fallback (fetches via client browser network)
+  // 2. Client-side browser fallback
   if (!savedImagePath) {
     try {
       const cleanPrompt = (prompt || `${currentRouteId} train railway travel landscape`).replace(/[^a-zA-Z0-9\s]/g, " ").trim();
@@ -1486,7 +1887,7 @@ async function generateRoyaltyFreeFromReference() {
     }
   }
 
-  // 3. Ultimate fallback: if network completely down, use reference image or local image
+  // 3. Ultimate fallback
   if (!savedImagePath) {
     savedImagePath = currentRefImageBase64 || `content/routes/${currentRouteId}/images/glenfinnan-viaduct.jpg`;
   }
@@ -1499,13 +1900,11 @@ async function generateRoyaltyFreeFromReference() {
   if (resultImg) resultImg.src = savedImagePath;
   if (resultBox) resultBox.classList.remove("hidden");
 
-  // Automatically insert into visual editor
+  // Automatically insert into visual editor at designated spot
   insertGeneratedImageToEditor();
 
   // Refresh images gallery
   loadImagesForRoute();
-
-  showAlert("🎉 Telifsiz seyahat fotoğrafı referanstan üretildi ve gezi yazınıza eklendi!", "success");
 }
 
 function insertGeneratedImageToEditor() {
@@ -1517,14 +1916,37 @@ function insertGeneratedImageToEditor() {
   const promptInput = document.getElementById("ai-gen-prompt");
   const caption = (promptInput && promptInput.value.trim()) ? promptInput.value.trim() : "Yapay zeka tarafından referans alınarak üretilen telifsiz seyahat fotoğrafı.";
 
-  const container = document.createElement("div");
-  container.innerHTML = `
-    <p><br></p>
-    <img src="${lastGeneratedImagePath}" alt="${caption}" style="display: block; width: 100%; max-height: 500px; object-fit: cover; border-radius: 10px; margin: 24px 0 8px 0; border: 1px solid #e2ddd3;">
-    <em>${caption}</em>
-    <p><br></p>
+  // Create interactive card
+  const newCard = document.createElement("div");
+  newCard.className = "editor-img-card";
+  newCard.setAttribute("contenteditable", "false");
+  newCard.innerHTML = `
+    <img src="${lastGeneratedImagePath}" alt="${caption}" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800';">
+    <div class="editor-img-toolbar">
+      <button type="button" class="img-bar-btn del-btn" onclick="deleteEditorImage(this)">🗑️ Resmi Sil</button>
+      <button type="button" class="img-bar-btn replace-btn" onclick="replaceEditorImage(this)">🎨 Görsel Stüdyosunda Değiştir</button>
+    </div>
+    <p class="editor-img-caption" contenteditable="true"><em>${caption}</em></p>
   `;
 
-  editor.appendChild(container);
+  if (editorInsertMode === "replace" && editorTargetImageToReplace && editorTargetImageToReplace.parentNode) {
+    editorTargetImageToReplace.replaceWith(newCard);
+    showAlert("🎉 Fotoğraf başarıyla yenisiyle değiştirildi!", "success");
+  } else {
+    const marker = document.getElementById("editor-image-insert-target");
+    if (marker && marker.parentNode) {
+      marker.replaceWith(newCard);
+      showAlert("🎉 Fotoğraf işaretlediğiniz alana yerleştirildi!", "success");
+    } else {
+      editor.appendChild(newCard);
+      showAlert("🎉 Fotoğraf yazıya eklendi!", "success");
+    }
+  }
+
+  // Reset target pointers
+  editorTargetImageToReplace = null;
+  editorInsertMode = "append";
+
+  newCard.scrollIntoView({ behavior: "smooth", block: "center" });
   updateCharCount();
 }

@@ -192,6 +192,91 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e)}, 500)
             return
 
+        elif path == "/api/topics/generate":
+            cfg = read_json_file(CONFIG_FILE, {})
+            gemini_key = cfg.get("gemini_api_key", "").strip()
+            new_topics = []
+            if gemini_key:
+                try:
+                    gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={gemini_key}"
+                    prompt_text = (
+                        "Bana dunya capinda unlu, farkli cografyalardan 3 yeni ikonik demiryolu gezi rotasi oner. "
+                        "Sadece su JSON formatinda bir liste dondur (baska metin yazma): "
+                        '[{"id":"rota-id","title":"Baslik","region":"Ulke/Bolge","tag":"Kategori","desc":"Detayli seyahatname aciklamasi","distTime":"Mesafe ve sure","engine":"Lokomotif sinifi","notes":"One cikan duraklar ve viyadukler"}]'
+                    )
+                    payload = {"contents": [{"parts": [{"text": prompt_text}]}]}
+                    g_req = urllib.request.Request(gemini_url, data=json.dumps(payload).encode("utf-8"), headers={"Content-Type": "application/json"})
+                    with urllib.request.urlopen(g_req, timeout=12) as g_resp:
+                        g_data = json.loads(g_resp.read().decode("utf-8"))
+                        text_res = g_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                        if text_res.startswith("```"):
+                            text_res = re.sub(r'^```(?:json)?\n', '', text_res)
+                            text_res = re.sub(r'\n```$', '', text_res)
+                        parsed_topics = json.loads(text_res)
+                        if isinstance(parsed_topics, list) and len(parsed_topics) > 0:
+                            new_topics = parsed_topics
+                except Exception as e:
+                    print("Gemini topic generator note:", e)
+
+            if not new_topics:
+                pool = [
+                    {
+                        "id": f"glacier-express-{int(time.time())}",
+                        "title": "Alplerin En Yavas Hizli Treni: Glacier Express (Isvicre)",
+                        "region": "Isvicre Alpleri",
+                        "tag": "Buzul & Viyaduk",
+                        "desc": "Zermatt'tan St. Moritz'e uzanan 8 saatlik panoramik masal; 291 kopru, 91 tunel ve 2033 metre rakimli Oberalp Gecidi'ni asan cam tavanli Isvicre muhendislik zaferi.",
+                        "distTime": "291 km • 8 Saat",
+                        "engine": "Ge 4/4 III Panoramik Elektrikli Tren",
+                        "notes": "Oberalp Gecidi zirve golu, Rhine Kanyonu ve Landwasser Viyadugu."
+                    },
+                    {
+                        "id": f"hiram-bingham-{int(time.time())}",
+                        "title": "Inka Gizemine Yolculuk: Belmond Hiram Bingham (Peru)",
+                        "region": "Kutsal Vadi & And Daglari, Peru",
+                        "tag": "Antik Medeniyet",
+                        "desc": "Cusco'dan Urubamba Nehri vadisi boyunca kayip Inka kenti Machu Picchu'ya uzanan, 1920'lerin Pullman zarafeti ve canli Peru muzigi esliginde bas dondurucu tren seruveni.",
+                        "distTime": "92 km • 3.5 Saat",
+                        "engine": "Ozel Pullman Klasik And Lokomotifi",
+                        "notes": "Urubamba Kanyonu, Aguas Calientes son duragi, sisli bulut ormanlari ve terasli Inka kalintilari."
+                    },
+                    {
+                        "id": f"darjeeling-himalayan-{int(time.time())}",
+                        "title": "Himalayalar'in Buharli Oyuncagi: Darjeeling Himalayan Railway",
+                        "region": "Bati Bengal & Himalayalar, Hindistan",
+                        "tag": "UNESCO Buharli Oyuncak",
+                        "desc": "1881'den bu yana 2 fitlik dar hatta tuten D-Class buharli lokomotifler; Kanchenjunga zirveleri ve sisli cay bahceleri arasinda spiral zikzaklarla 2200 metreye tirmaniyor.",
+                        "distTime": "88 km • 7 Saat",
+                        "engine": "Tarihi D-Class 0-4-0ST Buharli Lokomotif",
+                        "notes": "Batasia Loop 360 derece donus noktasi, Ghum Istasyonu ve el yapimi cay plantasyonlari."
+                    },
+                    {
+                        "id": f"california-zephyr-{int(time.time())}",
+                        "title": "Vahsi Amerika'nin Kalbine: California Zephyr (ABD)",
+                        "region": "Kayalik Daglar & Sierra Nevada, ABD",
+                        "tag": "Kanyon & Vahsi Bati",
+                        "desc": "Chicago'dan San Francisco Korfezi'ne uzanan kitalararasi demiryolu destani; Colorado Nehri kanyonlari, Moffat Tuneli ve karla kapli Donner Gecidi manzaralari.",
+                        "distTime": "3,924 km • 51 Saat",
+                        "engine": "GE Genesis P42DC Cift Lokomotif & Superliner",
+                        "notes": "Ruby Kanyonu kizil kayaliklari, Sierra Nevada karli zirveleri ve cift katli Sightseer Lounge cam kubbeli vagon."
+                    },
+                    {
+                        "id": f"transkantara-indian-pacific-{int(time.time())}",
+                        "title": "Kizil Colun Sonsuzlugu: Indian Pacific (Avustralya)",
+                        "region": "Nullarbor Ovasi, Avustralya",
+                        "tag": "Col & Dunyanin En Uzun Duz Rayi",
+                        "desc": "Hint Okyanusu'ndan Buyuk Okyanus'a tum kitayi boydan boya gecen; Nullarbor Colu'nde 478 kilometre boyunca hic viraj yapmayan dunyanin en uzun kesintisiz duz ray hatti.",
+                        "distTime": "4,352 km • 4 Gun",
+                        "engine": "NR Class Dizel-Elektrik Agir Yuk & Yolcu",
+                        "notes": "Cook hayalet maden kasabasi molasi, Nullarbor yildizli col geceleri ve Mavi Daglar gecidi."
+                    }
+                ]
+                random.shuffle(pool)
+                new_topics = pool[:3]
+
+            self.send_json({"success": True, "topics": new_topics})
+            return
+
         # Fallback to standard static file serving
         return super().do_GET()
 
@@ -286,10 +371,28 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                     if len(img_data) > 1000:
                         target_path.write_bytes(img_data)
             except Exception as e:
+                saved = False
                 if ref_b64:
-                    raw_data = ref_b64.split(";base64,", 1)[1] if ";base64," in ref_b64 else ref_b64
-                    target_path.write_bytes(base64.b64decode(raw_data))
-                else:
+                    if ref_b64.startswith("http://") or ref_b64.startswith("https://"):
+                        try:
+                            req_ref = urllib.request.Request(ref_b64, headers={"User-Agent": "Mozilla/5.0"})
+                            with urllib.request.urlopen(req_ref, timeout=15) as ref_res:
+                                target_path.write_bytes(ref_res.read())
+                                saved = True
+                        except Exception as e_ref:
+                            print("Ref url fetch note:", e_ref)
+                    if not saved:
+                        try:
+                            raw_data = ref_b64.split(";base64,", 1)[1] if ";base64," in ref_b64 else ref_b64
+                            raw_data = raw_data.strip()
+                            missing_padding = len(raw_data) % 4
+                            if missing_padding:
+                                raw_data += "=" * (4 - missing_padding)
+                            target_path.write_bytes(base64.b64decode(raw_data))
+                            saved = True
+                        except Exception as e_b64:
+                            print("Ref base64 decode note:", e_b64)
+                if not saved:
                     self.send_json({"error": f"Görsel üretilemedi: {e}"}, 500)
                     return
 

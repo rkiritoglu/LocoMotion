@@ -1380,3 +1380,234 @@
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(124, 58, 237, 0.25));
 }
 
+/* ==========================================================================
+   INTERACTIVE ARTICLE EDITOR IMAGE CONTROLS & INSERTION TARGET
+   ========================================================================== */
+
+.editor-img-card {
+  position: relative;
+  display: block;
+  margin: 28px 0 16px 0;
+  border-radius: var(--radius-md);
+  overflow: visible;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.editor-img-card:hover .editor-img-toolbar {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.editor-img-card img {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(21, 50, 48, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.editor-img-toolbar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 6px 10px;
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: all 0.2s ease;
+  z-index: 50;
+}
+
+.img-bar-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.img-bar-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.03);
+}
+
+.img-bar-btn.del-btn:hover {
+  background: #dc2626;
+  border-color: #ef4444;
+}
+
+.img-bar-btn.replace-btn:hover {
+  background: #7c3aed;
+  border-color: #a78bfa;
+}
+
+.editor-img-caption {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-style: italic;
+  margin-top: 8px;
+  text-align: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.editor-img-caption:focus {
+  outline: 1px dashed var(--accent-gold);
+  background: #fdfbf7;
+}
+
+/* Pulsing Insertion Target Marker in Visual Editor */
+.image-insert-target-marker {
+  display: block;
+  margin: 20px 0;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(79, 70, 229, 0.12));
+  border: 2px dashed #8b5cf6;
+  border-radius: 10px;
+  color: #6d28d9;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-align: center;
+  animation: pulseTarget 1.5s infinite alternate ease-in-out;
+  cursor: default;
+}
+
+@keyframes pulseTarget {
+  0% {
+    background-color: rgba(124, 58, 237, 0.06);
+    border-color: #a78bfa;
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.2);
+  }
+  100% {
+    background-color: rgba(124, 58, 237, 0.16);
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.25);
+  }
+}
+
+/* ==========================================================================
+   AI REFERENCE IMAGE STUDIO CLIPBOARD & PASTE DROPZONE
+   ========================================================================== */
+
+.ref-paste-dropzone {
+  min-height: 220px;
+  border: 2px dashed #a78bfa;
+  border-radius: 12px;
+  background: #faf8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 16px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ref-paste-dropzone:hover,
+.ref-paste-dropzone:focus,
+.ref-paste-dropzone.dragover {
+  border-color: #7c3aed;
+  background: #f3e8ff;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
+  outline: none;
+}
+
+.ref-preview-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ref-preview-wrapper img {
+  max-width: 100%;
+  max-height: 240px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.ref-preview-badge {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.btn-clear-ref {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-clear-ref:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ==========================================================================
+   TOPIC DISCOVERY DELETE & AI GENERATE BUTTONS
+   ========================================================================== */
+
+.curated-card {
+  position: relative;
+}
+
+.btn-curated-delete {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  z-index: 10;
+}
+
+.btn-curated-delete:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  transform: scale(1.05);
+}
+
+

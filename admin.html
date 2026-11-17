@@ -126,8 +126,7 @@
           <span class="tool-divider"></span>
           <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Madde İmleri">• Liste</button>
           <button type="button" class="tool-btn" onclick="insertHorizontalRule()" title="Ayraç Çizgisi">— Çizgi</button>
-          <button type="button" class="tool-btn highlight" onclick="promptInsertImage()" title="Yazıya Görsel Ekle">🖼️ Görsel Ekle</button>
-          <button type="button" class="tool-btn highlight-ai" onclick="openAiImageStudioModal()" title="Referans görselden AI ile telifsiz yeni görsel üret ve doğrudan yazıya ekle">✨ Referanstan AI Görsel Üret</button>
+          <button type="button" class="tool-btn highlight" onclick="openStudioForInsertionAtCursor()" title="İmlecin bulunduğu alana Görsel Stüdyosu'nda yeni fotoğraf üretip ekle">🎨 Görsel Stüdyosu ile Buraya Resim Ekle</button>
           <span class="tool-status" id="char-count">0 karakter</span>
         </div>
 
@@ -151,9 +150,6 @@
               ➕ Bu Yazıya Fotoğraf Yükle
               <input type="file" id="image-upload-input" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
             </label>
-            <button type="button" class="btn btn-secondary-sm" onclick="deleteAllImagesForActiveRoute()" style="background: rgba(220, 38, 38, 0.08); border-color: rgba(220, 38, 38, 0.3); color: #dc2626;" title="Aktif seçili rotanın tüm fotoğraflarını temizler">
-              🗑️ Tüm Görselleri Sil
-            </button>
           </div>
         </div>
 
@@ -199,7 +195,15 @@
 
         <!-- Hazır İlham Verici Rotalar Grid -->
         <div class="ai-curated-section">
-          <h3 class="curated-title">✨ Yapay Zekanın Önerdiği Dünya Rotaları (Tek Tıkla Editöre Alın)</h3>
+          <div class="curated-section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 class="curated-title" style="margin-bottom: 4px;">✨ Yapay Zekanın Önerdiği Dünya Rotaları</h3>
+              <p style="font-size: 0.85rem; color: #64748b; margin: 0;">Beğendiğiniz rotayı seçip doğrudan detaylı gezi yazısına dönüştürebilir veya istemediğiniz konuları silebilirsiniz.</p>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="requestAiNewTopics()" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none; padding: 10px 18px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); display: inline-flex; align-items: center; gap: 6px;">
+              <span>✨</span> Yapay Zekadan Yeni Konular Öner (Üret)
+            </button>
+          </div>
           <div class="curated-cards-grid" id="curated-routes-grid">
             <!-- Injected via admin.js -->
           </div>
@@ -293,9 +297,6 @@
                 <button type="button" class="btn btn-secondary-sm" onclick="clearAllLocalCacheAndReload()" style="background: #fff; border: 1px solid #d1c7b7; color: #1e293b; padding: 10px 16px; font-weight: 600;">
                   🧹 Tarayıcı Önbelleğini & Taslakları Temizle
                 </button>
-                <button type="button" class="btn btn-secondary-sm" onclick="deleteAllImagesForActiveRoute()" style="background: #fff; border: 1px solid #f87171; color: #dc2626; padding: 10px 16px; font-weight: 600;">
-                  🗑️ Aktif Rotanın Görsellerini Sil
-                </button>
                 <button type="button" class="btn btn-secondary-sm" onclick="resetAllSystemData()" style="background: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 10px 16px; font-weight: 700;">
                   🔄 Fabrika Ayarlarına Sıfırla (Tam Temizlik)
                 </button>
@@ -372,45 +373,60 @@
         <div class="studio-steps-grid">
           <!-- Sol Kolon: Referans Belirleme -->
           <div class="studio-col">
-            <label class="studio-label">1. Adım: Referans Görselinizi Belirleyin</label>
-            <p class="studio-hint">Bilgisayarınızdan fotoğraf seçin veya web bağlantısı yapıştırın:</p>
+            <label class="studio-label">1. Adım: Referans Görseli Belirleyin (İnternetten Yapıştırın)</label>
+            <p class="studio-hint">İnternette beğendiğiniz resmi kopyalayıp doğrudan buraya yapıştırın (<strong>Ctrl + V</strong>):</p>
             
-            <div class="ref-input-tabs">
-              <label class="btn-ref-upload">
-                📁 Fotoğraf Yükle
-                <input type="file" id="ref-modal-file" accept="image/*" onchange="handleModalRefFile(event)" style="display:none;">
-              </label>
-              <span style="font-size: 12px; color: #888;">veya</span>
-              <input type="url" id="ref-modal-url" class="admin-input" style="padding: 6px 10px; font-size: 0.85rem;" placeholder="https://... görsel bağlantısı" oninput="handleModalRefUrl(this.value)">
+            <div class="ref-paste-dropzone" id="ref-paste-dropzone" tabindex="0" title="Resmi yapıştırmak için buraya tıklayıp Ctrl+V yapın veya sürükleyip bırakın">
+              <div class="ref-placeholder" id="ref-placeholder">
+                <span style="font-size: 2.2rem; display: block; margin-bottom: 6px;">📋</span>
+                <strong style="color: #4338ca; font-size: 0.95rem; display: block;">İnternetten Kopyalanan Resmi Buraya Yapıştırın</strong>
+                <p style="font-size: 0.82rem; color: #64748b; margin: 6px 0 12px 0;">Herhangi bir web sayfasındaki resme sağ tıklayıp <em>"Resmi Kopyala"</em> deyin ve buraya tıklayıp <strong>Ctrl + V</strong> tuşlayın.</p>
+                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-secondary-sm" onclick="pasteFromClipboardButton()" style="border-color: #8b5cf6; color: #6d28d9; background: #fff; font-weight: 600;">
+                    📋 Panodan Yapıştır
+                  </button>
+                  <label class="btn btn-secondary-sm btn-ref-upload" style="margin: 0; cursor: pointer;">
+                    📁 Bilgisayardan Seç
+                    <input type="file" id="ref-modal-file" accept="image/*" onchange="handleModalRefFile(event)" style="display:none;">
+                  </label>
+                </div>
+              </div>
+              <div id="ref-preview-wrapper" class="ref-preview-wrapper hidden">
+                <img id="ref-preview-img" class="ref-preview-img" alt="Referans Görsel">
+                <div class="ref-preview-badge">
+                  <span>✅ Referans Görsel Hazır</span>
+                  <button type="button" class="btn-clear-ref" onclick="clearCurrentReferenceImage()" title="Referansı Temizle">❌ Temizle</button>
+                </div>
+              </div>
             </div>
 
-            <div class="ref-preview-area" id="ref-preview-area">
-              <div class="ref-placeholder" id="ref-placeholder">
-                <span>🖼️</span>
-                <p>Henüz referans görsel yüklenmedi.<br>Yukarıdan bir fotoğraf seçin veya URL girin.</p>
-              </div>
-              <img id="ref-preview-img" class="ref-preview-img hidden" alt="Referans Görsel">
+            <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 12px; color: #64748b; white-space: nowrap;">veya Web URL:</span>
+              <input type="url" id="ref-modal-url" class="admin-input" style="padding: 6px 10px; font-size: 0.82rem;" placeholder="https://... doğrudan resim linki yapıştırın" oninput="handleModalRefUrl(this.value)">
             </div>
           </div>
 
           <!-- Sağ Kolon: AI İstekleri & Üretim -->
           <div class="studio-col">
-            <label class="studio-label">2. Adım: Yapay Zekaya Yönergeler</label>
-            <p class="studio-hint">Fotoğrafta öne çıkarılacak atmosfer, hava durumu veya detaylar:</p>
+            <label class="studio-label">2. Adım: Yapay Zekaya Yönergeler & Konum</label>
+            <p class="studio-hint">Fotoğrafta öne çıkarılacak tren, vagon, açı ve ışık detayları:</p>
             
+            <div class="form-group" style="background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label style="margin: 0; font-size: 0.8rem; color: #64748b;">Hedef Gezi Yazısı:</label>
+                <span id="ai-gen-target-location-badge" class="badge-status active" style="font-size: 0.78rem;">📍 İşaretli Alana Eklenecek</span>
+              </div>
+              <div id="ai-gen-target-route-label" style="font-weight: 700; color: #1e293b; font-size: 0.92rem; margin-top: 4px;">-</div>
+            </div>
+
             <div class="form-group">
-              <label for="ai-gen-prompt">Görsel Kompozisyon İpuçları:</label>
+              <label for="ai-gen-prompt">Görsel Kompozisyon & Atmosfer İpuçları:</label>
               <textarea id="ai-gen-prompt" class="admin-textarea-sm" rows="3" placeholder="Örn: Dağ kanyonundan geçen nostaljik buharlı tren, sabah sisi, 35mm film estetiği, altın saat ışığı..."></textarea>
             </div>
 
-            <div class="form-group">
-              <label>Hedef Gezi Yazısı:</label>
-              <div id="ai-gen-target-route-label" style="font-weight: 700; color: var(--accent-gold); font-size: 0.95rem;">-</div>
-            </div>
-
             <div class="studio-action-box" style="margin-top: 16px;">
-              <button type="button" id="btn-start-ai-gen" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;" onclick="generateRoyaltyFreeFromReference()">
-                ✨ Referanstan Telifsiz Görseli Üret & Yazıya Ekle
+              <button type="button" id="btn-start-ai-gen" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem; background: linear-gradient(135deg, #7c3aed, #4f46e5); box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);" onclick="generateRoyaltyFreeFromReference()">
+                ✨ Referanstan Telifsiz Görseli Üret & İşaretli Yere Ekle
               </button>
               
               <div id="ai-gen-loading" class="ai-gen-loading hidden">
@@ -421,7 +437,7 @@
 
             <!-- Önizleme & Sonuç -->
             <div id="ai-gen-result-box" class="ai-gen-result-box hidden">
-              <div class="result-badge">🎉 Telifsiz Görsel Üretildi ve Yazıya Eklendi!</div>
+              <div class="result-badge">🎉 Telifsiz Görsel Üretildi ve İşaretlediğiniz Alana Eklendi!</div>
               <img id="ai-gen-result-img" class="ai-gen-result-img" alt="Üretilen Görsel">
               <div class="result-actions">
                 <button type="button" class="btn btn-secondary-sm" onclick="closeAiImageStudioModal()">
