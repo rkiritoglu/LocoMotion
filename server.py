@@ -5,6 +5,7 @@ Standard Python 3 library only - zero external dependencies required.
 """
 
 import http.server
+import socket
 import socketserver
 import json
 import os
@@ -354,11 +355,37 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
 
         self.send_json({"error": "Endpoint not found"}, 404)
 
+def find_available_port(start_port=8080, max_attempts=30):
+    for p in range(start_port, start_port + max_attempts):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            try:
+                s.bind(("", p))
+                return p
+            except OSError:
+                continue
+    return start_port
+
 def run():
     socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("", PORT), LocoMotionHandler) as httpd:
-        print(f"🚂 LocoMotion Sunucusu Hazır: http://localhost:{PORT}")
-        httpd.serve_forever()
+    desired_port = int(os.environ.get("PORT", 8080))
+    port = find_available_port(desired_port)
+    
+    try:
+        (BASE_DIR / ".active_port").write_text(str(port), encoding="utf-8")
+    except Exception:
+        pass
+
+    with socketserver.TCPServer(("", port), LocoMotionHandler) as httpd:
+        print("\n" + "=" * 60)
+        print("🚂 LocoMotion Yerel Sunucusu Başarıyla Başlatıldı!")
+        print(f"👉 Siteyi Açın:        http://localhost:{port}")
+        print(f"👉 Yönetim Paneli:    http://localhost:{port}/admin.html")
+        print("=" * 60 + "\n")
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\n🛑 Sunucu durduruldu.")
 
 if __name__ == "__main__":
     run()

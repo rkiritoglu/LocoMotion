@@ -140,7 +140,199 @@ Beş gün süren masal, Boğaz'ın kokusu ve minarelerin silueti belirdiğinde s
 ![Sirkeci Garı Varış](content/routes/orient-express/images/sirkeci-arrival.jpg)
 *Orient Express'in son durağı: Boğaz'ın kıyısındaki tarihi İstanbul Sirkeci Garı.*`;
 
-const routesData = [
+const flamMarkdownContent = `# Fiyortların Zirvesine: Flåm Demiryolu ile Norveç Masalı
+
+> *"Aynamsı sularıyla Aurlandsfjord'un kıyısından hareket ettiğimizde, tren sanki fiyordun derinliklerinden gökyüzüne doğru bir ipe asılmış gibi tırmanmaya başladı. 20 kilometrede 866 metre irtifa farkı... Rayların kenarından fışkıran şelaleler ve puslu sisin içinde yankılanan Kelt-Nordik fısıltılar..."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Flåmsbana (Flåm Line) |
+| **Başlangıç - Bitiş:** | Flåm (Aurlandsfjord) ➔ Myrdal (Dağ Zirvesi) |
+| **Toplam Mesafe:** | 20.2 km (20 Tünel, %5.5 Maksimum Eğim) |
+| **Yolculuk Süresi:** | Yaklaşık 1 Saat |
+| **Mühendislik Harikası:** | Normal ray aralığında dünyanın en dik eğimli hatsız trenlerinden biri |
+| **İdeal Koltuk:** | Tırmanışta **Sağ Taraf** (Kjosfossen şelalesi ve vadi tabanı) |
+
+---
+
+## Peronda İlk Adım: Fiyordun Dingin Sularından Çıkış
+
+Sabah saatlerinde Flåm limanındaki ahşap iskelede dururken, devasa fiyordun dik kaya duvarları bulutların arasında kayboluyordu. Yeşil renkli nostaljik Flåmsbana vagonlarına adım attığımda cilalı meşe kaplamalar ve devasa pencereler beni karşıladı. Tren kalkış işaretiyle hareket ettiğinde, saniyeler içinde dik dağ boğazının içine süzüldük.
+
+![Flåm Fiyort Treni](https://images.unsplash.com/photo-1507272931001-fc06c17e4f43?auto=format&fit=crop&w=800&q=80)
+*Aurlandsfjord'un berrak sularından sarp vadilere doğru tırmanan yeşil Flåmsbana treni.*
+
+---
+
+## Durak Durak Fiyort Keşfi
+
+### 1. Rallarvegen ve Eski Madenci Patikası
+Tren dikleştikçe aşağıdaki Flåm Nehri köpürerek akmaya başladı. Rayların hemen kenarında, 19. yüzyıl sonlarında demiryolunu inşa eden işçilerin (*rallar*) açtığı tarihi toprak patika kıvrılarak yükseliyordu.
+
+### 2. Kjosfossen Şelalesi ve Huldra Efsanesi
+Tren birden yavaşlayıp Kjosfossen Şelalesi platformunda durdu. Kapılar açıldığında yüzüme çarpan devasa su serpintisi ve kükreyen şelale sesi nefes kesiciydi. Kayaların üzerinde, İskandinav efsanelerindeki orman perisi *Huldra*'yı canlandıran dansçının kırmızılar içindeki silueti vadide yankılanan büyüleyici bir ezgiyle belirdi.
+
+![Kjosfossen Şelalesi](https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80)
+*Kükreyen sularıyla Kjosfossen ve 866 metredeki zirve tünelleri.*
+
+### 3. Myrdal Zirvesi: Kar ve Buzulların Sınırı
+20 tünelin 18'i elle kazılmıştı. Tren son spiral tünelden çıkıp 866 metre rakımlı Myrdal Garı'na ulaştığında, fiyordun ılıman havası yerini dağların serin Alp rüzgarına bırakmıştı.`;
+
+const trenNubesMarkdownContent = `# Bulutların Treni: Tren a las Nubes ile And Dağları'nın Göğüne
+
+> *"Salta Vadisi'nden yükselen tren, kaktüs tarlalarını ve derin kanyonları geride bırakıp 4,220 metreye tırmandığında altınızda raylar değil; sadece bulut denizi kalır. Tren a las Nubes, insanın gökyüzüyle kurduğu en cüretkar demiryolu köprüsüdür."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Tren a las Nubes (C-14 Demiryolu) |
+| **Başlangıç - Bitiş:** | Salta ➔ San Antonio de los Cobres ➔ La Polvorilla |
+| **Zirve İrtifası:** | 4,220 Metre (Dünyanın en yüksek 3. demiryolu) |
+| **Toplam Mesafe:** | 217 km (29 Köprü, 21 Tünel, 2 Spiral Dönüş) |
+| **Özel Donanım:** | Vagonlarda taşınabilir medikal oksijen tüpleri ve doktor |
+
+---
+
+## Peronda İlk Adım: Kırmızı Topraklardan Göğe Tırmanış
+
+Güneş Salta'nın sömürge dönemi çan kulelerini aydınlatırken istasyondaydım. Lokomotif dik kanyonlara yöneldiğinde dişli ray kullanmadan, zikzaklar ve dairesel spiral rampalarla irtifa kazanmaya başladı.
+
+![And Dağları ve Raylar](https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=800&q=80)
+*And Dağları'nın kızıl kanyonları ve 4000 metredeki sonsuz plato.*
+
+---
+
+## Durak Durak And Dağları
+
+### 1. Quebrada del Toro Kanyonu
+Dev kaktüslerin arasından süzülen tren, dik kaya yarıklarını takip ederek Puna Yaylası'na girdi. Havadaki oksijen azaldıkça yerel rehberler koka çayı ikram ediyordu.
+
+### 2. La Polvorilla Viyadüğü: 4220 Metrede Boşlukta Asılı Kalmak
+Günün zirve anı: 224 metre uzunluğunda ve 64 metre yüksekliğindeki çelik kemerli La Polvorilla Viyadüğü! Tren viyadüğe girdiğinde pencereden aşağıya baktığınızda hiçbir zemin göremiyorsunuz; tren kelimenin tam anlamıyla bulutların üzerinde süzülüyor.
+
+![La Polvorilla Köprüsü](https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80)
+*4,220 metre rakımdaki efsanevi La Polvorilla çelik viyadüğü.*`;
+
+const kandyEllaMarkdownContent = `# Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella Mavi Treni
+
+> *"Pencereleri ve kapıları ardına kadar açık mavi bir tren, Seylan çayı plantasyonlarının kokusu ve vadilerden süzülen muson sisi... Kandy'den Ella'ya uzanan bu hat, tren yolculuğunun saf neşe ve özgürlükle buluştuğu yerdir."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Sri Lanka Main Highland Line |
+| **Güzergah:** | Kandy ➔ Nuwara Eliya ➔ Demodara ➔ Ella |
+| **Toplam Mesafe:** | 140 km (Ormanlar, Çay Tarlaları, Şelaleler) |
+| **Seyahat Süresi:** | 6 - 7 Saat (Aheste ve Keyifli) |
+| **İkonik Simge:** | Demodara Dokuz Kemerli Taş Köprü (Nine Arches Bridge) |
+
+---
+
+## Vagon Kapısında Oturarak Dünyayı İzlemek
+
+Kandy peronunda mavi lokomotif belirdiğinde vagon kapısının basamağına oturdum. Tren hızlandıkça serin dağ esintisi yüzüme vurdu; rayların iki yanında rengarenk sarileriyle çay toplayan kadınlar trene el sallıyordu.
+
+![Sri Lanka Çay Tepeleri Treni](https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=800&q=80)
+*Zümrüt yeşili çay tarlalarının arasından süzülen efsanevi mavi tren.*
+
+---
+
+## Dokuz Kemerli Köprü ve Ella Boğazı
+
+Ella'ya yaklaştığımızda tren devasa bir kavis çizerek 1921 yapımı **Nine Arches Bridge**'e (Dokuz Kemerli Köprü) girdi. Tamamen taş ve tuğladan, tek bir çelik parça kullanılmadan inşa edilmiş bu viyadük tropik ormanın kalbinde masalsı bir köprü gibi uzanıyordu.`;
+
+const sunriseMarkdownContent = `# Gece Güneşi: Sunrise Express ile Tokyo'dan Seto İç Denizi'ne
+
+> *"Tokyo'nun gece yarısı neon parıltıları geride kalırken, ahşap kokulu 'Nobi Nobi' tatami kompartımanında uzanıp pencereden kayıp giden istasyon ışıklarını izlemek... Sabah gözlerinizi açtığınızda ise Fuji Dağı'nın karlı silueti ve Seto İç Denizi'nin dingin dalgaları sizi karşılar."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Sunrise Izumo & Seto (JR West) |
+| **Güzergah:** | Tokyo İstasyonu ➔ Okayama (Ayrılış) ➔ Takamatsu & Izumoshi |
+| **Toplam Mesafe:** | 953 km (Japonya'nın Tek Düzenli Gece Treni) |
+| **Kalkış - Varış:** | 21:50 Tokyo ➔ 07:27 Takamatsu / 09:58 Izumoshi |
+| **Kabin Tipleri:** | Nobi Nobi (Tatami Açık Yatak), Single Deluxe, Solo |
+
+---
+
+## Tokyo Garı'nda Gece Yarısı Ayrılışı
+
+Saat 21.30 sularında Tokyo Garı'nın 9. peronunda bej ve bordo renkli 285 serisi EMU treni sessizce duruyordu. Kompartımana girdiğimde geleneksel Japon yukatası ve terlikleri hazırlanmıştı. 
+
+![Japonya Gece Treni](https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80)
+*Tokyo'nun gece ışıklarından kırsal Japonya'ya uzanan huzurlu raylar.*
+
+---
+
+## Okayama'da Ayrılış ve Büyük Seto Köprüsü
+
+Sabah saat 06.30'da tren Okayama'da durdu ve ikiye ayrıldı: Bir yarısı tarihi Şinto tapınağı Izumo Taisha'ya giderken, bizim bindiğimiz Seto yarısı Shikoku Adası'na doğru Seto Ohashi asma köprüsünden denizin üzerinden geçti.`;
+
+const rovosMarkdownContent = `# Afrika'nın Gururu: Rovos Rail ile Savanada Zaman Yolculuğu
+
+> *"Pretoria'nın jakaranda ağaçlarıyla kaplı peronundan hareket eden Edward dönemi maun vagonlar, gümüş şamdanlar ve vagonun en arkasındaki açık hava balkonunda Afrika rüzgarını solumak... Rovos Rail, demiryolunun altından daha kıymetli olduğu çağların lüks vahasını yaşatır."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Rovos Rail - The Pride of Africa |
+| **Güzergah:** | Pretoria ➔ Kimberley ➔ Karoo Çölü ➔ Cape Town |
+| **Toplam Mesafe:** | 1,600 km (3 Gün / 2 Gece) |
+| **Kıyafet Kuralı:** | Akşam yemeklerinde smokin ve gece elbisesi (Zaman yolculuğu) |
+| **Özel Vagon:** | Arkası tamamen açık 'Observation Car' ve geniş süitler |
+
+---
+
+## Vagonun Arkasındaki Açık Hava Balkonunda Gün Batımı
+
+Akşamüstü saatlerinde tren Karoo Yarı-Çölü'nün kızıl topraklarında ilerlerken en arka vagondaki ahşap trabzanlı balkona çıktım. Kızıl güneş ufukta alçalırken uzakta antilop ve zebra sürüleri rayların kenarından hızla uzaklaşıyordu.
+
+![Afrika Safari Treni](https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=800&q=80)
+*Savanada asırlık Edward çağı nostaljisi ve Afrika gün batımı.*`;
+
+const rockyMarkdownContent = `# Vahşi Batının Zirvesi: Rocky Mountaineer ile Kanada Kanyonları
+
+> *"Cam kubbeli çift katlı vagonun tavanından göğe uzanan karlı zirveler, köpüren buzul nehirleri ve rayların birkaç metre ötesinde nehirde somon avlayan bozayılar... Rocky Mountaineer, Kuzey Amerika vahşi doğasının kalbine açılan en büyüleyici penceredir."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Rocky Mountaineer - First Passage to the West |
+| **Güzergah:** | Vancouver ➔ Kamloops ➔ Continental Divide ➔ Banff |
+| **Toplam Mesafe:** | ~900 km (Sadece Gündüz Çalışan Doğa Treni) |
+| **Hizmet Sınıfı:** | GoldLeaf Cam Kubbeli Çift Katlı Panoramik Vagon |
+| **Mühendislik Harikası:** | Kicking Horse Geçidi'ndeki Spiral Tüneller |
+
+---
+
+## Cam Kubbenin Altında Bozayılar ve Buzullar
+
+Vancouver'dan ayrıldığımızda Fraser Kanyonu'nun cehennem kapısı yarığını geçtik. Tren hızını kestiğinde kondüktör anons etti: Nehir yatağında dev bir grizli ayı somon avlıyordu. Cam kubbeli tavandan bakarken başımızın üzerinden kel kartallar süzülüyordu.
+
+![Kanada Kayalık Dağları](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80)
+*Buzul gölleri ve Kanada Kayalık Dağları'nın heybetli kanyonları.*`;
+
+let routesData = [
   {
     id: "jacobite-steam-train",
     title: "Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni",
@@ -193,7 +385,7 @@ const routesData = [
     routeName: "Venice Simplon-Orient-Express",
     country: "Fransa - İtalya - Türkiye",
     category: "Tarihi Hat",
-    tags: ["Tarihi Hat", "Lüks Tren"],
+    tags: ["Tarihi Hat", "Lüks & Gece Treni"],
     heroImage: "content/routes/orient-express/images/orient-express-carriage.jpg",
     fallbackHero: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
     excerpt: "Paris'ten Sirkeci Garı'na uzanan, Agatha Christie'nin cinayet romanlarına ve Soğuk Savaş gizemlerine beşiklik etmiş demir yolu efsanesi.",
@@ -208,18 +400,201 @@ const routesData = [
       { name: "Simplon Tüneli", lat: 46.3211, lng: 8.0125, desc: "19.8 km Alpleri delen tünel" },
       { name: "İstanbul Sirkeci Garı", lat: 41.0150, lng: 28.9778, desc: "Şarkın kapısı, Boğaz'a varış" }
     ]
+  },
+  {
+    id: "flam-railway",
+    title: "Fiyortların Zirvesine: Flåm Demiryolu (Norveç)",
+    routeName: "Flåmsbana",
+    country: "Norveç Fiyortları",
+    category: "Dağ Manzarası",
+    tags: ["Dağ Manzarası", "Fiyort"],
+    heroImage: "https://images.unsplash.com/photo-1507272931001-fc06c17e4f43?auto=format&fit=crop&w=800&q=80",
+    fallbackHero: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Aurlandsfjord kıyısından Myrdal zirvesine 866 metre dimdik tırmanan, Kjosfossen şelalesinin kükrediği ve İskandinav mitolojisindeki Huldra efsanesinin yankılandığı mühendislik mucizesi.",
+    distance: "20.2 km",
+    duration: "1 saat",
+    locomotive: "El 17 Özel Çift Frenli Dağ Lokomotifi",
+    content: flamMarkdownContent,
+    coordinates: [
+      { name: "Flåm Limanı", lat: 60.8631, lng: 7.1136, desc: "Aurlandsfjord kıyısında başlangıç" },
+      { name: "Kjosfossen Şelalesi", lat: 60.7461, lng: 7.1336, desc: "Kükreyen şelale ve Huldra efsanesi" },
+      { name: "Myrdal Zirvesi", lat: 60.7351, lng: 7.1226, desc: "866 metre zirve istasyonu" }
+    ]
+  },
+  {
+    id: "tren-a-las-nubes",
+    title: "Bulutların Treni: Tren a las Nubes (Arjantin)",
+    routeName: "Tren a las Nubes",
+    country: "And Dağları, Arjantin",
+    category: "Dağ Manzarası",
+    tags: ["Dağ Manzarası", "Tarihi Hat"],
+    heroImage: "https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=800&q=80",
+    fallbackHero: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Salta'dan 4,220 metre irtifaya tırmanarak gökyüzünde süzülen, devasa La Polvorilla çelik viyadüğü ve antik İnka topraklarının izindeki baş döndürücü hat.",
+    distance: "217 km",
+    duration: "8 saat",
+    locomotive: "Yüksek İrtifa Dizel Lokomotifi",
+    content: trenNubesMarkdownContent,
+    coordinates: [
+      { name: "Salta İstasyonu", lat: -24.7859, lng: -65.4117, desc: "1187m rakımlı tarihi başlangıç" },
+      { name: "San Antonio de los Cobres", lat: -24.2255, lng: -66.3186, desc: "3775m yüksek And kasabası" },
+      { name: "La Polvorilla Viyadüğü", lat: -24.2044, lng: -66.4147, desc: "4220m rakımda bulutların üstündeki viyadük" }
+    ]
+  },
+  {
+    id: "kandy-ella",
+    title: "Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella",
+    routeName: "Sri Lanka Highland Line",
+    country: "Seylan Tepeleri, Sri Lanka",
+    category: "Tarihi Hat",
+    tags: ["Tarihi Hat", "Dağ Manzarası"],
+    heroImage: "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=800&q=80",
+    fallbackHero: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Pencerelerinden sarkan gezginlerin Seylan çay toplayıcılarını selamladığı, sisli Demodara 9 Kemerli Köprüsü'nden geçen masalsı mavi tren serüveni.",
+    distance: "140 km",
+    duration: "6 saat",
+    locomotive: "Class S12 Mavi Dizel Lokomotif",
+    content: kandyEllaMarkdownContent,
+    coordinates: [
+      { name: "Kandy Garı", lat: 7.2906, lng: 80.6337, desc: "Tarihi krallık başkenti" },
+      { name: "Nuwara Eliya (Nanu Oya)", lat: 6.9497, lng: 80.7891, desc: "Küçük İngiltere ve çay fabrikaları" },
+      { name: "Nine Arches Bridge", lat: 6.8770, lng: 81.0608, desc: "Ormanın kalbindeki 9 kemerli taş viyadük" },
+      { name: "Ella", lat: 6.8667, lng: 81.0466, desc: "Ella Kayası ve sisli varış" }
+    ]
+  },
+  {
+    id: "sunrise-izumo",
+    title: "Gece Güneşi: Sunrise Express (Japonya)",
+    routeName: "Sunrise Izumo & Seto",
+    country: "Honshu & Shikoku, Japonya",
+    category: "Lüks & Gece Treni",
+    tags: ["Lüks & Gece Treni", "Tarihi Hat"],
+    heroImage: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80",
+    fallbackHero: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Tokyo'nun neon ışıklarından gece yarısı hareket edip Seto İç Denizi'ne uzanan, geleneksel 'Nobi Nobi' tatami halılı yatakları ve ahşap kabinleriyle ünlü Japon gece treni.",
+    distance: "953 km",
+    duration: "12 saat",
+    locomotive: "285 Series EMU Sunrise Express",
+    content: sunriseMarkdownContent,
+    coordinates: [
+      { name: "Tokyo İstasyonu", lat: 35.6812, lng: 139.7671, desc: "Gece yarısı neon ışıklı kalkış" },
+      { name: "Fuji Dağı Geçişi", lat: 35.1610, lng: 138.6766, desc: "Sabahın ilk ışıklarında Fuji silueti" },
+      { name: "Okayama Garı", lat: 34.6653, lng: 133.9180, desc: "Trene ikiye ayrılma noktası" },
+      { name: "Izumoshi / Takamatsu", lat: 35.3606, lng: 132.7554, desc: "Seto Denizi ve tarihi Şinto tapınağı" }
+    ]
+  },
+  {
+    id: "rovos-rail",
+    title: "Afrika'nın Gururu: Rovos Rail Safari Ekspresi",
+    routeName: "The Pride of Africa",
+    country: "Güney Afrika",
+    category: "Lüks & Gece Treni",
+    tags: ["Lüks & Gece Treni", "Tarihi Hat"],
+    heroImage: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=800&q=80",
+    fallbackHero: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Pretoria'dan Cape Town'a uzanan, arkasında açık hava gözlem balkonu olan 1920'ler Edward tarzı dünyanın en lüks ahşap safari treni.",
+    distance: "1,600 km",
+    duration: "3 gün",
+    locomotive: "Klasik Buharlı / Dizel Safari Lokomotifi",
+    content: rovosMarkdownContent,
+    coordinates: [
+      { name: "Pretoria Capital Park", lat: -25.7583, lng: 28.1894, desc: "Özel sömürge tarzı tren garı" },
+      { name: "Kimberley Büyük Çukur", lat: -28.7419, lng: 24.7719, desc: "Tarihi elmas madeni şehri" },
+      { name: "Matjiesfontein (Karoo)", lat: -33.2306, lng: 20.5817, desc: "Viktorya dönemi vaha kasabası" },
+      { name: "Cape Town Garı", lat: -33.9249, lng: 18.4241, desc: "Masa Dağı gölgesinde varış" }
+    ]
+  },
+  {
+    id: "rocky-mountaineer",
+    title: "Vahşi Batının Zirvesi: Rocky Mountaineer (Kanada)",
+    routeName: "First Passage to the West",
+    country: "Kanada Kayalık Dağları",
+    category: "Dağ Manzarası",
+    tags: ["Dağ Manzarası", "Lüks & Gece Treni"],
+    heroImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    fallbackHero: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Vancouver'dan Banff'a sadece gündüzleri çalışan, çift katlı cam kubbeli 'GoldLeaf' vagonlarıyla bozayıların ve buzulların arasından geçen görsel şölen.",
+    distance: "900 km",
+    duration: "2 gün",
+    locomotive: "GP40-2W Dizel Lokomotif",
+    content: rockyMarkdownContent,
+    coordinates: [
+      { name: "Vancouver Garı", lat: 49.2827, lng: -123.1207, desc: "Pasifik Okyanusu kıyısından ayrılış" },
+      { name: "Kamloops", lat: 50.6745, lng: -120.3273, desc: "Fraser Nehri kıyısında gece konaklaması" },
+      { name: "Continental Divide", lat: 51.4500, lng: -116.2800, desc: "Kıta bölünmesi ve Spiral Tüneller" },
+      { name: "Banff Milli Parkı", lat: 51.1784, lng: -115.5708, desc: "Buzul gölleri ve heybetli zirveler" }
+    ]
   }
 ];
 
 let mapInstance = null;
 
 // Initialize Page
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadDynamicCustomRoutes();
   renderRouteCards(routesData);
   initMap();
   setupFilterListeners();
   setupAdminVisibility();
 });
+
+// Load any custom routes added from admin or backend
+async function loadDynamicCustomRoutes() {
+  try {
+    const custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+    custom.forEach(cr => {
+      if (!routesData.some(r => r.id === cr.id)) {
+        routesData.push({
+          id: cr.id,
+          title: cr.title,
+          routeName: cr.title,
+          country: cr.country || "Demiryolu Rotası",
+          category: "Özel Rota",
+          tags: ["Özel Rota", "Tarihi Hat"],
+          heroImage: (cr.images && cr.images.length) ? `content/routes/${cr.id}/images/${cr.images[0]}` : "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
+          fallbackHero: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
+          excerpt: `${cr.country} coğrafyasında rayların izinde özel gezi günlüğü ve durak rehberi.`,
+          distance: cr.distTime || "Belirleniyor",
+          duration: "Özel Rota",
+          locomotive: cr.engine || "Lokomotif",
+          content: cr.content || ""
+        });
+      }
+    });
+  } catch (e) {}
+
+  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  if (isLocal) {
+    try {
+      const res = await fetch("/api/routes");
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.routes) {
+          data.routes.forEach(dr => {
+            if (!routesData.some(r => r.id === dr.id)) {
+              const meta = dr.metadata || {};
+              routesData.push({
+                id: dr.id,
+                title: meta.title || dr.id,
+                routeName: meta.route_name || meta.title || dr.id,
+                country: meta.country || "Demiryolu Rotası",
+                category: "Özel Rota",
+                tags: meta.tags || ["Özel Rota"],
+                heroImage: (dr.images && dr.images.length) ? `content/routes/${dr.id}/images/${dr.images[0]}` : "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
+                fallbackHero: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
+                excerpt: dr.excerpt || `${meta.country || ''} rotasında yeni keşfedilen demiryolu hattı.`,
+                distance: meta.duration || "Belirleniyor",
+                duration: "Özel Rota",
+                locomotive: meta.locomotive || "Lokomotif",
+                content: dr.markdown || ""
+              });
+            }
+          });
+        }
+      }
+    } catch (e) {}
+  }
+}
 
 // Check if running on localhost; only show admin button to the local owner
 function setupAdminVisibility() {
@@ -266,7 +641,9 @@ function setupFilterListeners() {
       if (filter === "all") {
         renderRouteCards(routesData);
       } else {
-        const filtered = routesData.filter(r => r.tags.includes(filter));
+        const filtered = routesData.filter(r => 
+          r.category === filter || (r.tags && r.tags.includes(filter))
+        );
         renderRouteCards(filtered);
       }
     });
