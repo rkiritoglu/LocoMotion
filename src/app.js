@@ -1084,13 +1084,8 @@ async function openRouteArticle(routeId) {
   const mainGrid = document.getElementById("rotalar");
   const articlePage = document.getElementById("article-page");
   const body = document.getElementById("article-body");
-  const navCategory = document.getElementById("article-nav-category");
 
   if (!route || !articlePage || !body) return;
-
-  if (navCategory) {
-    navCategory.innerText = `${route.category || 'Demiryolu Rotası'} • ${route.country || ''}`;
-  }
 
   let loadedContent = route.content || "";
 

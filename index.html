@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="src/style.css?v=2.1">
+  <link rel="stylesheet" href="src/style.css?v=2.2">
 </head>
 <body>
   <!-- Header / Navigation -->
@@ -90,16 +90,9 @@
     </section>
   </main>
 
-  <!-- Route Detail Full Web Page (Normal Web Sayfası Olarak Aşağı Uzayan Görünüm) -->
+  <!-- Route Detail Full Web Page (Normal Web Sayfası Olarak Aşağı Uzayan Düz Görünüm) -->
   <section id="article-page" class="article-page-view hidden">
-    <div class="article-nav-bar container">
-      <button type="button" class="btn-back-to-routes" onclick="showHomeView()">
-        ← Tüm Rotalara Dön
-      </button>
-      <span class="article-nav-category" id="article-nav-category">Demiryolu Gezi Günlüğü</span>
-    </div>
-
-    <div class="article-card-wrapper container">
+    <div class="article-container container">
       <div id="article-body" class="article-content">
         <!-- Rendered markdown content will be placed here -->
       </div>
@@ -141,6 +134,6 @@
     </div>
   </footer>
 
-  <script src="src/app.js?v=2.1"></script>
+  <script src="src/app.js?v=2.2"></script>
 </body>
 </html>
