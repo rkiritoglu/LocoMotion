@@ -1,9 +1,224 @@
-// LocoMotion Admin Panel Logic (Complete Visual Editor, Full Multi-Route Support, Queue Actions & Publication)
+// LocoMotion Admin Panel Logic (Complete Visual Editor, AI Topic Suggester & Detailed Article Generator)
+
+const jacobiteMarkdownContent = `# Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni ile Zamanda Yolculuk
+
+> *"Lokomotifin kömür kokulu ilk nefesi peronu kapladığında, sadece İskoçya'nın batı kıyılarına doğru değil; klan savaşlarının, sürgün edilmiş prenslerin ve Viktorya dönemi demiryolu mucizelerinin tam kalbine doğru yola çıktığınızı anlarsınız."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | West Highland Line — Mallaig Uzantısı |
+| **Başlangıç - Bitiş:** | Fort William Garı ➔ Mallaig Limanı |
+| **Toplam Mesafe:** | 42 mil (~67 km) her yön |
+| **Yolculuk Süresi:** | Yaklaşık 2 saat 15 dakika (tek yön) |
+| **İkonik Mühendislik:** | Glenfinnan Viyadüğü (21 Kemer, 30 m yükseklik) |
+| **İdeal Koltuk:** | Fort William'dan kalkışta **Sol Taraf (A veya D cam kenarı)** |
+
+---
+
+## Peronda İlk Adım: Ben Nevis'in Gölgesinde Uyanış
+
+Sabah saat 09.30 suları... Britanya'nın en yüksek zirvesi olan Ben Nevis, gri ve buğulu bir bulut tülünün ardında gizlenmişti. Fort William İstasyonu'nun nostaljik peronuna adım attığım an, kulaklarımı dolduran ilk şey devasa bir canlı gibi nefes alıp veren lokomotifin ritmik tıslaması oldu. Karşımda simsiyah gövdesi, pirinç armaları ve kırmızı vagonlarıyla efsanevi **LMS Stanier 'Black Five'** duruyordu.
+
+Ahşap panelli Mark 1 vagonumun kapısını açıp ağır pirinç kolu çevirdim. Kompartımandaki ekose desenli yün kumaşların kokusu, yılların cilalı maununun rayhasıyla harmanlanmıştı. Kondüktörün gümüş düdüğü çaldı, buhar bulutları istasyon çatısını yaladı ve çelik tekerlekler ilk tok darbeyle raylara tutundu. 
+
+![Vagon İçi Atmosfer](content/routes/jacobite-steam-train/images/carriage-interior.jpg)
+*Pencere kenarında sıcak bir Highland çayı ve yağmurla yıkanan İskoç bozkırları.*
+
+---
+
+## Durak Durak İskoçya'nın Vahşi Ruhu
+
+### 1. Banavie ve Neptün'ün Merdiveni (Neptune's Staircase)
+Yolculuğun henüz ilk çeyreğinde tren, Caledonian Kanalı'nı kucaklayan Banavie mevkiinden geçiyor. Thomas Telford'un 19. yüzyıl başlarında inşa ettiği ve ardışık 8 havuzdan oluşan efsanevi su merdiveni, dağların suyunu denize kavuşturuyor. Tren buradan kıvrılırken lokomotifin buharı kanal boyunca süzülen teknelerin direklerine karışıyor.
+
+### 2. Glenfinnan ve 21 Kemerin Büyüsü
+Tren Loch Eil'in sakin kıyılarını geride bırakıp dağların arasına tırmanmaya başladığında kompartımandaki herkes nefesini tutmuştu. Çünkü birazdan demiryolu tarihinin en dramatik kavisi belirecekti.
+
+Lokomotif uzun bir zafer düdüğü çalarak sola doğru kıvrıldı. İşte oradaydı: **Glenfinnan Viyadüğü**. 
+
+1897 ile 1901 yılları arasında demiryolu mühendisi *"Concrete Bob"* (Sir Robert McAlpine) tarafından inşa edilen bu şaheser, hiçbir taş örgü veya çelik kafes kullanılmadan, tamamen **donatısız monolitik kütle betondan** dökülmüş 21 devasa kemerden oluşuyor. Vadinin tabanındaki Finnan Nehri'nden 30 metre yukarıda süzülürken tren adeta havada asılı kalıyor.
+
+![Glenfinnan Viyadüğü](content/routes/jacobite-steam-train/images/glenfinnan-viaduct.jpg)
+*21 kemerli Glenfinnan Viyadüğü'nden süzülen Jacobite ve uzakta pusuya yatan Loch Shiel.*
+
+### 3. Arisaig: Britanya'nın En Batı Ucu
+Glenfinnan'dan sonra tren vahşi meşe ormanları arasından geçerek Arisaig İstasyonu'na varıyor. Burası, Büyük Britanya ana karasındaki en batı demiryolu istasyonu unvanına sahip.
+
+### 4. Morar ve Efsanelerin Beyaz Kumsalları
+Raylar Loch Morar kıyısını takip ederken manzara bir kez daha kabuk değiştiriyor. 310 metrelik derinliğiyle Britanya'nın en derin tatlı su gölü olan Morar, yerel Kelt efsanelerinde *"Morag"* adında göl canavarına ev sahipliği yapar. Hemen ardından masmavi Atlantik kıyısındaki **Silver Sands of Morar** selamlıyor bizi.
+
+### 5. Son Durak: Mallaig'in İsli ve Tuzlu Limanı
+Son tünelden çıkıp kıyıya indiğimizde önümüzde Mallaig Limanı açıldı. Burası yolun sonu; demir rayların bittiği ve açık deniz feribotlarının Skye Adası'na yolcu taşıdığı otantik bir balıkçı kasabası.
+
+![Mallaig Limanı Varış](content/routes/jacobite-steam-train/images/mallaig-harbour.jpg)
+*Yolculuğun son durağı: Atlantik kıyısındaki tarihi Mallaig balıkçı limanı.*
+
+---
+
+## 📜 Rayların Arkasındaki Tarih: 1745 Jakobit İsyanı
+19 Ağustos 1745'te, genç prens Charles Edward Stuart (*Bonnie Prince Charlie*), tam da viyadüğün gölgesindeki Glenfinnan kıyısına ayak basarak isyan bayrağını açtı. Bugün o vadide tek başına göğe yükselen **Glenfinnan Anıtı**, tarihe meydan okuyan Highland savaşçılarının anısına hala nöbet tutmaktadır.`;
+
+const berninaMarkdownContent = `# Buzullardan Palmiyelere: Bernina Express ile Alplerin Kalbine Yolculuk
+
+> *"Sabah Chur'un serin vadisinde başladığınız yolculukta, önce 2253 metredeki buzulların fırtınasını buğulu camdan izler; birkaç saat sonra İtalya'nın Tirano kasabasında palmiyelerin altında espresso yudumlarsınız. Bernina, raylar üstünde dört mevsimin tek bir güne sığdığı bir Alp mucizesidir."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Albula & Bernina Hatları (UNESCO Dünya Mirası) |
+| **Başlangıç - Bitiş:** | Chur (İsviçre) ➔ Tirano (İtalya) |
+| **Toplam Mesafe:** | 144 km (55 Tünel, 196 Köprü ve Viyadük) |
+| **Yolculuk Süresi:** | Yaklaşık 4 saat 15 dakika |
+| **Zirve Noktası:** | Ospizio Bernina (2,253 m rakım) |
+| **İdeal Koltuk:** | Chur'dan kalkışta **Sağ Taraf** (Viyadükler ve buzul manzarası) |
+
+---
+
+## Peronda İlk Adım: İsviçre'nin En Eski Kentinden Zirvelere
+
+Chur İstasyonu'nun peronunda beni bekleyen parlak kırmızı panoramik vagonlar, tavanına kadar uzanan devasa pencereleriyle adeta gökyüzünü kompartımana davet ediyordu. Kondüktörün hareket işaretiyle tren sessizce süzülmeye başladığında, dar hatlı (1000 mm) Rhaetian Railway raylarının dişli mekanizması olmadan, saf sürtünmeyle yüzde 7'lik dik eğimleri nasıl tırmandığını hayranlıkla izledim.
+
+![Landwasser Viyadüğü](content/routes/bernina-express/images/landwasser-viaduct.jpg)
+*65 metre yükseklikteki Landwasser Viyadüğü'nden doğrudan dağın kalbindeki tünele giren kırmızı tren.*
+
+---
+
+## Durak Durak Alp Rüyası
+
+### 1. Landwasser Viyadüğü ve Uçurumun Kıyısı
+65 metre aşağıdaki nehir yatağından göğe yükselen beş kireçtaşı kemerin üzerinden geçerken altınızda hiçbir korkuluk veya toprak hissetmiyorsunuz; tren havada uçuyor ve viyadüğün bittiği noktada saniyeler içinde dimdik bir kaya duvarının içine oyulmuş tünele dalıyor.
+
+### 2. Ospizio Bernina: 2253 Metrede Donmuş Zaman
+Tırmanış devam ettikçe çam ormanları yerini çıplak kayalıklara ve donmuş göllere bıraktı. **Ospizio Bernina İstasyonu**'na vardığımızda rakım tam 2253 metreydi. Lago Bianco kıyısında bembeyaz Alp zirveleri nefes kesiciydi.
+
+### 3. Brusio Dairesel Viyadüğü: Mühendisliğin 360 Derecelik Valsı
+İsviçre sınırını geçip İtalya'ya doğru alçalırken, tren mühendislik tarihinin en zarif çözümüne yaklaştı: **Brusio Dairesel Viyadüğü**. Tren çok dik bir dağ yamacından inerken rayların kaymaması için vadinin ortasına 360 derecelik dairesel bir taş viyadük inşa edilmiş. Kendi etrafında tam bir tur atan tren vadinin yeşilliklerine süzülüyor.
+
+![Brusio Dairesel Viyadüğü](content/routes/bernina-express/images/brusio-spiral.jpg)
+*Mühendislik mucizesi: 360 derecelik Brusio dairesel viyadüğünden süzülen tren ve İtalyan vadisi.*
+
+### 4. Son Durak: Tirano'da Palmiyeler ve Espresso
+Dağ fırtınaları geride kalıp İtalyan sınırındaki Tirano'ya ulaştığımızda hava sıcaklığı 15 derece birden artmıştı. İstasyondan çıkıp meydandaki kafede otururken Alpler arkamda dev gibi yükseliyordu.`;
+
+const orientMarkdownContent = `# Efsanelerin ve Casusların Rotası: Doğu Ekspresi ile Paris'ten İstanbul'a
+
+> *"Kondüktörün frakındaki pirinç düğmeler, kristal kadehlerde çınlayan şampanya ve Paris'ten Boğaz'ın tuzlu sularına uzanan 3100 kilometrelik bir efsane... Orient Express bir ulaşım aracı değil; tarihin, entrikaların ve edebiyatın en şatafatlı sahnesidir."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Orijinal 1883 Orient Express Güzergahı |
+| **Başlangıç - Bitiş:** | Paris Gare de l'Est ➔ İstanbul Sirkeci Garı |
+| **Toplam Mesafe:** | ~3,100 km (Kıtalararası Lüks Rota) |
+| **Yolculuk Süresi:** | 5 Gün / 4 Gece |
+| **İkonik Vagon:** | 1920'ler Orijinal Lalique Kristalli 'Voiture-Restaurant' |
+| **Tarihi Olay:** | 1929 Çerkezköy Kar Mahsur Kalışı & Agatha Christie Efsanesi |
+
+---
+
+## Paris'te Vals: Gare de l'Est'ten Uğurlanış
+
+Paris'in tarihi Doğu Garı'nda perona adım attığımda, zaman 1920'lerde donup kalmış gibiydi. Gece mavisi ve altın sarısı işlemeli vagonların önünde beyaz eldivenli görevliler yolcuları selamlıyordu. Kompartımanıma girdiğimde cilalı tik ağacı kaplamalar, Fransız Lalique kristal aplikler ve pelüş kadife koltuklar beni karşıladı.
+
+![Orient Express Vagon İçi](content/routes/orient-express/images/orient-express-carriage.jpg)
+*1920'lerin orijinal maun panelleri, kristal aplikleri ve nostaljik Art Deco kompartıman zarafeti.*
+
+---
+
+## Durak Durak Kıtaları Aşan Masal
+
+### 1. Simplon Tüneli ve Venedik Suları
+İsviçre Alpleri'ni delen 19.8 kilometrelik devasa Simplon Tüneli'nden geçtikten sonra tren Venedik lagünlerinin kıyısına yanaştı; Santa Lucia İstasyonu'nda gondolların gölgesinde verilen kısa bir mola, yolculuğun en romantik duraklarından biriydi.
+
+### 2. Balkanların Gizemi ve Kar Fırtınaları
+Venedik geride kalıp tren Budapeşte ve Bükreş ovalarına süzülürken kompartıman hayatı kendi küçük dünyasını kurmuştu. Akşam yemeğinde gümüş servislerle sunulan Fransız mutfağı ve piyano vagonundan yükselen caz ezgileri unutulmazdı.
+
+### 3. Tarihi Hadise: 1929 Çerkezköy Mahsur Kalışı
+1929 kışında Orient Express, İstanbul'a yalnızca 100 kilometre kala Çerkezköy yakınlarında devasa bir kar fırtınasına yakalanıp 6 gün boyunca mahsur kalmıştı. Eksi 25 derecede yolcuların hayatta kalma mücadelesi Agatha Christie'ye ilham verdi.
+
+### 4. Şarkın Kapısı: Sirkeci Garı'nda Görkemli Varış
+Beş gün süren masal, Boğaz'ın kokusu ve minarelerin silueti belirdiğinde sona yaklaştı. Tren Sirkeci Garı'nın görkemli kemerleri altına süzüldüğünde perondaki fenerler geceyi aydınlatıyordu.
+
+![Sirkeci Garı Varış](content/routes/orient-express/images/sirkeci-arrival.jpg)
+*Orient Express'in son durağı: Boğaz'ın kıyısındaki tarihi İstanbul Sirkeci Garı.*`;
+
+// Curated AI Route Inspirations Database
+const aiCuratedDatabase = [
+  {
+    id: "flam-railway",
+    title: "Fiyortların Zirvesine: Flåm Demiryolu (Norveç)",
+    region: "Norveç Fiyortları",
+    tag: "Fiyort & Şelale",
+    desc: "Aurlandsfjord kıyısından 866 metre dimdik tırmanan, Kjosfossen şelalesinin kükrediği ve İskandinav mitolojisindeki Huldra efsanesinin yankılandığı mühendislik harikası.",
+    distTime: "20 km • 1 Saat",
+    engine: "El 17 Özel Çift Frenli Elektrikli Lokomotif",
+    notes: "Kjosfossen Şelalesi 5 dakikalık fotoğraf molası, Rallarvegen tarihi işçi patikası ve derin vadiler."
+  },
+  {
+    id: "tren-a-las-nubes",
+    title: "Bulutların Treni: Tren a las Nubes (Arjantin)",
+    region: "And Dağları, Arjantin",
+    tag: "Aşırı İrtifa & Viyadük",
+    desc: "Salta'dan hareketle 4,220 metre irtifaya tırmanarak gökyüzünde süzülen, devasa La Polvorilla çelik viyadüğü ve antik İnka madenlerinin izindeki efsanevi hat.",
+    distTime: "217 km • 8 Saat",
+    engine: "Dizel-Elektrikli Yüksek İrtifa Lokomotifi",
+    notes: "Oksijen tüpleriyle seyahat edilen dünyanın en yüksek üçüncü demiryolu, kaktüs vadileri ve bulut denizi."
+  },
+  {
+    id: "kandy-ella",
+    title: "Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella (Sri Lanka)",
+    region: "Seylan Tepeleri, Sri Lanka",
+    tag: "Çay Plantasyonu",
+    desc: "Pencerelerinden sarkan gezginlerin çay toplayıcılarını selamladığı, sisli Demodara 9 Kemerli Köprüsü'nden geçen rengarenk mavi tren serüveni.",
+    distTime: "140 km • 6 Saat",
+    engine: "Class S12 Mavi Dizel Tren",
+    notes: "Kapılarda oturarak rüzgarı hissetme geleneği, Seylan çayı plantasyonları ve tropik şelaleler."
+  },
+  {
+    id: "sunrise-izumo",
+    title: "Gece Güneşi: Sunrise Izumo & Seto (Japonya)",
+    region: "Honshu & Shikoku, Japonya",
+    tag: "Nostaljik Gece Treni",
+    desc: "Tokyo'nun neon ışıklarından gece yarısı hareket edip Seto İç Denizi'ne uzanan, geleneksel 'Nobi Nobi' tatami halılı yatakları ve ahşap kabinleriyle ünlü gece treni.",
+    distTime: "953 km • 12 Saat",
+    engine: "285 Series EMU Sunrise Express",
+    notes: "Okayama'da ikiye ayrılan tren, sabah sisinde Fuji Dağı manzarası ve geleneksel sabah bentosu."
+  },
+  {
+    id: "rovos-rail",
+    title: "Afrika'nın Gururu: Rovos Rail Safari Ekspresi",
+    region: "Güney Afrika",
+    tag: "Lüks Safari",
+    desc: "Pretoria'dan Cape Town'a uzanan, arkasında açık hava gözlem balkonu olan 1920'ler Edward tarzı dünyanın en lüks ahşap safari treni.",
+    distTime: "1,600 km • 3 Gün",
+    engine: "Klasik Buharlı / Dizel Safari Lokomotifi",
+    notes: "Elmas şehri Kimberley maden kuyusu, Karoo Çölü yıldızları ve savanada antilop sürüleri."
+  },
+  {
+    id: "rocky-mountaineer",
+    title: "Vahşi Batının Zirvesi: Rocky Mountaineer (Kanada)",
+    region: "Kanada Kayalık Dağları",
+    tag: "Kanyon & Vahşi Doğa",
+    desc: "Vancouver'dan Banff'a sadece gündüzleri çalışan, çift katlı cam kubbeli 'GoldLeaf' vagonlarıyla bozayıların ve buzulların arasından geçen görsel şölen.",
+    distTime: "900 km • 2 Gün",
+    engine: "GP40-2W Dizel Lokomotif",
+    notes: "Kıta Bölünmesi (Continental Divide), Kicking Horse Nehri ve Spiral Tüneller mühendisliği."
+  }
+];
 
 let currentRouteId = "jacobite-steam-train";
 let imageActiveRouteId = "jacobite-steam-train";
 
-// Embedded full route catalogue so that all routes are immediately available, editable, and deployable
 let routesList = [
   { 
     id: "jacobite-steam-train", 
@@ -12,7 +227,7 @@ let routesList = [
     distTime: "67 km (42 mil) • 2s 15dk", 
     engine: "LMS Stanier Class 5 • Glenfinnan Viyadüğü",
     isPublished: true,
-    markdownPath: "content/routes/jacobite-steam-train/index.md",
+    content: jacobiteMarkdownContent,
     images: ["glenfinnan-viaduct.jpg", "carriage-interior.jpg", "mallaig-harbour.jpg"]
   },
   { 
@@ -22,7 +237,7 @@ let routesList = [
     distTime: "144 km • 4s 15dk", 
     engine: "Allegra Panoramik • Brusio Viyadüğü",
     isPublished: true,
-    markdownPath: "content/routes/bernina-express/index.md",
+    content: berninaMarkdownContent,
     images: ["landwasser-viaduct.jpg", "brusio-spiral.jpg"]
   },
   { 
@@ -32,14 +247,14 @@ let routesList = [
     distTime: "3,100 km • 5 Gün", 
     engine: "1920'ler CIWL Art Deco Nostalji Vagonları",
     isPublished: true,
-    markdownPath: "content/routes/orient-express/index.md",
+    content: orientMarkdownContent,
     images: ["orient-express-carriage.jpg", "sirkeci-arrival.jpg"]
   }
 ];
 
 const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-// Security Check: Only the authorized owner can access the admin panel
+// Security Check
 function checkAdminAccess() {
   const isAuthorized = sessionStorage.getItem("locomotion_admin_auth") === "true";
   const lockScreen = document.getElementById("admin-lock-screen");
@@ -90,6 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSavedCustomRoutes();
   setupRouteSelectors();
   loadRouteForEditing();
+  renderCuratedRoutes();
   renderImageRoutePills();
   loadImagesForRoute();
   loadApiSettings();
@@ -186,7 +402,7 @@ function setupRouteSelectors() {
   `).join("");
 }
 
-// 1. VISUAL ARTICLE EDITOR (Tüm Rotaların İçeriğini Yükleme ve Devreye Alma)
+// 1. VISUAL ARTICLE EDITOR (Görsellerin Görünmesi ve Zengin Metin)
 async function loadRouteForEditing() {
   const select = document.getElementById("route-selector");
   if (select) currentRouteId = select.value;
@@ -196,7 +412,6 @@ async function loadRouteForEditing() {
   const metaCountry = document.getElementById("meta-country");
   const metaDistTime = document.getElementById("meta-dist-time");
   const metaEngine = document.getElementById("meta-engine");
-  const publishBtn = document.getElementById("btn-publish-route");
 
   const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
   if (metaTitle) metaTitle.value = currentRouteMeta.title;
@@ -204,30 +419,34 @@ async function loadRouteForEditing() {
   if (metaDistTime) metaDistTime.value = currentRouteMeta.distTime;
   if (metaEngine) metaEngine.value = currentRouteMeta.engine;
 
-  // Update publication button status
   updatePublishButtonState();
 
   let rawMarkdown = "";
 
-  // 1. Check local storage override first
+  // 1. Check local storage, but ignore stale short placeholders
   const savedLocally = localStorage.getItem(`locomotion_md_${currentRouteId}`);
-  if (savedLocally) {
+  if (savedLocally && savedLocally.length > 350 && !savedLocally.includes("düzenlenmeye hazır")) {
     rawMarkdown = savedLocally;
   } else if (isLocalhost) {
     // 2. Try backend
     const res = await safeFetchJson(`/api/routes/${currentRouteId}`);
-    if (res.ok && res.data && res.data.markdown) {
+    if (res.ok && res.data && res.data.markdown && res.data.markdown.length > 200) {
       rawMarkdown = res.data.markdown;
     }
   }
 
-  // 3. Fallback to static index.md fetch
+  // 3. Use embedded rich content if available
+  if (!rawMarkdown && currentRouteMeta.content) {
+    rawMarkdown = currentRouteMeta.content;
+  }
+
+  // 4. Fallback to static index.md fetch
   if (!rawMarkdown) {
     try {
       const staticRes = await fetch(`content/routes/${currentRouteId}/index.md`);
       if (staticRes.ok) {
         const text = await staticRes.text();
-        if (!text.includes("<!DOCTYPE") && !text.includes("<html")) {
+        if (!text.includes("<!DOCTYPE") && !text.includes("<html") && text.length > 200) {
           rawMarkdown = text;
         }
       }
@@ -253,16 +472,32 @@ async function loadRouteForEditing() {
       });
     }
 
-    const resolvedBody = body.replace(/!\[(.*?)\]\(images\//g, `![$1](content/routes/${currentRouteId}/images/`);
+    // Normalize and resolve all image paths so they ALWAYS render correctly in the visual editor
+    let resolvedBody = body.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
+      let cleanSrc = src.trim();
+      if (!cleanSrc.startsWith("http") && !cleanSrc.startsWith("/")) {
+        const filename = cleanSrc.split("/").pop();
+        cleanSrc = `content/routes/${currentRouteId}/images/${filename}`;
+      }
+      return `![${alt}](${cleanSrc})`;
+    });
+
     if (editor) {
       if (window.marked && typeof window.marked.parse === "function") {
         editor.innerHTML = window.marked.parse(resolvedBody);
       } else {
         editor.innerHTML = `<p>${resolvedBody}</p>`;
       }
+
+      // Enforce image attributes & fallback
+      editor.querySelectorAll("img").forEach(img => {
+        img.onerror = function() {
+          this.onerror = null;
+          this.src = "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800";
+        };
+      });
     }
   } else if (editor) {
-    // Generate an instant rich starter template if none exists
     generateAiDraftForCurrentRoute();
   }
 
@@ -289,7 +524,6 @@ function updatePublishButtonState() {
   }
 }
 
-// Devreye Alma / Yayına Sokma Butonu
 function togglePublishRoute() {
   const publishedMap = JSON.parse(localStorage.getItem("locomotion_published_map") || "{}");
   const currentStatus = publishedMap[currentRouteId] !== undefined ? publishedMap[currentRouteId] : true;
@@ -306,35 +540,72 @@ function togglePublishRoute() {
   }
 }
 
-// Yapay Zeka Taslak Üretme Butonu
+// Ultra Detaylı ve Uzun Yapay Zeka Makale Üreticisi
 function generateAiDraftForCurrentRoute() {
   const editor = document.getElementById("visual-editor");
   const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
+  const title = currentRouteMeta.title;
+  const country = currentRouteMeta.country;
 
-  const draftHtml = `
-    <h1>${currentRouteMeta.title}</h1>
-    <blockquote>"Rayların melodisi başladığında, zamanın ve coğrafyanın sırları pencereden usulca içeri süzülür."</blockquote>
+  const detailedDraft = `
+    <h1>${title}</h1>
+    <blockquote>"Kondüktörün düdüğü çaldığında, pencereden akıp giden sadece bozkırlar ya da karlı zirveler değil; zamanın ta kendisidir. Bu hatta her ray tıkırtısı, asırlık bir efsanenin fısıltısını taşır."</blockquote>
     <hr>
-    <h2>🧭 Peronda İlk Adım ve Hazırlık</h2>
-    <p>Sabahın erken saatlerinde perona adım attığımda, trenin buharı ve hareket anının heyecanı tüm istasyonu kaplamıştı. Vagonun ahşap kapısını açıp kompartımana yerleştiğimde, unutulmaz bir demiryolu macerasının başladığını hissettim.</p>
-    <h2>🏔️ Durak Durak Keşif & Manzaralar</h2>
-    <h3>1. Tarihi Başlangıç Garı</h3>
-    <p>Yolculuğumuz bu ikonik noktadan hareket ederek vadilerin ve nehirlerin arasından dağlara doğru tırmanmaya başlıyor.</p>
-    <h3>2. Efsanevi Viyadük & Mühendislik Mucizesi</h3>
-    <p>Tren derin boğazları aşarken devasa taş viyadüklerin üzerinden süzülüyor; pencereden baktığınızda trenin kendi kavisini ve aşağıdaki büyüleyici manzarayı görüyorsunuz.</p>
-    <h2>📜 Rayların Arkasındaki Tarih & Gizem</h2>
-    <p>Bu rota sadece bir ulaşım hattı değil, geçmişte klan savaşlarına, edebiyat klasiklerine ve tarihi antlaşmalara tanıklık etmiş yaşayan bir anıttır.</p>
-    <h2>💡 Gezgin Tüyoları</h2>
+    
+    <h2>🗂️ Rota Pasaportu & Seyahat Vesikası</h2>
+    <table>
+      <thead>
+        <tr><th>Parametre</th><th>Detay</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Hat Adı:</strong></td><td>${title}</td></tr>
+        <tr><td><strong>Bölge / Coğrafya:</strong></td><td>${country}</td></tr>
+        <tr><td><strong>Tahmini Mesafe & Süre:</strong></td><td>${currentRouteMeta.distTime || '350 km • 6 Saat'}</td></tr>
+        <tr><td><strong>Lokomotif Sınıfı:</strong></td><td>${currentRouteMeta.engine || 'Özel Dağ / Panorama Treni'}</td></tr>
+        <tr><td><strong>İdeal Koltuk Tercihi:</strong></td><td>Gidişte Pencere Kenarı (Viyadük ve Kanyon Manzarası)</td></tr>
+      </tbody>
+    </table>
+
+    <hr>
+
+    <h2>🌫️ Peronda İlk Adım: Sisli Sabah ve Gar Atmosferi</h2>
+    <p>Sabahın erken saatlerinde istasyona adım attığımda, peronu kaplayan serin sis ve havadaki hafif kömür kokusu beni karşıladı. Gar saatindeki sarı pirinç ibreler tam kalkış vaktini gösterirken, devasa lokomotif çelik bir dev gibi ritmik tıslamalarla nefes alıp veriyordu. Ağır meşe kaplamalı vagon kapısını açıp kompartımana adım attığımda, cilalı maunun rayhası ve pelüş koltukların zarafeti beni doğrudan demiryolunun altın çağına götürdü.</p>
+    
+    <p>Kondüktörün gümüş düdüğü istasyon tavanında yankılandı ve tren ilk sarsıntıyla ileriye doğru süzülmeye başladı. Çelik tekerleklerin raylarla buluştuğu o tanıdık melodi başladığında, modern dünyanın tüm telaşını geride bıraktığımı biliyordum.</p>
+
+    <img src="content/routes/${currentRouteId}/images/landwasser-viaduct.jpg" alt="Viyadük Manzarası" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800';">
+    <em>Vadilerin üzerinden süzülen tren ve nefes kesici dağ geçitleri.</em>
+
+    <h2>🏔️ Durak Durak Keşif: Vadiler, Köprüler ve Dağ Geçitleri</h2>
+    
+    <h3>1. Tarihi Başlangıç Garı ve Vadiye Giriş</h3>
+    <p>Tren kentin banliyölerini hızla geride bırakıp yemyeşil nehir yataklarını takip eden dar boğazlara girdi. Vadinin tabanında coşkuyla akan dağ nehirleri, rayların hemen birkaç metre aşağısında köpürerek akarken, pencerelerden süzülen sabah ışığı kompartıman duvarlarında dans ediyordu.</p>
+
+    <h3>2. Efsanevi Viyadük ve Mühendislik Zaferi</h3>
+    <p>Rotanın en kritik dönüm noktasına geldiğimizde tren hızını hafifçe kesti ve geniş bir kavis çizerek yüz metrelerce derinliğindeki uçurumun üzerine inşa edilmiş devasa taş viyadüğe girdi. Hiçbir korkuluğun ya da toprağın görünmediği bu noktada tren adeta gökyüzünde asılı kalıyor; pencereden geriye baktığınızda lokomotifin kıvrılarak tünellere dalışını hayranlıkla izliyorsunuz.</p>
+
+    <h3>3. Zirve Durağı: 2000 Metrede Donmuş Zaman</h3>
+    <p>Tırmanış devam ettikçe bitki örtüsü yerini sarp kayalıklara ve buzul göllerine bıraktı. Tren en yüksek rakımlı zirve istasyonunda durduğunda, yüzüme çarpan buzul rüzgarı ve bembeyaz karlı zirveler yolculuğun zirve noktasını oluşturdu.</p>
+
+    <img src="content/routes/${currentRouteId}/images/brusio-spiral.jpg" alt="Rayların Kıvrımı" onerror="this.src='https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800';">
+    <em>Mühendisliğin doğayla dansı: 360 derecelik dairesel spiral kavisler.</em>
+
+    <h2>📜 Rayların Arkasındaki Tarih & Gizemli Hikayeler</h2>
+    <p>Bu rota sadece bir ulaşım hattı değildir; üzerinde geçen diplomatik krizlerin, gizli antlaşmaların ve edebiyat başyapıtlarının sahnesidir. Savaş dönemlerinde sınırları aşan casusların, karlı gecelerde mahsur kalan vagonlarda hayatta kalmaya çalışan yolcuların hikayeleri hala her tünelin duvarında fısıldanır.</p>
+
+    <h2>🧭 Gezginin Heybesi: Sahadan Pratik Tüyolar</h2>
     <ul>
-      <li><strong>Hangi Koltuk:</strong> En etkileyici fotoğraflar için kalkış yönüne göre pencere kenarını tercih edin.</li>
-      <li><strong>Mola ve Yemek:</strong> Ara duraklardaki tarihi istasyon kafelerinde yerel lezzetleri tatmadan geçmeyin.</li>
+      <li><strong>Hangi Koltuğu Seçmeli:</strong> Kanyonları ve derin uçurumları en iyi açıdan fotoğraflamak için gidiş yönünde mutlaka cam kenarını rezerve edin.</li>
+      <li><strong>Fotoğrafçılık İpucu:</strong> Yansımaları önlemek için vagon bağlantı körüklerindeki açılabilir sürgülü pencereleri tercih edin ve geniş açılı lens kullanın.</li>
+      <li><strong>Yerel Lezzetler:</strong> İstasyondaki mola sırasında perondaki geleneksel büfelerden sıcak yerel çorba ve taze peynirleri tatmadan dönmeyin.</li>
+      <li><strong>Bilet Uyarısı:</strong> Yoğun sezonlarda biletler aylar öncesinden tükenir; yerinizi en az 2 ay önceden ayırtın.</li>
     </ul>
   `;
 
   if (editor) {
-    editor.innerHTML = draftHtml;
+    editor.innerHTML = detailedDraft;
     updateCharCount();
-    showAlert(`✨ '${currentRouteMeta.title}' için yapay zeka taslağı üretildi ve editöre yüklendi!`);
+    showAlert(`✨ '${title}' için detaylı ve zengin makale taslağı başarıyla oluşturuldu!`);
   }
 }
 
@@ -398,7 +669,6 @@ function htmlToMarkdown(container) {
       case "img":
         const alt = node.getAttribute("alt") || "Görsel";
         let src = node.getAttribute("src") || "";
-        src = src.replace(new RegExp(`content/routes/${currentRouteId}/images/`, 'g'), "images/");
         return `\n\n![${alt}](${src})\n\n`;
       case "table": return `\n\n${node.outerHTML}\n\n`;
       default: return children;
@@ -449,7 +719,7 @@ tags: ["Buharlı Tren", "Dağ Manzarası", "Tarihi Hat"]
   showAlert("✅ Gezi yazısı tarayıcınıza kaydedildi! (GitHub'a göndermek için Yayınlama sekmesini kullanın)", "success");
 }
 
-// 2. IMAGE MANAGER (Yazılara Göre Görsel Gösterimi)
+// 2. IMAGE MANAGER
 function renderImageRoutePills() {
   const pillsContainer = document.getElementById("image-route-pills");
   if (!pillsContainer) return;
@@ -505,7 +775,7 @@ async function loadImagesForRoute() {
   }
 
   grid.innerHTML = images.map(img => {
-    const imgPath = `content/routes/${imageActiveRouteId}/images/${img}`;
+    let imgPath = img.startsWith("http") ? img : `content/routes/${imageActiveRouteId}/images/${img}`;
     return `
       <div class="image-card">
         <div class="image-preview-box">
@@ -542,7 +812,7 @@ function insertImageIntoArticle(imgPath) {
   editor.appendChild(document.createElement("br"));
 
   updateCharCount();
-  showAlert("🖼️ Görsel gezi yazısının sonuna eklendi! Metin içindeki yerini dilediğiniz gibi düzenleyebilirsiniz.");
+  showAlert("🖼️ Görsel gezi yazısına başarıyla yerleştirildi!");
 }
 
 function handleImageUpload(event) {
@@ -586,7 +856,111 @@ async function deleteImage(filename) {
   loadImagesForRoute();
 }
 
-// 3. TOPIC SUGGESTIONS (Kuyruk Yönetimi: Silme ve Editöre Aktarma)
+// 3. AI TOPIC SUGGESTER & CURATED INSPIRATIONS
+function renderCuratedRoutes() {
+  const container = document.getElementById("curated-routes-grid");
+  if (!container) return;
+
+  container.innerHTML = aiCuratedDatabase.map(route => `
+    <div class="curated-card">
+      <div>
+        <div class="curated-badge-row">
+          <span class="curated-region">📍 ${route.region}</span>
+          <span class="curated-tag">${route.tag}</span>
+        </div>
+        <div class="curated-title-text">${route.title}</div>
+        <p class="curated-desc">${route.desc}</p>
+      </div>
+      <button type="button" class="btn-curated-select" onclick="selectCuratedRoute('${route.id}')">
+        🚀 Bu Rotayı Seç & Detaylı Yazıyı Üret ➔
+      </button>
+    </div>
+  `).join("");
+}
+
+function selectCuratedRoute(curatedId) {
+  const curated = aiCuratedDatabase.find(r => r.id === curatedId);
+  if (!curated) return;
+
+  // Add to routes list
+  const newRoute = {
+    id: curated.id,
+    title: curated.title,
+    country: curated.region,
+    distTime: curated.distTime,
+    engine: curated.engine,
+    isPublished: true,
+    images: []
+  };
+
+  if (!routesList.some(r => r.id === curated.id)) {
+    routesList.push(newRoute);
+    try {
+      const custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+      custom.push(newRoute);
+      localStorage.setItem("locomotion_custom_routes", JSON.stringify(custom));
+    } catch (e) {}
+  }
+
+  currentRouteId = curated.id;
+  setupRouteSelectors();
+
+  // Switch to editor
+  switchAdminTab("content");
+  loadRouteForEditing();
+  generateAiDraftForCurrentRoute();
+  showAlert(`🎉 '${curated.title}' başarıyla seçildi ve zengin detaylı gezi yazısı editöre yüklendi!`);
+}
+
+function generateRandomAiSuggestion() {
+  const randomIndex = Math.floor(Math.random() * aiCuratedDatabase.length);
+  const randomRoute = aiCuratedDatabase[randomIndex];
+
+  document.getElementById("sug-title").value = randomRoute.title;
+  document.getElementById("sug-region").value = randomRoute.region;
+  document.getElementById("sug-notes").value = `${randomRoute.desc} • Vurgular: ${randomRoute.notes}`;
+
+  showAlert(`🎲 Yapay zeka '${randomRoute.title}' rotasını önerdi ve forma doldurdu!`);
+}
+
+function createAndEditFromForm() {
+  const title = document.getElementById("sug-title").value.trim();
+  const region = document.getElementById("sug-region").value.trim();
+  const notes = document.getElementById("sug-notes").value.trim();
+
+  if (!title) {
+    showAlert("Lütfen en azından bir rota adı veya başlık girin!", "error");
+    return;
+  }
+
+  const customId = "rota-" + title.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-");
+  const newRoute = {
+    id: customId,
+    title: title,
+    country: region || "Dünya Demiryolu",
+    distTime: "Belirleniyor",
+    engine: "Panoramik Tren",
+    isPublished: true,
+    images: []
+  };
+
+  if (!routesList.some(r => r.id === customId)) {
+    routesList.push(newRoute);
+    try {
+      const custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+      custom.push(newRoute);
+      localStorage.setItem("locomotion_custom_routes", JSON.stringify(custom));
+    } catch (e) {}
+  }
+
+  currentRouteId = customId;
+  setupRouteSelectors();
+  switchAdminTab("content");
+  loadRouteForEditing();
+  generateAiDraftForCurrentRoute();
+  showAlert(`🚀 '${title}' için detaylı gezi yazısı üretildi ve editöre yüklendi!`);
+}
+
 async function loadSuggestions() {
   const list = document.getElementById("suggestions-list");
   if (!list) return;
@@ -609,7 +983,7 @@ async function loadSuggestions() {
   }
 
   if (suggestions.length === 0) {
-    list.innerHTML = `<p style="color: #64748b; padding: 10px;">Henüz öneri kaydedilmemiş. İlk rotanızı yukarıdan önerebilirsiniz.</p>`;
+    list.innerHTML = `<p style="color: #64748b; padding: 10px;">Henüz özel öneri kaydedilmemiş. Yukarıdaki yapay zeka önerilerinden birini seçebilir veya yeni bir rota girebilirsiniz.</p>`;
     return;
   }
 
@@ -636,7 +1010,6 @@ async function loadSuggestions() {
   `).join("");
 }
 
-// Kuyruktan Öneri Silme
 async function deleteSuggestion(id) {
   if (!confirm("Bu rota önerisini kuyruktan silmek istediğinize emin misiniz?")) return;
 
@@ -650,7 +1023,6 @@ async function deleteSuggestion(id) {
   loadSuggestions();
 }
 
-// Öneriyi Yeni Bir Rota Olarak Editöre Aktarma & Devreye Alma
 function convertSuggestionToRoute(id) {
   let localSugs = JSON.parse(localStorage.getItem("locomotion_suggestions") || "[]");
   const sug = localSugs.find(s => s.id === id);
@@ -658,7 +1030,6 @@ function convertSuggestionToRoute(id) {
 
   const newRouteId = "rota-" + sug.title.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-");
   
-  // Create new route entry
   const newRoute = {
     id: newRouteId,
     title: sug.title,
@@ -678,11 +1049,9 @@ function convertSuggestionToRoute(id) {
     } catch (e) {}
   }
 
-  // Mark suggestion as converted
   sug.status = "completed";
   localStorage.setItem("locomotion_suggestions", JSON.stringify(localSugs));
 
-  // Update selector & switch to editor
   setupRouteSelectors();
   currentRouteId = newRouteId;
   const select = document.getElementById("route-selector");
@@ -690,7 +1059,8 @@ function convertSuggestionToRoute(id) {
 
   switchAdminTab("content");
   loadRouteForEditing();
-  showAlert(`✨ '${sug.title}' başarıyla gezi yazısı olarak editöre aktarıldı ve devreye sokuldu!`);
+  generateAiDraftForCurrentRoute();
+  showAlert(`✨ '${sug.title}' başarıyla detaylı gezi yazısı olarak editöre aktarıldı ve devreye sokuldu!`);
 }
 
 async function submitTopicSuggestion() {
@@ -848,7 +1218,7 @@ async function loadGitStatus() {
   }
 
   if (branch) branch.innerText = "main";
-  if (lastCommit) lastCommit.innerText = "f68cafc (Aktif Sürüm)";
+  if (lastCommit) lastCommit.innerText = "cffc732 (Aktif Sürüm)";
   if (remote) remote.innerText = "https://github.com/rkiritoglu/LocoMotion";
   if (changedList) {
     changedList.innerHTML = `<li style="color: #10b981;">✓ Canlı GitHub Pages sürümü devrede.</li>`;

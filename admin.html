@@ -185,29 +185,44 @@
         </div>
       </section>
 
-      <!-- TAB 3: Suggest New Topic -->
+      <!-- TAB 3: Suggest New Topic (AI Destekli Rota Önerileri & İlham Havuzu) -->
       <section id="tab-suggest" class="admin-tab-pane">
         <div class="pane-header">
           <div>
-            <h2>Yapay Zekaya Yeni Rota / Konu Öner</h2>
-            <p class="pane-desc">Aklınızdaki tren rotasını, geçmesini istediğiniz durakları veya tarihi hadiseleri not edin.</p>
+            <h2>Yapay Zeka Destekli Rota & Konu Keşfi</h2>
+            <p class="pane-desc">Yapay zekanın dünya arşivinden seçtiği ikonik rotaları inceleyin veya kendi rotanızı girip detaylı makaleye dönüştürün.</p>
+          </div>
+          <button type="button" class="btn btn-ai-draft" onclick="generateRandomAiSuggestion()" title="Yapay zekanın veritabanından rastgele büyüleyici bir tren rotası öner">
+            🎲 Yapay Zekadan Rota Önerisi Al
+          </button>
+        </div>
+
+        <!-- Yapay Zekanın Seçtiği Hazır İlham Verici Rotalar Grid -->
+        <div class="ai-curated-section">
+          <h3 class="curated-title">✨ Yapay Zekanın Seçtiği İlham Verici Rotalar (Tek Tıkla Editöre Alın)</h3>
+          <div class="curated-cards-grid" id="curated-routes-grid">
+            <!-- Injected via admin.js -->
           </div>
         </div>
 
         <div class="suggest-form-card">
+          <h3 class="form-card-title">📝 Yeni Bir Rota Girişi Yapın</h3>
           <div class="form-group">
             <label for="sug-title">Tren Rotası veya Konu Başlığı *</label>
-            <input type="text" id="sug-title" class="admin-input" placeholder="Örn: Glacier Express (Zermatt - St. Moritz) veya Trans-Sibirya Gece Treni">
+            <input type="text" id="sug-title" class="admin-input" placeholder="Örn: Flåm Demiryolu (Myrdal - Flåm)">
           </div>
           <div class="form-group">
             <label for="sug-region">Ülke / Bölge</label>
-            <input type="text" id="sug-region" class="admin-input" placeholder="Örn: İsviçre Alpleri, Japonya, Norveç Fiyortları">
+            <input type="text" id="sug-region" class="admin-input" placeholder="Örn: Norveç Fiyortları">
           </div>
           <div class="form-group">
-            <label for="sug-notes">Gezgin Notları & Vurgulanmasını İstediğiniz Detaylar</label>
-            <textarea id="sug-notes" class="admin-textarea-sm" placeholder="Örn: Kış manzarasına ve donmuş göllere özellikle odaklanılsın. Vagon içi yerel peynir fondü tadımı ve tarihi viyadük mühendisliği anlatılsın."></textarea>
+            <label for="sug-notes">Gezgin Notları & Vurgulanmasını İstediğiniz Detaylar (Duraklar, Efsaneler, Tarih)</label>
+            <textarea id="sug-notes" class="admin-textarea-sm" placeholder="Örn: Kjosfossen Şelalesi, 866 metre dik eğim, Huldra efsanesi ve fiyort manzarası detaylıca anlatılsın."></textarea>
           </div>
-          <button class="btn btn-primary" onclick="submitTopicSuggestion()">💡 Öneriyi Kaydet & AI Kuyruğuna Ekle</button>
+          <div class="form-action-row">
+            <button type="button" class="btn btn-primary" onclick="submitTopicSuggestion()">💡 Öneriyi Kaydet & Kuyruğa Ekle</button>
+            <button type="button" class="btn btn-publish" onclick="createAndEditFromForm()">🚀 Bu Rotayı Hemen Detaylı Yazıya Dönüştür</button>
+          </div>
         </div>
 
         <h3 class="sub-heading">Kayıtlı Öneri Havuzu</h3>
