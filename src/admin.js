@@ -817,14 +817,6 @@ function htmlToMarkdown(container) {
 
   return processNode(container).replace(/\n{3,}/g, "\n\n").trim();
 }
-        return `\n\n![${alt}](${src})\n\n`;
-      case "table": return `\n\n${node.outerHTML}\n\n`;
-      default: return children;
-    }
-  }
-
-  return processNode(container).replace(/\n{3,}/g, "\n\n").trim();
-}
 
 async function saveVisualArticle() {
   const editor = document.getElementById("visual-editor");
