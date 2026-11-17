@@ -127,6 +127,7 @@
           <button type="button" class="tool-btn" onclick="formatDoc('insertUnorderedList')" title="Madde İmleri">• Liste</button>
           <button type="button" class="tool-btn" onclick="insertHorizontalRule()" title="Ayraç Çizgisi">— Çizgi</button>
           <button type="button" class="tool-btn highlight" onclick="promptInsertImage()" title="Yazıya Görsel Ekle">🖼️ Görsel Ekle</button>
+          <button type="button" class="tool-btn highlight-ai" onclick="openAiImageStudioModal()" title="Referans görselden AI ile telifsiz yeni görsel üret ve doğrudan yazıya ekle">✨ Referanstan AI Görsel Üret</button>
           <span class="tool-status" id="char-count">0 karakter</span>
         </div>
 
@@ -154,6 +155,20 @@
               🗑️ Tüm Görselleri Sil
             </button>
           </div>
+        </div>
+
+        <!-- AI Reference Image Studio Banner -->
+        <div class="ai-studio-card">
+          <div class="ai-studio-header">
+            <span class="studio-icon">🎨</span>
+            <div>
+              <h3>AI Referans Görsel Stüdyosu</h3>
+              <p>İnternetten bulduğunuz veya elinizdeki bir tren/istasyon fotoğrafını referans vererek telifsiz, yepyeni bir seyahat fotoğrafı üretin ve doğrudan gezi yazınıza ekleyin.</p>
+            </div>
+          </div>
+          <button type="button" class="btn-ai-studio" onclick="openAiImageStudioModal()">
+            ✨ Referanstan AI Görsel Üret ➔
+          </button>
         </div>
 
         <div class="image-route-selector-bar">
@@ -340,6 +355,84 @@
         </div>
       </section>
     </main>
+  </div>
+
+  <!-- AI Image Studio Modal (Referanstan Telifsiz Görsel Üretme) -->
+  <div id="ai-image-modal" class="modal-backdrop hidden">
+    <div class="ai-studio-modal-card">
+      <div class="modal-card-header">
+        <div class="modal-title-group">
+          <span class="studio-badge">AI STÜDYO</span>
+          <h2>Referans Görsel ile Telifsiz Seyahat Fotoğrafı Üretimi</h2>
+        </div>
+        <button type="button" class="btn-modal-close" onclick="closeAiImageStudioModal()">&times;</button>
+      </div>
+
+      <div class="modal-card-body">
+        <div class="studio-steps-grid">
+          <!-- Sol Kolon: Referans Belirleme -->
+          <div class="studio-col">
+            <label class="studio-label">1. Adım: Referans Görselinizi Belirleyin</label>
+            <p class="studio-hint">Bilgisayarınızdan fotoğraf seçin veya web bağlantısı yapıştırın:</p>
+            
+            <div class="ref-input-tabs">
+              <label class="btn-ref-upload">
+                📁 Fotoğraf Yükle
+                <input type="file" id="ref-modal-file" accept="image/*" onchange="handleModalRefFile(event)" style="display:none;">
+              </label>
+              <span style="font-size: 12px; color: #888;">veya</span>
+              <input type="url" id="ref-modal-url" class="admin-input" style="padding: 6px 10px; font-size: 0.85rem;" placeholder="https://... görsel bağlantısı" oninput="handleModalRefUrl(this.value)">
+            </div>
+
+            <div class="ref-preview-area" id="ref-preview-area">
+              <div class="ref-placeholder" id="ref-placeholder">
+                <span>🖼️</span>
+                <p>Henüz referans görsel yüklenmedi.<br>Yukarıdan bir fotoğraf seçin veya URL girin.</p>
+              </div>
+              <img id="ref-preview-img" class="ref-preview-img hidden" alt="Referans Görsel">
+            </div>
+          </div>
+
+          <!-- Sağ Kolon: AI İstekleri & Üretim -->
+          <div class="studio-col">
+            <label class="studio-label">2. Adım: Yapay Zekaya Yönergeler</label>
+            <p class="studio-hint">Fotoğrafta öne çıkarılacak atmosfer, hava durumu veya detaylar:</p>
+            
+            <div class="form-group">
+              <label for="ai-gen-prompt">Görsel Kompozisyon İpuçları:</label>
+              <textarea id="ai-gen-prompt" class="admin-textarea-sm" rows="3" placeholder="Örn: Dağ kanyonundan geçen nostaljik buharlı tren, sabah sisi, 35mm film estetiği, altın saat ışığı..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Hedef Gezi Yazısı:</label>
+              <div id="ai-gen-target-route-label" style="font-weight: 700; color: var(--accent-gold); font-size: 0.95rem;">-</div>
+            </div>
+
+            <div class="studio-action-box" style="margin-top: 16px;">
+              <button type="button" id="btn-start-ai-gen" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem;" onclick="generateRoyaltyFreeFromReference()">
+                ✨ Referanstan Telifsiz Görseli Üret & Yazıya Ekle
+              </button>
+              
+              <div id="ai-gen-loading" class="ai-gen-loading hidden">
+                <div class="spinner"></div>
+                <span>🎨 Yapay zeka referansı inceliyor ve telifsiz fotoğrafı oluşturuyor...</span>
+              </div>
+            </div>
+
+            <!-- Önizleme & Sonuç -->
+            <div id="ai-gen-result-box" class="ai-gen-result-box hidden">
+              <div class="result-badge">🎉 Telifsiz Görsel Üretildi ve Yazıya Eklendi!</div>
+              <img id="ai-gen-result-img" class="ai-gen-result-img" alt="Üretilen Görsel">
+              <div class="result-actions">
+                <button type="button" class="btn btn-secondary-sm" onclick="closeAiImageStudioModal()">
+                  Editöre Dön & İncele
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="src/admin.js"></script>

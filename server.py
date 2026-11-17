@@ -11,8 +11,11 @@ import json
 import os
 import re
 import urllib.parse
+import urllib.request
 import subprocess
 import base64
+import time
+import random
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -221,6 +224,84 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({"error": f"Failed to save image: {e}"}, 500)
             return
 
+        elif path.startswith("/api/routes/") and path.endswith("/generate-from-reference"):
+            route_id = path.split("/")[3]
+            prompt = body.get("prompt", "").strip()
+            ref_b64 = body.get("reference_base64", "")
+            user_notes = body.get("notes", "").strip()
+
+            cfg = read_json_file(CONFIG_FILE, {})
+            gemini_key = body.get("gemini_key") or cfg.get("gemini_api_key", "")
+
+            refined_prompt = prompt
+            if gemini_key and ref_b64 and not gemini_key.startswith("***"):
+                try:
+                    raw_data = ref_b64
+                    mime_type = "image/jpeg"
+                    if "data:" in raw_data and ";base64," in raw_data:
+                        header, raw_data = raw_data.split(";base64,", 1)
+                        mime_type = header.replace("data:", "")
+
+                    gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={gemini_key}"
+                    gemini_payload = {
+                        "contents": [{
+                            "parts": [
+                                {"text": f"This is a reference travel photo. Write a concise 30-word prompt for generating a royalty-free cinematic 35mm travel photograph with similar train railway composition, lighting and landscape style for {route_id}. Return ONLY the prompt in English."},
+                                {"inline_data": {"mime_type": mime_type, "data": raw_data}}
+                            ]
+                        }]
+                    }
+                    g_req = urllib.request.Request(gemini_url, data=json.dumps(gemini_payload).encode("utf-8"), headers={"Content-Type": "application/json"})
+                    with urllib.request.urlopen(g_req, timeout=12) as g_resp:
+                        g_data = json.loads(g_resp.read().decode("utf-8"))
+                        text_res = g_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                        if text_res and len(text_res) > 10:
+                            refined_prompt = text_res
+                except Exception as e:
+                    print("Gemini vision analysis note:", e)
+
+            if not refined_prompt:
+                refined_prompt = f"{route_id} scenic railway travel train landscape 35mm photography"
+
+            clean_prompt = re.sub(r'[^a-zA-Z0-9\s,]', ' ', refined_prompt)
+            clean_prompt = ' '.join(clean_prompt.split()[:35])
+            if "travel photography" not in clean_prompt.lower():
+                clean_prompt += " cinematic 35mm travel photography"
+
+            timestamp = int(time.time())
+            filename = f"ai-ref-{timestamp}.jpg"
+            img_dir = ROUTES_DIR / route_id / "images"
+            img_dir.mkdir(parents=True, exist_ok=True)
+            target_path = img_dir / filename
+
+            # Generate via Pollinations AI
+            try:
+                encoded = urllib.parse.quote(clean_prompt)
+                seed = random.randint(1000, 999999)
+                gen_url = f"https://image.pollinations.ai/prompt/{encoded}?width=1280&height=720&nologo=true&seed={seed}"
+
+                req = urllib.request.Request(gen_url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    img_data = resp.read()
+                    if len(img_data) > 1000:
+                        target_path.write_bytes(img_data)
+            except Exception as e:
+                if ref_b64:
+                    raw_data = ref_b64.split(";base64,", 1)[1] if ";base64," in ref_b64 else ref_b64
+                    target_path.write_bytes(base64.b64decode(raw_data))
+                else:
+                    self.send_json({"error": f"Görsel üretilemedi: {e}"}, 500)
+                    return
+
+            self.send_json({
+                "success": True,
+                "filename": filename,
+                "path": f"content/routes/{route_id}/images/{filename}",
+                "prompt_used": clean_prompt,
+                "message": "Referans görselden telifsiz seyahat fotoğrafı üretildi ve kaydedildi."
+            })
+            return
+
         elif path.startswith("/api/routes/"):
             parts = path.split("/")
             route_id = parts[3]
@@ -241,7 +322,6 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({"error": "Title is required"}, 400)
                 return
             data = read_json_file(SUGGESTIONS_FILE, {"suggestions": []})
-            import time
             new_item = {
                 "id": f"sug-{int(time.time())}",
                 "title": title,

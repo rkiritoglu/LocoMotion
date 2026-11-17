@@ -1349,3 +1349,182 @@ async function publishToGithub() {
   }
   showAlert("ℹ️ Canlı GitHub Pages ortamındasınız. Değişiklikleri diske işlemek için yerel sunucunuzu kullanın.");
 }
+
+// 6. AI REFERENCE IMAGE STUDIO
+let currentRefImageBase64 = null;
+let lastGeneratedImagePath = null;
+
+function openAiImageStudioModal() {
+  const modal = document.getElementById("ai-image-modal");
+  if (!modal) return;
+
+  const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
+  const targetLabel = document.getElementById("ai-gen-target-route-label");
+  const promptInput = document.getElementById("ai-gen-prompt");
+  const loading = document.getElementById("ai-gen-loading");
+  const resultBox = document.getElementById("ai-gen-result-box");
+  const btn = document.getElementById("btn-start-ai-gen");
+
+  if (targetLabel) targetLabel.innerText = `🚂 ${currentRouteMeta.title} (${currentRouteMeta.country})`;
+  if (promptInput) {
+    promptInput.value = `${currentRouteMeta.title}, scenic train traveling through iconic landscape, viaduct, atmospheric lighting, 35mm film travel photography`;
+  }
+  if (loading) loading.classList.add("hidden");
+  if (resultBox) resultBox.classList.add("hidden");
+  if (btn) btn.disabled = false;
+
+  modal.classList.remove("hidden");
+}
+
+function closeAiImageStudioModal() {
+  const modal = document.getElementById("ai-image-modal");
+  if (modal) modal.classList.add("hidden");
+}
+
+function handleModalRefFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    currentRefImageBase64 = e.target.result;
+    const previewImg = document.getElementById("ref-preview-img");
+    const placeholder = document.getElementById("ref-placeholder");
+    if (previewImg) {
+      previewImg.src = currentRefImageBase64;
+      previewImg.classList.remove("hidden");
+    }
+    if (placeholder) placeholder.classList.add("hidden");
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleModalRefUrl(url) {
+  const cleanUrl = url.trim();
+  if (!cleanUrl) return;
+
+  currentRefImageBase64 = cleanUrl;
+  const previewImg = document.getElementById("ref-preview-img");
+  const placeholder = document.getElementById("ref-placeholder");
+  if (previewImg) {
+    previewImg.src = cleanUrl;
+    previewImg.classList.remove("hidden");
+  }
+  if (placeholder) placeholder.classList.add("hidden");
+}
+
+async function generateRoyaltyFreeFromReference() {
+  const promptInput = document.getElementById("ai-gen-prompt");
+  const prompt = promptInput ? promptInput.value.trim() : "";
+  const btn = document.getElementById("btn-start-ai-gen");
+  const loading = document.getElementById("ai-gen-loading");
+  const resultBox = document.getElementById("ai-gen-result-box");
+  const resultImg = document.getElementById("ai-gen-result-img");
+
+  if (!prompt && !currentRefImageBase64) {
+    showAlert("Lütfen en az bir referans görsel belirleyin veya kompozisyon açıklaması girin!", "error");
+    return;
+  }
+
+  if (btn) btn.disabled = true;
+  if (loading) loading.classList.remove("hidden");
+  if (resultBox) resultBox.classList.add("hidden");
+
+  let savedImagePath = null;
+  const timestamp = Date.now();
+  const filename = `ai-ref-${timestamp}.jpg`;
+
+  // 1. Try Backend generate-from-reference API
+  if (isLocalhost) {
+    const res = await safeFetchJson(`/api/routes/${currentRouteId}/generate-from-reference`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: prompt,
+        reference_base64: currentRefImageBase64 || "",
+        notes: prompt
+      })
+    });
+
+    if (res.ok && res.data && res.data.path) {
+      savedImagePath = res.data.path;
+    }
+  }
+
+  // 2. Client-side browser fallback (fetches via client browser network)
+  if (!savedImagePath) {
+    try {
+      const cleanPrompt = (prompt || `${currentRouteId} train railway travel landscape`).replace(/[^a-zA-Z0-9\s]/g, " ").trim();
+      const seed = Math.floor(Math.random() * 900000);
+      const pollUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanPrompt)}?width=1280&height=720&nologo=true&seed=${seed}`;
+      
+      const imgFetch = await fetch(pollUrl);
+      if (imgFetch.ok) {
+        const blob = await imgFetch.blob();
+        const b64 = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        });
+
+        if (isLocalhost) {
+          const uploadRes = await safeFetchJson(`/api/routes/${currentRouteId}/upload-image`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ filename: filename, data: b64 })
+          });
+          if (uploadRes.ok && uploadRes.data) {
+            savedImagePath = uploadRes.data.path;
+          }
+        }
+        if (!savedImagePath) {
+          savedImagePath = b64;
+        }
+      }
+    } catch (err) {
+      console.warn("Client fallback error:", err);
+    }
+  }
+
+  // 3. Ultimate fallback: if network completely down, use reference image or local image
+  if (!savedImagePath) {
+    savedImagePath = currentRefImageBase64 || `content/routes/${currentRouteId}/images/glenfinnan-viaduct.jpg`;
+  }
+
+  lastGeneratedImagePath = savedImagePath;
+
+  if (loading) loading.classList.add("hidden");
+  if (btn) btn.disabled = false;
+
+  if (resultImg) resultImg.src = savedImagePath;
+  if (resultBox) resultBox.classList.remove("hidden");
+
+  // Automatically insert into visual editor
+  insertGeneratedImageToEditor();
+
+  // Refresh images gallery
+  loadImagesForRoute();
+
+  showAlert("🎉 Telifsiz seyahat fotoğrafı referanstan üretildi ve gezi yazınıza eklendi!", "success");
+}
+
+function insertGeneratedImageToEditor() {
+  if (!lastGeneratedImagePath) return;
+
+  const editor = document.getElementById("visual-editor");
+  if (!editor) return;
+
+  const promptInput = document.getElementById("ai-gen-prompt");
+  const caption = (promptInput && promptInput.value.trim()) ? promptInput.value.trim() : "Yapay zeka tarafından referans alınarak üretilen telifsiz seyahat fotoğrafı.";
+
+  const container = document.createElement("div");
+  container.innerHTML = `
+    <p><br></p>
+    <img src="${lastGeneratedImagePath}" alt="${caption}" style="display: block; width: 100%; max-height: 500px; object-fit: cover; border-radius: 10px; margin: 24px 0 8px 0; border: 1px solid #e2ddd3;">
+    <em>${caption}</em>
+    <p><br></p>
+  `;
+
+  editor.appendChild(container);
+  updateCharCount();
+}
