@@ -228,30 +228,6 @@ function setupAdminVisibility() {
   if (isLocal && adminPill) {
     adminPill.style.display = "inline-flex";
   }
-
-  // Gizli Yönetici Erişimi (Site Sahibi için):
-  window.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
-      e.preventDefault();
-      window.location.href = "admin.html";
-    }
-  });
-
-  let logoClickCount = 0;
-  let logoClickTimer = null;
-  const trainIcon = document.querySelector(".logo-area");
-  if (trainIcon) {
-    trainIcon.addEventListener("click", () => {
-      logoClickCount++;
-      clearTimeout(logoClickTimer);
-      if (logoClickCount >= 3) {
-        logoClickCount = 0;
-        window.location.href = "admin.html";
-      } else {
-        logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
-      }
-    });
-  }
 }
 
 // Render Route Cards

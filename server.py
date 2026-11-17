@@ -343,6 +343,15 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_json({"error": "Image not found"}, 404)
             return
 
+        elif path.startswith("/api/suggestions/"):
+            sug_id = path.split("/")[3]
+            data = read_json_file(SUGGESTIONS_FILE, {"suggestions": []})
+            before_len = len(data.get("suggestions", []))
+            data["suggestions"] = [s for s in data.get("suggestions", []) if s.get("id") != sug_id]
+            write_json_file(SUGGESTIONS_FILE, data)
+            self.send_json({"success": True, "deleted": before_len > len(data["suggestions"])})
+            return
+
         self.send_json({"error": "Endpoint not found"}, 404)
 
 def run():

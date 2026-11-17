@@ -254,53 +254,7 @@ let routesList = [
 
 const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-// Security Check
-function checkAdminAccess() {
-  const isAuthorized = sessionStorage.getItem("locomotion_admin_auth") === "true";
-  const lockScreen = document.getElementById("admin-lock-screen");
-
-  if (isLocalhost) {
-    if (lockScreen) lockScreen.classList.add("hidden");
-    return;
-  }
-
-  if (!isAuthorized && lockScreen) {
-    lockScreen.classList.remove("hidden");
-  } else if (lockScreen) {
-    lockScreen.classList.add("hidden");
-  }
-}
-
-function handleAdminLogin(event) {
-  event.preventDefault();
-  const input = document.getElementById("admin-lock-input");
-  const errorMsg = document.getElementById("lock-error-msg");
-  const lockScreen = document.getElementById("admin-lock-screen");
-
-  const entered = input ? input.value.trim() : "";
-  const storedPass = localStorage.getItem("locomotion_admin_password") || "locomotion";
-
-  if (entered === storedPass || entered === "LocoMotion2026") {
-    sessionStorage.setItem("locomotion_admin_auth", "true");
-    if (lockScreen) lockScreen.classList.add("hidden");
-    if (errorMsg) errorMsg.classList.add("hidden");
-    showAlert("🔓 Hoş geldiniz! Yönetici paneli kilidi açıldı.");
-  } else {
-    if (errorMsg) errorMsg.classList.remove("hidden");
-    if (input) {
-      input.value = "";
-      input.focus();
-    }
-  }
-}
-
-function adminLogout() {
-  sessionStorage.removeItem("locomotion_admin_auth");
-  window.location.href = "/";
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  checkAdminAccess();
   updateEnvironmentBadge();
   loadSavedCustomRoutes();
   setupRouteSelectors();
@@ -318,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-function loadSavedCustomRoutes() {
+async function loadSavedCustomRoutes() {
   try {
     const saved = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
     saved.forEach(sr => {
@@ -327,29 +281,48 @@ function loadSavedCustomRoutes() {
       }
     });
   } catch (e) {}
+
+  if (isLocalhost) {
+    try {
+      const res = await safeFetchJson("/api/routes");
+      if (res.ok && res.data && res.data.routes) {
+        let changed = false;
+        res.data.routes.forEach(dr => {
+          if (!routesList.some(r => r.id === dr.id)) {
+            const meta = dr.metadata || {};
+            routesList.push({
+              id: dr.id,
+              title: meta.title || dr.id,
+              country: meta.country || "Demiryolu Rotası",
+              distTime: meta.duration || "Belirtilmedi",
+              engine: meta.locomotive || "Lokomotif",
+              isPublished: true,
+              images: dr.images || [],
+              content: dr.markdown || ""
+            });
+            changed = true;
+          }
+        });
+        if (changed) {
+          setupRouteSelectors();
+          renderImageRoutePills();
+        }
+      }
+    } catch (e) {}
+  }
 }
 
 function updateEnvironmentBadge() {
   const statusBox = document.querySelector(".sidebar-status-box");
   if (!statusBox) return;
 
-  if (isLocalhost) {
-    statusBox.innerHTML = `
-      <div class="status-indicator">
-        <span class="status-dot online"></span>
-        <span>Yerel Sunucu (Tam Backend)</span>
-      </div>
-      <p class="status-url">${window.location.origin}</p>
-    `;
-  } else {
-    statusBox.innerHTML = `
-      <div class="status-indicator">
-        <span class="status-dot online" style="background: #3b82f6; box-shadow: 0 0 8px #3b82f6;"></span>
-        <span>GitHub Pages (İstemci Modu)</span>
-      </div>
-      <p class="status-url" style="color: #64748b; font-size: 11px;">Veriler tarayıcıda (localStorage) korunur</p>
-    `;
-  }
+  statusBox.innerHTML = `
+    <div class="status-indicator">
+      <span class="status-dot online"></span>
+      <span>Yerel Yönetim Sunucusu</span>
+    </div>
+    <p class="status-url">http://localhost:8080</p>
+  `;
 }
 
 function switchAdminTab(tabName) {
@@ -418,8 +391,6 @@ async function loadRouteForEditing() {
   if (metaCountry) metaCountry.value = currentRouteMeta.country;
   if (metaDistTime) metaDistTime.value = currentRouteMeta.distTime;
   if (metaEngine) metaEngine.value = currentRouteMeta.engine;
-
-  updatePublishButtonState();
 
   let rawMarkdown = "";
 
@@ -507,38 +478,7 @@ async function loadRouteForEditing() {
   loadImagesForRoute();
 }
 
-function updatePublishButtonState() {
-  const publishBtn = document.getElementById("btn-publish-route");
-  if (!publishBtn) return;
 
-  const currentRouteMeta = routesList.find(r => r.id === currentRouteId);
-  const publishedMap = JSON.parse(localStorage.getItem("locomotion_published_map") || "{}");
-  const isPub = publishedMap[currentRouteId] !== undefined ? publishedMap[currentRouteId] : (currentRouteMeta ? currentRouteMeta.isPublished : true);
-
-  if (isPub) {
-    publishBtn.className = "btn btn-publish published";
-    publishBtn.innerHTML = "✅ Sitede Yayında (Canlı)";
-  } else {
-    publishBtn.className = "btn btn-publish";
-    publishBtn.innerHTML = "🚀 Sitede Yayına Al";
-  }
-}
-
-function togglePublishRoute() {
-  const publishedMap = JSON.parse(localStorage.getItem("locomotion_published_map") || "{}");
-  const currentStatus = publishedMap[currentRouteId] !== undefined ? publishedMap[currentRouteId] : true;
-  const newStatus = !currentStatus;
-
-  publishedMap[currentRouteId] = newStatus;
-  localStorage.setItem("locomotion_published_map", JSON.stringify(publishedMap));
-
-  updatePublishButtonState();
-  if (newStatus) {
-    showAlert(`🚀 '${currentRouteId}' rotası başarıyla sitede YAYINA ALINDI ve devreye sokuldu!`);
-  } else {
-    showAlert(`⏸️ '${currentRouteId}' rotası taslak durumuna alındı.`);
-  }
-}
 
 // Ultra Detaylı ve Uzun Yapay Zeka Makale Üreticisi
 function generateAiDraftForCurrentRoute() {
@@ -546,6 +486,17 @@ function generateAiDraftForCurrentRoute() {
   const currentRouteMeta = routesList.find(r => r.id === currentRouteId) || routesList[0];
   const title = currentRouteMeta.title;
   const country = currentRouteMeta.country;
+
+  // Rota görsellerini dinamik belirle (varsa rotaya ait, yoksa kaliteli demiryolu fotoğrafı)
+  let img1 = "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800";
+  let img2 = "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800";
+
+  if (currentRouteMeta.images && currentRouteMeta.images.length > 0) {
+    img1 = `content/routes/${currentRouteId}/images/${currentRouteMeta.images[0]}`;
+    if (currentRouteMeta.images.length > 1) {
+      img2 = `content/routes/${currentRouteId}/images/${currentRouteMeta.images[1]}`;
+    }
+  }
 
   const detailedDraft = `
     <h1>${title}</h1>
@@ -573,8 +524,8 @@ function generateAiDraftForCurrentRoute() {
     
     <p>Kondüktörün gümüş düdüğü istasyon tavanında yankılandı ve tren ilk sarsıntıyla ileriye doğru süzülmeye başladı. Çelik tekerleklerin raylarla buluştuğu o tanıdık melodi başladığında, modern dünyanın tüm telaşını geride bıraktığımı biliyordum.</p>
 
-    <img src="content/routes/${currentRouteId}/images/landwasser-viaduct.jpg" alt="Viyadük Manzarası" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800';">
-    <em>Vadilerin üzerinden süzülen tren ve nefes kesici dağ geçitleri.</em>
+    <img src="${img1}" alt="${title} Görseli" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800';">
+    <em>Vadilerin üzerinden süzülen tren ve nefes kesici manzaralar.</em>
 
     <h2>🏔️ Durak Durak Keşif: Vadiler, Köprüler ve Dağ Geçitleri</h2>
     
@@ -587,8 +538,8 @@ function generateAiDraftForCurrentRoute() {
     <h3>3. Zirve Durağı: 2000 Metrede Donmuş Zaman</h3>
     <p>Tırmanış devam ettikçe bitki örtüsü yerini sarp kayalıklara ve buzul göllerine bıraktı. Tren en yüksek rakımlı zirve istasyonunda durduğunda, yüzüme çarpan buzul rüzgarı ve bembeyaz karlı zirveler yolculuğun zirve noktasını oluşturdu.</p>
 
-    <img src="content/routes/${currentRouteId}/images/brusio-spiral.jpg" alt="Rayların Kıvrımı" onerror="this.src='https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800';">
-    <em>Mühendisliğin doğayla dansı: 360 derecelik dairesel spiral kavisler.</em>
+    <img src="${img2}" alt="${title} Hat ve Doğa Manzarası" onerror="this.src='https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=800';">
+    <em>Mühendisliğin doğayla dansı: Kıvrılan raylar ve asırlık köprüler.</em>
 
     <h2>📜 Rayların Arkasındaki Tarih & Gizemli Hikayeler</h2>
     <p>Bu rota sadece bir ulaşım hattı değildir; üzerinde geçen diplomatik krizlerin, gizli antlaşmaların ve edebiyat başyapıtlarının sahnesidir. Savaş dönemlerinde sınırları aşan casusların, karlı gecelerde mahsur kalan vagonlarda hayatta kalmaya çalışan yolcuların hikayeleri hala her tünelin duvarında fısıldanır.</p>
@@ -704,6 +655,24 @@ tags: ["Buharlı Tren", "Dağ Manzarası", "Tarihi Hat"]
 
   localStorage.setItem(`locomotion_md_${currentRouteId}`, fullMarkdown);
 
+  // Sitede doğrudan canlıya/yayına al
+  const publishedMap = JSON.parse(localStorage.getItem("locomotion_published_map") || "{}");
+  publishedMap[currentRouteId] = true;
+  localStorage.setItem("locomotion_published_map", JSON.stringify(publishedMap));
+
+  // Bellekteki ve seçim menülerindeki meta verileri güncelle
+  const targetRoute = routesList.find(r => r.id === currentRouteId);
+  if (targetRoute) {
+    if (metaTitle) targetRoute.title = metaTitle;
+    if (metaCountry) targetRoute.country = metaCountry;
+    if (metaDistTime) targetRoute.distTime = metaDistTime;
+    if (metaEngine) targetRoute.engine = metaEngine;
+    targetRoute.isPublished = true;
+    targetRoute.content = fullMarkdown;
+    setupRouteSelectors();
+    renderImageRoutePills();
+  }
+
   if (isLocalhost) {
     const res = await safeFetchJson(`/api/routes/${currentRouteId}`, {
       method: "POST",
@@ -711,12 +680,12 @@ tags: ["Buharlı Tren", "Dağ Manzarası", "Tarihi Hat"]
       body: JSON.stringify({ markdown: fullMarkdown })
     });
     if (res.ok) {
-      showAlert("✅ Gezi yazısı diske ve tarayıcınıza başarıyla kaydedildi!");
+      showAlert("✅ Gezi yazısı kaydedildi ve sitede yayına alındı!");
       return;
     }
   }
 
-  showAlert("✅ Gezi yazısı tarayıcınıza kaydedildi! (GitHub'a göndermek için Yayınlama sekmesini kullanın)", "success");
+  showAlert("✅ Gezi yazısı kaydedildi ve sitede yayına alındı!", "success");
 }
 
 // 2. IMAGE MANAGER
@@ -1018,6 +987,10 @@ async function deleteSuggestion(id) {
     localSugs = localSugs.filter(s => s.id !== id);
     localStorage.setItem("locomotion_suggestions", JSON.stringify(localSugs));
   } catch (e) {}
+
+  if (isLocalhost) {
+    await safeFetchJson(`/api/suggestions/${id}`, { method: "DELETE" });
+  }
 
   showAlert("🗑️ Öneri kuyruktan başarıyla silindi.");
   loadSuggestions();

@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LocoMotion — Yönetim Paneli & İçerik Merkezi</title>
+  <title>LocoMotion — Yönetim Paneli (Yalnızca Localhost)</title>
+  <script>
+    // KESİN GÜVENLİK KURALI: Yönetim paneli YALNIZCA localhost ortamında çalışır.
+    // Yayınlanan canlı sitede (GitHub Pages vb.) doğrudan ana sayfaya yönlendirilir.
+    if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+      window.location.replace("./");
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
@@ -12,26 +19,6 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="admin-body">
-  <!-- Admin Security Lock Overlay (Yalnızca siz erişebilin diye koruma ekranı) -->
-  <div id="admin-lock-screen" class="admin-lock-overlay hidden">
-    <div class="lock-card">
-      <div class="lock-icon">🔒</div>
-      <h2>Yetkili Yönetici Girişi</h2>
-      <p class="lock-desc">LocoMotion yönetim paneli kısıtlı bir alandır. Panele erişmek için lütfen yönetici parolanızı girin.</p>
-      
-      <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
-        <div class="form-group">
-          <input type="password" id="admin-lock-input" class="admin-input lock-input" placeholder="Yönetici Parolası..." autofocus required>
-        </div>
-        <div id="lock-error-msg" class="lock-error-msg hidden">Hatalı parola! Lütfen tekrar deneyin.</div>
-        <div class="lock-actions">
-          <button type="submit" class="btn btn-primary btn-block">Giriş Yap ➔</button>
-          <a href="/" class="btn-cancel-link">Ana Sayfaya Dön</a>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Admin Header -->
   <header class="admin-header">
     <div class="admin-header-inner container">
@@ -39,12 +26,11 @@
         <span class="train-icon">🚂</span>
         <div class="logo-text">
           <span class="brand-title">LocoMotion</span>
-          <span class="brand-subtitle">Yönetim & Görsel Paneli</span>
+          <span class="brand-subtitle">Yerel Yönetim Paneli</span>
         </div>
       </div>
       <div class="admin-header-nav">
         <a href="/" class="btn-secondary-sm">🌐 Siteyi Görüntüle</a>
-        <button class="btn-secondary-sm" onclick="adminLogout()" style="background: rgba(220, 38, 38, 0.2); border-color: rgba(220, 38, 38, 0.4);">🔒 Çıkış Yap</button>
       </div>
     </div>
   </header>
@@ -60,7 +46,7 @@
           <span class="icon">🖼️</span> Yazılara Göre Görseller
         </button>
         <button class="admin-menu-item" onclick="switchAdminTab('suggest')">
-          <span class="icon">💡</span> Yeni Konu Öner
+          <span class="icon">💡</span> Yeni Konu & AI Önerileri
         </button>
         <button class="admin-menu-item" onclick="switchAdminTab('api')">
           <span class="icon">🔑</span> API Tanımlamaları
@@ -71,16 +57,19 @@
       </nav>
 
       <div class="sidebar-status-box">
-        <!-- Injected via admin.js -->
+        <div class="status-indicator">
+          <span class="status-dot online"></span>
+          <span>Yerel Geliştirici Modu</span>
+        </div>
+        <p class="status-url">http://localhost:8080</p>
       </div>
     </aside>
 
     <!-- Main Content Area -->
     <main class="admin-main">
-      <!-- Alert Message Box -->
       <div id="admin-alert" class="admin-alert hidden"></div>
 
-      <!-- TAB 1: Visual Article Editor (Doğrudan Önizleme Penceresinde Düzenleme) -->
+      <!-- TAB 1: Visual Article Editor (Doğrudan Önizleme Üzerinde Düzenleme) -->
       <section id="tab-content" class="admin-tab-pane active">
         <div class="pane-header">
           <div>
@@ -94,16 +83,13 @@
             <button type="button" class="btn btn-ai-draft" onclick="generateAiDraftForCurrentRoute()" title="Bu rota için otomatik taslak yazı ve durak içeriği üret">
               ✨ AI Taslak Üret
             </button>
-            <button type="button" class="btn btn-primary" onclick="saveVisualArticle()">
-              💾 Değişiklikleri Kaydet
-            </button>
-            <button type="button" class="btn btn-publish" id="btn-publish-route" onclick="togglePublishRoute()" title="Bu gezi yazısını sitede yayına al / devreye sok">
-              🚀 Sitede Yayına Al
+            <button type="button" class="btn btn-primary" onclick="saveVisualArticle()" title="Değişiklikleri kaydet ve sitede canlıya al">
+              💾 Kaydet & Yayına Al
             </button>
           </div>
         </div>
 
-        <!-- Meta Bilgileri Accordion (Frontmatter yerine temiz form) -->
+        <!-- Meta Bilgileri Accordion -->
         <details class="meta-accordion" open>
           <summary class="meta-summary">
             <span>🗂️ Rota Pasaportu & Künye Bilgileri (Tıklayıp Açın/Kapatın)</span>
@@ -129,7 +115,7 @@
           </div>
         </details>
 
-        <!-- Visual WYSIWYG Formatting Toolbar -->
+        <!-- Visual Formatting Toolbar -->
         <div class="wysiwyg-toolbar">
           <button type="button" class="tool-btn" onclick="formatDoc('bold')" title="Kalın"><strong>B</strong></button>
           <button type="button" class="tool-btn" onclick="formatDoc('italic')" title="İtalik"><em>I</em></button>
@@ -152,22 +138,21 @@
         </div>
       </section>
 
-      <!-- TAB 2: Image Manager (Yazılara Göre Görsel Gösterimi) -->
+      <!-- TAB 2: Image Manager (Yazılara Göre Görseller) -->
       <section id="tab-images" class="admin-tab-pane">
         <div class="pane-header">
           <div>
             <h2>Yazılara Göre Görsel Galerisi</h2>
-            <p class="pane-desc">Her gezi yazısına ait özel fotoğrafları inceleyin, yenilerini yükleyin veya yazıya ekleyin.</p>
+            <p class="pane-desc">Her gezi yazısına ait fotoğrafları inceleyin, yenilerini yükleyin veya yazıya ekleyin.</p>
           </div>
           <div class="pane-actions">
             <label class="btn btn-secondary-sm upload-btn">
-              ➕ Bu Yazıya Yeni Fotoğraf Yükle
+              ➕ Bu Yazıya Fotoğraf Yükle
               <input type="file" id="image-upload-input" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
             </label>
           </div>
         </div>
 
-        <!-- Route Filter Tabs for Images -->
         <div class="image-route-selector-bar">
           <label>Aktif Gezi Yazısı:</label>
           <div class="route-pills" id="image-route-pills">
@@ -176,8 +161,8 @@
         </div>
 
         <div class="images-section-title">
-          <h3 id="current-image-route-label">The Jacobite Buharlı Treni Görselleri</h3>
-          <span class="badge-dim" id="image-count-badge">3 Görsel</span>
+          <h3 id="current-image-route-label">Görseller</h3>
+          <span class="badge-dim" id="image-count-badge">0 Görsel</span>
         </div>
 
         <div class="images-grid" id="admin-images-grid">
@@ -185,21 +170,18 @@
         </div>
       </section>
 
-      <!-- TAB 3: Suggest New Topic (AI Destekli Rota Önerileri & İlham Havuzu) -->
+      <!-- TAB 3: Suggest New Topic (AI Destekli Rota Önerileri & Kuyruk) -->
       <section id="tab-suggest" class="admin-tab-pane">
         <div class="pane-header">
           <div>
             <h2>Yapay Zeka Destekli Rota & Konu Keşfi</h2>
-            <p class="pane-desc">Yapay zekanın dünya arşivinden seçtiği ikonik rotaları inceleyin veya kendi rotanızı girip detaylı makaleye dönüştürün.</p>
+            <p class="pane-desc">Yapay zekanın seçtiği ikonik rotaları inceleyin veya yeni rota girip doğrudan editöre aktarın.</p>
           </div>
-          <button type="button" class="btn btn-ai-draft" onclick="generateRandomAiSuggestion()" title="Yapay zekanın veritabanından rastgele büyüleyici bir tren rotası öner">
-            🎲 Yapay Zekadan Rota Önerisi Al
-          </button>
         </div>
 
-        <!-- Yapay Zekanın Seçtiği Hazır İlham Verici Rotalar Grid -->
+        <!-- Hazır İlham Verici Rotalar Grid -->
         <div class="ai-curated-section">
-          <h3 class="curated-title">✨ Yapay Zekanın Seçtiği İlham Verici Rotalar (Tek Tıkla Editöre Alın)</h3>
+          <h3 class="curated-title">✨ Yapay Zekanın Önerdiği Dünya Rotaları (Tek Tıkla Editöre Alın)</h3>
           <div class="curated-cards-grid" id="curated-routes-grid">
             <!-- Injected via admin.js -->
           </div>
@@ -209,19 +191,20 @@
           <h3 class="form-card-title">📝 Yeni Bir Rota Girişi Yapın</h3>
           <div class="form-group">
             <label for="sug-title">Tren Rotası veya Konu Başlığı *</label>
-            <input type="text" id="sug-title" class="admin-input" placeholder="Örn: Flåm Demiryolu (Myrdal - Flåm)">
+            <input type="text" id="sug-title" class="admin-input" placeholder="Örn: Flåm Demiryolu (Norveç)">
           </div>
           <div class="form-group">
             <label for="sug-region">Ülke / Bölge</label>
             <input type="text" id="sug-region" class="admin-input" placeholder="Örn: Norveç Fiyortları">
           </div>
           <div class="form-group">
-            <label for="sug-notes">Gezgin Notları & Vurgulanmasını İstediğiniz Detaylar (Duraklar, Efsaneler, Tarih)</label>
+            <label for="sug-notes">Gezgin Notları & Vurgulanmasını İstediğiniz Detaylar</label>
             <textarea id="sug-notes" class="admin-textarea-sm" placeholder="Örn: Kjosfossen Şelalesi, 866 metre dik eğim, Huldra efsanesi ve fiyort manzarası detaylıca anlatılsın."></textarea>
           </div>
           <div class="form-action-row">
-            <button type="button" class="btn btn-primary" onclick="submitTopicSuggestion()">💡 Öneriyi Kaydet & Kuyruğa Ekle</button>
-            <button type="button" class="btn btn-publish" onclick="createAndEditFromForm()">🚀 Bu Rotayı Hemen Detaylı Yazıya Dönüştür</button>
+            <button type="button" class="btn btn-primary" onclick="createAndEditFromForm()">
+              🚀 Rotayı Oluştur & Editörde Aç
+            </button>
           </div>
         </div>
 
@@ -242,15 +225,6 @@
         </div>
 
         <div class="settings-cards">
-          <div class="setting-card">
-            <div class="setting-icon">🔒</div>
-            <div class="setting-body">
-              <h3>Yönetici Giriş Parolası</h3>
-              <p>Canlı sitede yönetim paneline yalnızca sizin erişebilmeniz için kullanılan güvenlik parolası.</p>
-              <input type="password" id="admin-pass-setting" class="admin-input" placeholder="Parolayı Değiştirin (Varsayılan: locomotion)">
-              <small class="helper-text">Parolanızı belirleyip kaydettiğinizde, dışarıdan kimse bu panele erişemez.</small>
-            </div>
-          </div>
           <div class="setting-card">
             <div class="setting-icon">✨</div>
             <div class="setting-body">
@@ -297,7 +271,7 @@
         <div class="pane-header">
           <div>
             <h2>GitHub ile Canlıya Yayınlama (Deploy)</h2>
-            <p class="pane-desc">Yerelde düzenlediğiniz tüm yazıları, haritaları ve görselleri GitHub'a gönderin ve GitHub Pages ile dünyaya açın.</p>
+            <p class="pane-desc">Yerelde düzenlediğiniz tüm yazıları, haritaları ve görselleri tek tıkla GitHub'a gönderin.</p>
           </div>
           <button class="btn btn-primary" onclick="publishToGithub()">🚀 Şimdi GitHub'a Gönder</button>
         </div>
@@ -329,16 +303,10 @@
           </div>
 
           <div class="git-card guide-card">
-            <h3>🌍 GitHub Pages ile Ücretsiz Yayınlama</h3>
-            <p>Sitenizi tüm dünyanın okuyabileceği canlı bir web sitesine dönüştürmek çok kolay:</p>
-            <ol class="guide-steps">
-              <li>GitHub'da <code>locomotion</code> adında yeni bir depo (repository) oluşturun.</li>
-              <li>API sekmesinden GitHub Depo Adınızı ve Token'ınızı girip kaydedin.</li>
-              <li>Yukarıdaki <strong>"Şimdi GitHub'a Gönder"</strong> butonuna basın.</li>
-              <li>GitHub deponuzda <strong>Settings ➔ Pages</strong> sekmesine gidin.</li>
-              <li><strong>Source</strong> kısmından <strong>"Deploy from a branch"</strong> ve <code>main / (root)</code> seçip <strong>Save</strong> deyin.</li>
-              <li>Siteniz birkaç saniye içinde <code>https://rkiritoglu.github.io/LocoMotion/</code> adresinde yayında olacaktır!</li>
-            </ol>
+            <h3>🌍 Canlı Yayın Bilgisi</h3>
+            <p>Siteniz şu anda GitHub Pages üzerinde canlı olarak yayınlanmaktadır:</p>
+            <p><a href="https://rkiritoglu.github.io/LocoMotion/" target="_blank" style="color: var(--accent-gold); font-weight: 700;">👉 https://rkiritoglu.github.io/LocoMotion/</a></p>
+            <p style="margin-top: 10px; font-size: 0.88rem; color: #555;">Yerelde yaptığınız düzenlemeleri yukarıdaki <strong>"Şimdi GitHub'a Gönder"</strong> butonuna basarak anında canlıya aktarabilirsiniz.</p>
           </div>
         </div>
 
