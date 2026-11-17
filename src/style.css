@@ -263,28 +263,219 @@ body {
   color: var(--text-muted);
 }
 
-.filter-tabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+/* Route Search & Dropdown Menu */
+.route-search-dropdown-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  min-width: 280px;
 }
 
-.filter-btn {
-  background: transparent;
-  border: 1px solid var(--border-subtle);
+.route-search-input-box {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 30px;
   padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.route-search-input-box:focus-within,
+.route-search-input-box:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 4px 14px rgba(200, 150, 62, 0.16);
+}
+
+.route-search-icon {
+  font-size: 0.95rem;
+  margin-right: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.route-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--text-dark);
+}
+
+.route-search-input::placeholder {
+  color: #8c9ba5;
+  font-size: 0.88rem;
+}
+
+.route-search-clear-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 6px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.route-search-clear-btn.hidden {
+  display: none !important;
+}
+
+.route-search-clear-btn:hover {
+  color: var(--primary);
+}
+
+.route-dropdown-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 4px 6px 4px 10px;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--border-subtle);
+  margin-left: 6px;
+}
+
+.dropdown-arrow {
+  font-size: 0.72rem;
+  color: var(--accent-gold);
+  transition: transform 0.2s ease;
+}
+
+.route-dropdown-toggle-btn.active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.route-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 36px rgba(21, 50, 48, 0.14);
+  z-index: 120;
+  max-height: 380px;
+  overflow-y: auto;
+  animation: fadeIn 0.18s ease-in-out;
+}
+
+.route-search-dropdown.hidden {
+  display: none !important;
+}
+
+.route-search-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--bg-main);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.4px;
+}
+
+.route-dropdown-hint {
+  font-size: 0.72rem;
   font-weight: 500;
   color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
-.filter-btn:hover, .filter-btn.active {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
+.route-search-results {
+  display: flex;
+  flex-direction: column;
+}
+
+.route-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f2ede5;
+  transition: background 0.15s ease;
+}
+
+.route-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.route-dropdown-item:hover,
+.route-dropdown-item.focused {
+  background: var(--accent-gold-soft);
+}
+
+.route-dropdown-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.route-dropdown-item-title {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.route-dropdown-item-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.route-dropdown-item-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  background: rgba(21, 50, 48, 0.06);
+  color: var(--primary);
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.route-dropdown-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.routes-overflow-note {
+  max-width: 1200px;
+  margin: -30px auto 40px auto;
+  padding: 14px 20px;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-subtle);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.routes-overflow-note strong {
+  color: var(--primary);
 }
 
 /* Route Cards Grid */

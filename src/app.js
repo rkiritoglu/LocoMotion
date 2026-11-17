@@ -863,10 +863,10 @@ let mapInstance = null;
 
 // Initialize Page
 document.addEventListener("DOMContentLoaded", async () => {
+  setupRouteSearchDropdown();
   await loadDynamicCustomRoutes();
   renderRouteCards(routesData);
   initMap();
-  setupFilterListeners();
   setupAdminVisibility();
 
   if (window.location.hash.startsWith("#rota-")) {
@@ -880,7 +880,7 @@ async function loadDynamicCustomRoutes() {
     const custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
     custom.forEach(cr => {
       if (!routesData.some(r => r.id === cr.id)) {
-        routesData.push({
+        routesData.unshift({
           id: cr.id,
           title: cr.title,
           routeName: cr.title,
@@ -909,7 +909,7 @@ async function loadDynamicCustomRoutes() {
           data.routes.forEach(dr => {
             if (!routesData.some(r => r.id === dr.id)) {
               const meta = dr.metadata || {};
-              routesData.push({
+              routesData.unshift({
                 id: dr.id,
                 title: meta.title || dr.id,
                 routeName: meta.route_name || meta.title || dr.id,
@@ -930,6 +930,10 @@ async function loadDynamicCustomRoutes() {
       }
     } catch (e) {}
   }
+
+  if (window.refreshRouteSearchDropdown) {
+    window.refreshRouteSearchDropdown();
+  }
 }
 
 // Check if running on localhost; only show admin button to the local owner
@@ -941,12 +945,27 @@ function setupAdminVisibility() {
   }
 }
 
-// Render Route Cards
-function renderRouteCards(routes) {
+// Render Route Cards (Ana sayfada en son girdiğimiz 9 tanesi doğrudan gözükür, fazlasına menüden ulaşılır)
+function renderRouteCards(routes, isFiltered = false) {
   const container = document.getElementById("routes-grid");
   if (!container) return;
 
-  container.innerHTML = routes.map(route => `
+  const displayed = isFiltered ? routes : routes.slice(0, 9);
+
+  if (displayed.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--text-muted);">
+        <span style="font-size: 2.5rem; display: block; margin-bottom: 12px;">🔍</span>
+        <h3 style="color: var(--primary); font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 8px;">Aradığınız kriterde rota bulunamadı</h3>
+        <p>Arama terimini değiştirerek veya kutuyu temizleyerek tüm rotalara geri dönebilirsiniz.</p>
+      </div>
+    `;
+    const oldNote = document.getElementById("routes-overflow-note");
+    if (oldNote) oldNote.remove();
+    return;
+  }
+
+  container.innerHTML = displayed.map(route => `
     <article class="route-card" onclick="openRouteArticle('${route.id}')">
       <div class="card-img-wrap">
         <img class="card-img" src="${route.heroImage}" alt="${route.title}" onerror="this.onerror=null; this.src='${route.fallbackHero || ''}';">
@@ -963,27 +982,157 @@ function renderRouteCards(routes) {
       </div>
     </article>
   `).join("");
+
+  // Remove existing overflow note if any
+  const oldNote = document.getElementById("routes-overflow-note");
+  if (oldNote) oldNote.remove();
+
+  if (!isFiltered && routes.length > 9) {
+    const note = document.createElement("div");
+    note.id = "routes-overflow-note";
+    note.className = "routes-overflow-note";
+    note.innerHTML = `🚂 Toplam <strong>${routes.length}</strong> rota keşfedildi. Son eklenen 9 rota aşağıda listelenmektedir; diğer tüm rotalara yukarıdaki <strong>🔍 arama ve açılır menüden</strong> ulaşabilirsiniz.`;
+    container.parentNode.insertBefore(note, container.nextSibling);
+  }
 }
 
-// Setup Category Filters
-function setupFilterListeners() {
-  const buttons = document.querySelectorAll(".filter-btn");
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      buttons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      const filter = btn.getAttribute("data-filter");
+// Setup Search and Dropdown Menu for Routes
+function setupRouteSearchDropdown() {
+  const wrapper = document.getElementById("route-search-wrapper");
+  const input = document.getElementById("route-search-input");
+  const toggleBtn = document.getElementById("route-dropdown-toggle-btn");
+  const clearBtn = document.getElementById("route-search-clear-btn");
+  const dropdown = document.getElementById("route-search-dropdown");
+  const resultsContainer = document.getElementById("route-search-results");
+  const countSpan = document.getElementById("route-dropdown-count");
 
-      if (filter === "all") {
-        renderRouteCards(routesData);
+  if (!wrapper || !input || !dropdown || !resultsContainer) return;
+
+  function renderDropdownItems(list) {
+    if (!list || list.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="route-dropdown-empty">
+          <span style="font-size: 1.5rem; display: block; margin-bottom: 6px;">🔍</span>
+          Eşleşen rota bulunamadı.
+        </div>
+      `;
+      if (countSpan) countSpan.innerText = "Sonuç Yok";
+      return;
+    }
+
+    if (countSpan) {
+      countSpan.innerText = `Tüm Rotalar (${list.length} Rota)`;
+    }
+
+    resultsContainer.innerHTML = list.map(route => `
+      <div class="route-dropdown-item" data-route-id="${route.id}">
+        <div class="route-dropdown-item-info">
+          <span class="route-dropdown-item-title">${route.title}</span>
+          <span class="route-dropdown-item-meta">📍 ${route.country || ''} • ⏱️ ${route.duration || ''} • 🛤️ ${route.distance || ''}</span>
+        </div>
+        <span class="route-dropdown-item-badge">${route.category || 'Rota'}</span>
+      </div>
+    `).join("");
+
+    resultsContainer.querySelectorAll(".route-dropdown-item").forEach(item => {
+      item.addEventListener("click", () => {
+        const routeId = item.getAttribute("data-route-id");
+        if (routeId) {
+          closeDropdown();
+          openRouteArticle(routeId);
+        }
+      });
+    });
+  }
+
+  function openDropdown() {
+    dropdown.classList.remove("hidden");
+    if (toggleBtn) toggleBtn.classList.add("active");
+  }
+
+  function closeDropdown() {
+    dropdown.classList.add("hidden");
+    if (toggleBtn) toggleBtn.classList.remove("active");
+  }
+
+  function filterRoutes(query) {
+    const q = (query || "").trim().toLocaleLowerCase("tr-TR");
+    if (!q) {
+      if (clearBtn) clearBtn.classList.add("hidden");
+      renderDropdownItems(routesData);
+      renderRouteCards(routesData, false);
+      return;
+    }
+
+    if (clearBtn) clearBtn.classList.remove("hidden");
+
+    const filtered = routesData.filter(r => {
+      const titleMatch = (r.title || "").toLocaleLowerCase("tr-TR").includes(q);
+      const countryMatch = (r.country || "").toLocaleLowerCase("tr-TR").includes(q);
+      const catMatch = (r.category || "").toLocaleLowerCase("tr-TR").includes(q);
+      const tagMatch = (r.tags || []).some(t => t.toLocaleLowerCase("tr-TR").includes(q));
+      const locMatch = (r.locomotive || "").toLocaleLowerCase("tr-TR").includes(q);
+      return titleMatch || countryMatch || catMatch || tagMatch || locMatch;
+    });
+
+    renderDropdownItems(filtered);
+    renderRouteCards(filtered, true);
+    openDropdown();
+  }
+
+  input.addEventListener("input", (e) => {
+    filterRoutes(e.target.value);
+  });
+
+  input.addEventListener("focus", () => {
+    openDropdown();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const firstItem = resultsContainer.querySelector(".route-dropdown-item");
+      if (firstItem) {
+        firstItem.click();
+      }
+    } else if (e.key === "Escape") {
+      closeDropdown();
+      input.blur();
+    }
+  });
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (dropdown.classList.contains("hidden")) {
+        renderDropdownItems(routesData);
+        openDropdown();
+        input.focus();
       } else {
-        const filtered = routesData.filter(r => 
-          r.category === filter || (r.tags && r.tags.includes(filter))
-        );
-        renderRouteCards(filtered);
+        closeDropdown();
       }
     });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      input.value = "";
+      filterRoutes("");
+      input.focus();
+    });
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!wrapper.contains(e.target)) {
+      closeDropdown();
+    }
   });
+
+  window.refreshRouteSearchDropdown = function() {
+    renderDropdownItems(routesData);
+  };
+
+  renderDropdownItems(routesData);
 }
 
 // Interactive Leaflet Map
@@ -1144,6 +1293,18 @@ function showHomeView() {
   if (articlePage) articlePage.classList.add("hidden");
   if (hero) hero.classList.remove("hidden");
   if (mainGrid) mainGrid.classList.remove("hidden");
+
+  // Arama kutusunu temizle ve varsayılan 9 kart görünümüne dön
+  const searchInput = document.getElementById("route-search-input");
+  const clearBtn = document.getElementById("route-search-clear-btn");
+  if (searchInput && searchInput.value) {
+    searchInput.value = "";
+    if (clearBtn) clearBtn.classList.add("hidden");
+    renderRouteCards(routesData, false);
+    if (window.refreshRouteSearchDropdown) {
+      window.refreshRouteSearchDropdown();
+    }
+  }
 
   // Reset hash if it was a route hash
   if (window.location.hash.startsWith("#rota-")) {
