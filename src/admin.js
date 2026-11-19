@@ -303,6 +303,15 @@ let routesList = [
     engine: "GP40-2W Dizel Lokomotif",
     isPublished: true,
     images: ["rocky-mountains.jpg", "canadian-river-canyon.jpg"]
+  },
+  {
+    id: "centovalli-express",
+    title: "Yüz Vadinin Masalı: Centovalli Treni (İsviçre - İtalya)",
+    country: "İsviçre & İtalya (Ticino - Piyemonte)",
+    distTime: "52 km • 2 Saat",
+    engine: "ABe 4/8 Panoramik Tren • Isorno Viyadüğü",
+    isPublished: true,
+    images: ["centovalli-train.jpg", "isorno-viaduct.jpg"]
   }
 ];
 
@@ -330,7 +339,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadSavedCustomRoutes() {
   try {
-    const saved = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+    let saved = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+    // Clean up any orphan contovalli/centovalli drafts from localStorage so they resolve cleanly to official route
+    const filteredSaved = saved.filter(sr => {
+      const match = (sr.id && (sr.id.includes("valli") || sr.id === "centovalli-express")) ||
+                    (sr.title && (sr.title.toLowerCase().includes("contovalli") || sr.title.toLowerCase().includes("centovalli")));
+      return !match;
+    });
+    if (filteredSaved.length !== saved.length) {
+      localStorage.setItem("locomotion_custom_routes", JSON.stringify(filteredSaved));
+      saved = filteredSaved;
+    }
+
     saved.forEach(sr => {
       if (!routesList.some(r => r.id === sr.id)) {
         routesList.push(sr);

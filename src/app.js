@@ -658,7 +658,82 @@ Canadian Pacific Railway (CPR) projesi işte bu varoluşsal krizle doğdu. Kış
 4. **Bilet ve Sezon Tavsiyesi:**
    * Eylül sonu ve Ekim başı, dağ karaçamlarının (*Larch*) altın sarısına büründüğü ve zirvelere ilk karın düştüğü en dramatik dönemdir. Yerler aylar öncesinden dolduğu için 6 ay önceden rezervasyon yaptırın.`;
 
+const centovalliMarkdownContent = `# Yüz Vadinin Masalı: Centovalli Panoramik Treni ile İsviçre'den İtalya'ya
+
+> *"Locarno'nun palmiyelerle süslü göl kıyısından hareket ettiğimizde, raylar bizi birkaç dakika içinde derin bir kestane ormanının ve kükreyen dağ nehirlerinin kollarına bıraktı. 'Centovalli' yani 'Yüz Vadi'... 83 taş viyadük, 31 tünel ve iki ülkeyi birbirine bağlayan Alplerin en zarif dar hat demiryolu serüveni..."*
+
+---
+
+## 🗂️ Rota Pasaportu
+
+| Bilgi | Detay |
+| :--- | :--- |
+| **Hat:** | Ferrovia Vigezzina-Centovalli (FART / SSIF) |
+| **Başlangıç - Bitiş:** | Locarno (İsviçre, Lago Maggiore) ➔ Domodossola (İtalya, Piyemonte) |
+| **Toplam Mesafe:** | 52.2 km (İsviçre: 32.2 km, İtalya: 20 km) |
+| **Yolculuk Süresi:** | Yaklaşık 1 saat 50 dakika |
+| **İkonik Mühendislik:** | 83 Köprü ve Viyadük, 31 Tünel, %6 Maksimum Eğim |
+| **İdeal Koltuk:** | Locarno'dan gidişte **Sol Taraf** (Melezzo Kanyonu ve derin vadi tabanı) |
+
+---
+
+## Peronda İlk Adım: Lago Maggiore'den Alplerin Kalbine
+
+Sabah serinliğinde İsviçre'nin İtalyan kantonu Ticino'dayız. Locarno yeraltı istasyonunun peronunda bizi beyaz-mavi renkleriyle modern **Panoramik ABe 4/8** treni karşılıyor. Tavana kadar uzanan devasa panoramik camlar, yol boyunca başımızın üzerinde yükselecek granit dorukları ve derin kanyonları kesintisiz izlemek için tasarlanmış.
+
+![Centovalli Treni Vadide](content/routes/centovalli-express/images/centovalli-train.jpg)
+*Derin kanyonlar ve asırlık kestane ormanları arasından süzülen panoramik Centovalli treni.*
+
+---
+
+## Durak Durak Yüz Vadi Güzergahı
+
+### 1. Intragna: Ticino'nun En Yüksek Çan Kulesi
+Yolculuğun ilk büyük sürprizi, vadinin girişindeki pitoresk Intragna kasabası. Tren, 65 metre yüksekliğindeki 18. yüzyıldan kalma devasa çan kulesinin ve taş kemerli evlerin hemen altından kıvrılıyor.
+
+### 2. Isorno ve Ruinacci Viyadükleri
+Intragna'dan sonra tren derin Melezzo Kanyonu'nu aşmak için mühendislik harikası çelik ve taş viyadüklerin üzerine çıkıyor. Isorno Viyadüğü üzerinden geçerken altınızda akan turkuaz dağ sularını ve kanyon tabanındaki devasa granit aşınmalarını izlemek baş döndürücü bir deneyim.
+
+![Isorno Viyadüğü](content/routes/centovalli-express/images/isorno-viaduct.jpg)
+*İsviçre ile İtalya sınırındaki derin kanyonu aşan tarihi Isorno viyadüğü.*
+
+### 3. Camedo: Sınırın Sessiz Tanığı
+32 kilometrelik İsviçre etabının son durağı Camedo İstasyonu. Burada tren İsviçre'den İtalya'nın Valle Vigezzo (Ressamlar Vadisi) bölgesine geçiş yapıyor.
+
+### 4. Santa Maria Maggiore: Ressamlar Vadisi'nin Zirvesi
+İtalya tarafında rakım 836 metreye ulaşıyor. Burası hattın en yüksek noktası olan Santa Maria Maggiore. Temiz dağ havası, rengarenk çiçeklerle süslü ahşap balkonlu İtalyan dağ evleri ve dünyaca ünlü "Baca Temizleyicileri Müzesi" ile tanınan büyüleyici bir Alp kasabası.
+
+### 5. Re ve Heybetli Madonna del Sangue Bazilikası
+Tren Re köyüne yaklaştığında vadinin ortasında yükselen devasa kubbesiyle Madonna del Sangue Bazilikası beliriyor.
+
+### 6. Son Durak: Domodossola'nın Tarihi Taş Meydanları
+Tren son virajları alarak Toce Vadisi'ne iniyor ve İtalya'nın önemli demiryolu kavşağı olan Domodossola Garı'na ulaşıyor.`;
+
 let routesData = [
+  {
+    id: "centovalli-express",
+    title: "Yüz Vadinin Masalı: Centovalli Panoramik Treni",
+    routeName: "Ferrovia Vigezzina-Centovalli",
+    country: "İsviçre & İtalya",
+    category: "Dağ Manzarası",
+    tags: ["Dağ Manzarası", "Tarihi Hat", "Panoramik Tren"],
+    heroImage: "content/routes/centovalli-express/images/centovalli-train.jpg",
+    fallbackHero: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=800&q=80",
+    excerpt: "Locarno'dan Domodossola'ya 83 viyadük ve 31 tünel aşarak İsviçre ve İtalya Alplerini kestane ormanları arasından birleştiren Yüz Vadi masalı.",
+    distance: "52 km",
+    duration: "1s 50dk",
+    locomotive: "ABe 4/8 Panoramik Elektrikli Tren",
+    markdownPath: "content/routes/centovalli-express/index.md",
+    content: centovalliMarkdownContent,
+    coordinates: [
+      { name: "Locarno (Lago Maggiore)", lat: 46.1711, lng: 8.7997, desc: "İsviçre başlangıç garı, palmiyeler ve göl kıyısı" },
+      { name: "Intragna", lat: 46.1772, lng: 8.6975, desc: "65 metrelik tarihi çan kulesi & vadi kapısı" },
+      { name: "Isorno Viyadüğü (Camedo)", lat: 46.1554, lng: 8.6087, desc: "İsviçre-İtalya sınırı & kanyon viyadüğü" },
+      { name: "Santa Maria Maggiore", lat: 46.1345, lng: 8.4632, desc: "Ressamlar Vadisi & 836m zirve noktası" },
+      { name: "Re Bazilikası", lat: 46.1308, lng: 8.5436, desc: "Madonna del Sangue mermer bazilikası" },
+      { name: "Domodossola Garı", lat: 46.1158, lng: 8.2961, desc: "İtalya son durağı & Simplon kavşağı" }
+    ]
+  },
   {
     id: "jacobite-steam-train",
     title: "Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni",
@@ -877,7 +952,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Load any custom routes added from admin or backend
 async function loadDynamicCustomRoutes() {
   try {
-    const custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+    let custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
+    // Clean up any orphan contovalli/centovalli drafts from localStorage so they resolve cleanly to the official route
+    const filteredCustom = custom.filter(cr => {
+      const match = (cr.id && (cr.id.includes("valli") || cr.id === "centovalli-express")) ||
+                    (cr.title && (cr.title.toLowerCase().includes("contovalli") || cr.title.toLowerCase().includes("centovalli")));
+      return !match;
+    });
+    if (filteredCustom.length !== custom.length) {
+      localStorage.setItem("locomotion_custom_routes", JSON.stringify(filteredCustom));
+      custom = filteredCustom;
+    }
+
     custom.forEach(cr => {
       if (!routesData.some(r => r.id === cr.id)) {
         routesData.unshift({
