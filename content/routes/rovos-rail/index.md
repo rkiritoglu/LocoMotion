@@ -39,8 +39,6 @@ Pretoria'daki Rovos Rail'e özel tarihi Capital Park Garı'na adım attığım a
 Koyu yeşil ve fildişi renkli nostaljik vagonuma geçtiğimde geniş tik ağacı paneller, pirinç armatürler ve pelüş Edward çağı koltukları beni büyüledi. Tren ağırbaşlı bir sarsıntıyla hareket ettiğinde vagon pencerelerinden uzanan Afrika savanası sonsuz bir tablo gibi açıldı.
 
 ![Afrika Safari Treni](images/rovos-safari-train.jpg)
-*Savanada asırlık Edward çağı nostaljisi ve Afrika gün batımı.*
-
 ---
 
 ## Durak Durak Afrika Ruhu
@@ -61,8 +59,6 @@ Sabah saatlerinde tren, 1890'da İskoç girişimci James Logan tarafından çöl
 Son gün tren dik Hex River dağ geçitlerini aşıp Western Cape'in üzüm bağlarıyla kaplı vadilerine indi. Ufukta heybetli Masa Dağı (Table Mountain) ve Atlantik Okyanusu belirdiğinde, Afrika kıtasının güney ucundaki Cape Town Garı'na alkışlar arasında girdik.
 
 ![Karoo Gün Batımı](images/karoo-sunset.jpg)
-*Karoo Çölü'nde altın sarısı gün batımı ve sonsuz savana.*
-
 ---
 
 ## 📜 Rayların Arkasındaki Tarih: Rohan Vos'un Tutkusu ve Kurtarılan Hurda Vagonlar

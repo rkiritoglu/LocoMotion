@@ -39,8 +39,6 @@ Sabah saatlerinde Kandy'nin tarihi gar peronunda beklerken, palmiyelerin arasın
 Kondüktörün zili çaldığında vagon kapısının basamağına oturdum. Tren hızlandıkça serin dağ esintisi yüzüme vurdu; rayların iki yanında rengarenk sarileriyle çay toplayan kadınlar trene el sallıyordu.
 
 ![Sri Lanka Çay Tepeleri Treni](images/blue-train-tea-fields.jpg)
-*Zümrüt yeşili çay tarlalarının arasından süzülen efsanevi mavi tren.*
-
 ---
 
 ## Durak Durak Seylan Rüyası
@@ -61,8 +59,6 @@ Tren adanın en yüksek noktasına tırmandığında hava sıcaklığı 12 derec
 Ella'ya yaklaştığımızda tren devasa bir kavis çizerek 1921 yapımı **Nine Arches Bridge**'e (Dokuz Kemerli Köprü) girdi. Tamamen taş ve tuğladan, tek bir çelik parça kullanılmadan inşa edilmiş bu viyadük tropik ormanın kalbinde masalsı bir köprü gibi uzanıyordu.
 
 ![Nine Arches Bridge](images/nine-arches-bridge.jpg)
-*Demodara vadisindeki tarihi 9 kemerli taş köprü.*
-
 ---
 
 ## 📜 Rayların Arkasındaki Tarih: Kahveden Çaya Uzanan İngiliz Rayları

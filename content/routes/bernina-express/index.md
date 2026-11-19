@@ -61,9 +61,6 @@ Sabah saat 08.15... İsviçre'nin 5000 yıllık en eski kenti Chur'un tarihi gar
 Vagonun içine adım attığımda temiz dağ havası, cilalı ahşap kaplamalar ve yolcuların heyecanlı fısıltıları beni karşıladı. Kırmızı tren, Ren Vadisi'nin yeşil çayırlarını geride bırakıp sarp Albula kanyonuna daldığında, dar hatlı (1000 mm) bu çelik mucizenin dağları nasıl dize getirdiğine şahit olmaya başladım.
 
 ![Landwasser Viyadüğü](content/routes/bernina-express/images/landwasser-viaduct.jpg)
-
-*65 metre yükseklikteki Landwasser Viyadüğü'nden doğrudan dağın kalbindeki tünele giren kırmızı Bernina treni.*
-
 ---
 
 ## Durak Durak Alp Rüyası
@@ -89,9 +86,6 @@ Zirveyi aştıktan hemen sonra tren, sadece raylarla ulaşılabilen efsanevi **A
 İsviçre sınırını geçip İtalya'ya doğru dik inişe geçtiğimizde, demiryolu tarihinin en zarif çözümü belirdi: **Brusio Spiral Viyadüğü**. Tren çok dik dağ yamacından inerken rayların kaymaması ve frenlerin aşırı ısınmaması için vadinin ortasına 110 metre yarıçaplı dairesel bir viyadük inşa edilmiş. Kırmızı tren kendi vagonlarının altından geçerek 360 derecelik tam bir tur atıyor ve irtifayı zarafetle eriterek İtalyan topraklarına iniyor.
 
 ![Brusio Dairesel Viyadüğü](content/routes/bernina-express/images/brusio-spiral.jpg)
-
-*Mühendislik mucizesi: 360 derecelik Brusio dairesel viyadüğünden süzülen kırmızı Bernina treni ve İtalyan vadisi.*
-
 ---
 
 ## 📜 Rayların Arkasındaki Tarih: Alpleri Delen İtalyan Taş Ustaları

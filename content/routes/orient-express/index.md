@@ -62,10 +62,6 @@ Kondüktörün gümüş düdüğü çaldığında, kristal bardaklara dökülen 
 
 ![Orient Express Vagon İçi](content/routes/orient-express/images/orient-express-carriage.jpg)
 
-*Orient Express Vagon İçi*
-
-*1920'lerin orijinal maun panelleri, kristal aplikleri ve nostaljik Art Deco kompartıman zarafeti.*
-
 ---
 
 ## Durak Durak Kıtaları Aşan Masal
@@ -76,9 +72,7 @@ Fransa'yı geride bırakıp İsviçre Alpleri'ni delen 19.8 kilometrelik devasa 
 
 ![Efsanelerin ve Casusların Rotası: Doğu Ekspresi, scenic train traveling through iconic landscape, viaduct, atmospheric lighting, 35mm film travel photography](content/routes/orient-express/images/ai-ref-1794941417.jpg)
 
-*Felix König - Yükleyenin kendi çalışması, CC BY 3.0, https://commons.wikimedia.org/wiki/Special:Redirect/page/28393761*
-
-2. Budapeşte ve Tuna Nehri Köprüleri (Macaristan)
+* Budapeşte ve Tuna Nehri Köprüleri (Macaristan)
 
 Venedik'ten sonra tren Macaristan ovalarına yöneldi. Budapeşte'de Tuna Nehri kıyısında tarihi Parlamento binasının silueti belirdiğinde vagon restoranında gümüş takımlarla öğle yemeği servis ediliyordu. Piyano vagonundan yükselen Chopin ezgileri dışarıdaki karanlık Doğu Avrupa gecesiyle büyüleyici bir tezat oluşturuyordu.
 
@@ -96,11 +90,7 @@ Beş gün süren masal, Boğaz'ın tuzlu kokusu ve minarelerin akşam silueti be
 
 ![Sirkeci Garı Varış](content/routes/orient-express/images/sirkeci-arrival.jpg)
 
-**Orient Express'in son durağı: Boğaz'ın kıyısındaki tarihi İstanbul Sirkeci Garı.**
-
-**
-
-## 📜 Rayların Arkasındaki Tarih: Kralların Treni, Trenlerin Kralı
+📜 Rayların Arkasındaki Tarih: Kralların Treni, Trenlerin Kralı
 
 1883 yılında Belçikalı vizyoner mühendis **Georges Nagelmackers** tarafından kurulan Compagnie Internationale des Wagons-Lits (CIWL), dünyada ilk kez sınır kontrollerini ve vagon değişimlerini aşan kıtalararası lüks tren konseptini yarattı.
 

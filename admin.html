@@ -14,8 +14,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="src/style.css">
-  <link rel="stylesheet" href="src/admin.css">
+  <link rel="stylesheet" href="src/style.css?v=3.2">
+  <link rel="stylesheet" href="src/admin.css?v=3.2">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="admin-body">
@@ -373,36 +373,67 @@
         <div class="studio-steps-grid">
           <!-- Sol Kolon: Referans Belirleme -->
           <div class="studio-col">
-            <label class="studio-label">1. Adım: Referans Görseli Belirleyin (İnternetten Yapıştırın)</label>
-            <p class="studio-hint">İnternette beğendiğiniz resmi kopyalayıp doğrudan buraya yapıştırın (<strong>Ctrl + V</strong>):</p>
-            
-            <div class="ref-paste-dropzone" id="ref-paste-dropzone" tabindex="0" title="Resmi yapıştırmak için buraya tıklayıp Ctrl+V yapın veya sürükleyip bırakın">
-              <div class="ref-placeholder" id="ref-placeholder">
-                <span style="font-size: 2.2rem; display: block; margin-bottom: 6px;">📋</span>
-                <strong style="color: #4338ca; font-size: 0.95rem; display: block;">İnternetten Kopyalanan Resmi Buraya Yapıştırın</strong>
-                <p style="font-size: 0.82rem; color: #64748b; margin: 6px 0 12px 0;">Herhangi bir web sayfasındaki resme sağ tıklayıp <em>"Resmi Kopyala"</em> deyin ve buraya tıklayıp <strong>Ctrl + V</strong> tuşlayın.</p>
-                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-                  <button type="button" class="btn btn-secondary-sm" onclick="pasteFromClipboardButton()" style="border-color: #8b5cf6; color: #6d28d9; background: #fff; font-weight: 600;">
-                    📋 Panodan Yapıştır
-                  </button>
-                  <label class="btn btn-secondary-sm btn-ref-upload" style="margin: 0; cursor: pointer;">
-                    📁 Bilgisayardan Seç
-                    <input type="file" id="ref-modal-file" accept="image/*" onchange="handleModalRefFile(event)" style="display:none;">
-                  </label>
-                </div>
+            <div class="studio-step-header">
+              <label class="studio-label">1. Adım: Referans Fotoğrafınızı Ekleyin</label>
+              <p class="studio-hint">İnternetten kopyaladığınız resmi yapıştırabilir veya bilgisayarınızdan seçebilirsiniz.</p>
+            </div>
+
+            <!-- Tab / Yöntem Seçici -->
+            <div class="ref-method-tabs">
+              <button type="button" class="ref-tab-btn active" id="tab-btn-paste" onclick="switchRefMethod('paste')">
+                📋 Panodan Yapıştır (Ctrl+V)
+              </button>
+              <button type="button" class="ref-tab-btn" id="tab-btn-upload" onclick="switchRefMethod('upload')">
+                📁 Dosya Seç
+              </button>
+              <button type="button" class="ref-tab-btn" id="tab-btn-url" onclick="switchRefMethod('url')">
+                🔗 Resim Linki
+              </button>
+            </div>
+
+            <!-- 1. Yöntem: Panodan Yapıştırma Alanı -->
+            <div id="ref-panel-paste" class="ref-method-panel">
+              <div class="clean-paste-box" id="ref-paste-dropzone" tabindex="0" onclick="pasteFromClipboardButton()" title="Yapıştırmak için tıklayın veya klavyeden Ctrl+V yapın">
+                <span class="paste-icon">📋</span>
+                <strong class="paste-title">Resmi Yapıştırmak İçin Buraya Tıklayın</strong>
+                <p class="paste-sub">veya sayfadayken klavyeden <strong>Ctrl + V</strong> tuşlayın</p>
+                <button type="button" class="btn-paste-action">📋 Panodan Yapıştır</button>
               </div>
-              <div id="ref-preview-wrapper" class="ref-preview-wrapper hidden">
-                <img id="ref-preview-img" class="ref-preview-img" alt="Referans Görsel">
-                <div class="ref-preview-badge">
-                  <span>✅ Referans Görsel Hazır</span>
-                  <button type="button" class="btn-clear-ref" onclick="clearCurrentReferenceImage()" title="Referansı Temizle">❌ Temizle</button>
+            </div>
+
+            <!-- 2. Yöntem: Dosya Yükleme Alanı -->
+            <div id="ref-panel-upload" class="ref-method-panel hidden">
+              <label class="clean-upload-box">
+                <span class="paste-icon">📁</span>
+                <strong class="paste-title">Bilgisayarınızdan Bir Fotoğraf Seçin</strong>
+                <p class="paste-sub">JPG, PNG veya WebP dosyaları desteklenir</p>
+                <span class="btn-paste-action">Dosyalara Göz At</span>
+                <input type="file" id="ref-modal-file" accept="image/*" onchange="handleModalRefFile(event)" style="display:none;">
+              </label>
+            </div>
+
+            <!-- 3. Yöntem: URL ile Ekleme Alanı -->
+            <div id="ref-panel-url" class="ref-method-panel hidden">
+              <div class="clean-url-box">
+                <label for="ref-modal-url" style="font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 8px; display: block;">Web Resim Bağlantısı (URL):</label>
+                <div style="display: flex; gap: 8px;">
+                  <input type="url" id="ref-modal-url" class="admin-input" placeholder="https://example.com/tren.jpg" oninput="handleModalRefUrl(this.value)">
+                  <button type="button" class="btn btn-secondary-sm" onclick="handleModalRefUrl(document.getElementById('ref-modal-url').value)">Yükle</button>
                 </div>
               </div>
             </div>
 
-            <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 12px; color: #64748b; white-space: nowrap;">veya Web URL:</span>
-              <input type="url" id="ref-modal-url" class="admin-input" style="padding: 6px 10px; font-size: 0.82rem;" placeholder="https://... doğrudan resim linki yapıştırın" oninput="handleModalRefUrl(this.value)">
+            <!-- Yüklenen / Yapıştırılan Görselin Önizlemesi (Seçildiğinde Gösterilir) -->
+            <div id="ref-preview-wrapper" class="ref-preview-wrapper hidden">
+              <div class="ref-preview-card">
+                <img id="ref-preview-img" class="ref-preview-img" alt="Referans Görsel">
+                <div class="ref-preview-badge">
+                  <span>✅ Referans Görsel Hazır</span>
+                  <button type="button" class="btn-clear-ref" onclick="clearCurrentReferenceImage()" title="Referansı Temizle">
+                    🗑️ Görseli Kaldır / Başka Resim Seç
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -451,6 +482,6 @@
     </div>
   </div>
 
-  <script src="src/admin.js"></script>
+  <script src="src/admin.js?v=3.2"></script>
 </body>
 </html>

@@ -707,37 +707,102 @@ function setupEditorImageInteractions() {
       card.className = "editor-img-card";
       card.setAttribute("contenteditable", "false");
 
-      let captionText = img.getAttribute("alt") || "Demiryolu ve doğa manzarası.";
-      let next = img.nextElementSibling;
-      let captionElement = null;
+      const parentP = (img.parentElement && img.parentElement.tagName.toLowerCase() === "p") ? img.parentElement : null;
+      let captionText = "";
 
-      if (next && (next.tagName.toLowerCase() === "em" || (next.tagName.toLowerCase() === "p" && next.querySelector("em")))) {
-        captionText = next.innerText.trim();
-        captionElement = next;
+      // 1. img ile aynı paragraf içindeki hemen sonraki em/yazı
+      if (img.nextElementSibling && (img.nextElementSibling.tagName.toLowerCase() === "em" || img.nextElementSibling.querySelector("em"))) {
+        captionText = img.nextElementSibling.innerText.trim();
+        img.nextElementSibling.remove();
       }
 
-      img.parentNode.insertBefore(card, img);
-      card.appendChild(img);
+      // 2. parentP içinde kalan herhangi bir em
+      if (!captionText && parentP) {
+        const pEm = parentP.querySelector("em");
+        if (pEm) {
+          captionText = pEm.innerText.trim();
+          pEm.remove();
+        }
+      }
+
+      // 3. parentP'den hemen sonraki paragrafta veya kardeş elemanda em altyazısı var mı?
+      if (!captionText) {
+        const nextElem = parentP ? parentP.nextElementSibling : img.nextElementSibling;
+        if (nextElem && (nextElem.tagName.toLowerCase() === "em" || (nextElem.tagName.toLowerCase() === "p" && nextElem.querySelector("em") && nextElem.innerText.length < 250))) {
+          captionText = nextElem.innerText.trim();
+          nextElem.remove();
+        }
+      }
+
+      if (parentP && parentP.parentNode) {
+        parentP.parentNode.insertBefore(card, parentP);
+        card.appendChild(img);
+        if (parentP.childNodes.length === 0 || parentP.innerText.trim() === "") {
+          parentP.remove();
+        }
+      } else {
+        img.parentNode.insertBefore(card, img);
+        card.appendChild(img);
+      }
 
       const toolbar = document.createElement("div");
       toolbar.className = "editor-img-toolbar";
       toolbar.innerHTML = `
         <button type="button" class="img-bar-btn del-btn" onclick="deleteEditorImage(this)">🗑️ Resmi Sil</button>
         <button type="button" class="img-bar-btn replace-btn" onclick="replaceEditorImage(this)">🎨 Görsel Stüdyosunda Değiştir</button>
+        <button type="button" class="img-bar-btn caption-btn" onclick="toggleEditorImageCaption(this)">✍️ Altyazı Ekle / Düzenle</button>
       `;
       card.appendChild(toolbar);
 
-      const captionP = document.createElement("p");
-      captionP.className = "editor-img-caption";
-      captionP.setAttribute("contenteditable", "true");
-      captionP.innerHTML = `<em>${captionText}</em>`;
-      card.appendChild(captionP);
-
-      if (captionElement && captionElement.parentNode) {
-        captionElement.remove();
+      const captionEl = document.createElement("figcaption");
+      captionEl.className = "editor-img-caption";
+      captionEl.setAttribute("contenteditable", "true");
+      captionEl.setAttribute("data-placeholder", "Fotoğraf altyazısı eklemek için buraya tıklayın...");
+      if (captionText) {
+        captionEl.innerText = captionText;
+      }
+      card.appendChild(captionEl);
+    } else {
+      // Kart zaten varsa altyazı ve butonların tam olduğundan emin ol
+      let captionEl = card.querySelector(".editor-img-caption");
+      if (!captionEl) {
+        captionEl = document.createElement("figcaption");
+        captionEl.className = "editor-img-caption";
+        captionEl.setAttribute("contenteditable", "true");
+        captionEl.setAttribute("data-placeholder", "Fotoğraf altyazısı eklemek için buraya tıklayın...");
+        card.appendChild(captionEl);
+      }
+      let toolbar = card.querySelector(".editor-img-toolbar");
+      if (toolbar && !toolbar.querySelector(".caption-btn")) {
+        const capBtn = document.createElement("button");
+        capBtn.type = "button";
+        capBtn.className = "img-bar-btn caption-btn";
+        capBtn.setAttribute("onclick", "toggleEditorImageCaption(this)");
+        capBtn.innerText = "✍️ Altyazı Ekle / Düzenle";
+        toolbar.appendChild(capBtn);
       }
     }
   });
+}
+
+function toggleEditorImageCaption(buttonOrElement) {
+  const card = buttonOrElement.closest(".editor-img-card");
+  if (!card) return;
+
+  let caption = card.querySelector(".editor-img-caption");
+  if (!caption) {
+    caption = document.createElement("figcaption");
+    caption.className = "editor-img-caption";
+    caption.setAttribute("contenteditable", "true");
+    caption.setAttribute("data-placeholder", "Fotoğraf altyazısı eklemek için buraya tıklayın...");
+    card.appendChild(caption);
+  }
+  caption.focus();
+  const range = document.createRange();
+  range.selectNodeContents(caption);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
 }
 
 function deleteEditorImage(buttonOrElement) {
@@ -790,6 +855,23 @@ function htmlToMarkdown(container) {
     }
     if (tag === "button") return "";
 
+    // Resim kartı: Görsel ve varsa elle girilmiş altyazıyı düzenli markdown olarak üret
+    if (node.classList && node.classList.contains("editor-img-card")) {
+      const img = node.querySelector("img");
+      if (img) {
+        const alt = img.getAttribute("alt") || "Demiryolu Gezisi Fotoğrafı";
+        let src = img.getAttribute("src") || "";
+        const captionEl = node.querySelector(".editor-img-caption");
+        const caption = captionEl ? captionEl.innerText.trim() : "";
+        if (caption) {
+          return `\n\n![${alt}](${src})\n*${caption}*\n\n`;
+        } else {
+          return `\n\n![${alt}](${src})\n\n`;
+        }
+      }
+      return "";
+    }
+
     const children = Array.from(node.childNodes).map(processNode).join("");
 
     switch (tag) {
@@ -807,7 +889,7 @@ function htmlToMarkdown(container) {
       case "ol": return `\n\n${children}\n\n`;
       case "li": return `* ${children.trim()}\n`;
       case "img":
-        const alt = node.getAttribute("alt") || "Görsel";
+        const alt = node.getAttribute("alt") || "Demiryolu Gezisi Fotoğrafı";
         let src = node.getAttribute("src") || "";
         return `\n\n![${alt}](${src})\n\n`;
       case "table": return `\n\n${node.outerHTML}\n\n`;
@@ -1716,32 +1798,48 @@ async function pasteFromClipboardButton() {
   showAlert("Panoda resim algılanamadı. Web sitesindeki resme sağ tıklayıp 'Resmi Kopyala' dedikten sonra buraya tıklayıp Ctrl + V yapabilirsiniz.", "info");
 }
 
+function switchRefMethod(method) {
+  const tabs = document.querySelectorAll(".ref-tab-btn");
+  tabs.forEach(t => t.classList.remove("active"));
+  const btn = document.getElementById(`tab-btn-${method}`);
+  if (btn) btn.classList.add("active");
+
+  const panels = document.querySelectorAll(".ref-method-panel");
+  panels.forEach(p => p.classList.add("hidden"));
+  const activePanel = document.getElementById(`ref-panel-${method}`);
+  if (activePanel) activePanel.classList.remove("hidden");
+}
+
 function setReferenceImageFromData(srcOrData) {
   currentRefImageBase64 = srcOrData;
-  const placeholder = document.getElementById("ref-placeholder");
   const wrapper = document.getElementById("ref-preview-wrapper");
   const img = document.getElementById("ref-preview-img");
+  const panels = document.querySelectorAll(".ref-method-panel");
+  const tabs = document.querySelector(".ref-method-tabs");
 
   if (img) img.src = srcOrData;
-  if (placeholder) placeholder.classList.add("hidden");
+  panels.forEach(p => p.classList.add("hidden"));
+  if (tabs) tabs.classList.add("hidden");
   if (wrapper) wrapper.classList.remove("hidden");
 
-  showAlert("📋 İnternetten kopyaladığınız resim referans olarak yapıştırıldı!", "success");
+  showAlert("📋 Referans görsel başarıyla eklendi!", "success");
 }
 
 function clearCurrentReferenceImage() {
   currentRefImageBase64 = null;
-  const placeholder = document.getElementById("ref-placeholder");
   const wrapper = document.getElementById("ref-preview-wrapper");
   const img = document.getElementById("ref-preview-img");
   const urlInput = document.getElementById("ref-modal-url");
   const fileInput = document.getElementById("ref-modal-file");
+  const tabs = document.querySelector(".ref-method-tabs");
 
   if (img) img.src = "";
   if (urlInput) urlInput.value = "";
   if (fileInput) fileInput.value = "";
   if (wrapper) wrapper.classList.add("hidden");
-  if (placeholder) placeholder.classList.remove("hidden");
+  if (tabs) tabs.classList.remove("hidden");
+
+  switchRefMethod("paste");
 }
 
 function openAiImageStudioModal() {
@@ -1801,7 +1899,7 @@ function handleModalRefFile(event) {
 }
 
 function handleModalRefUrl(url) {
-  const cleanUrl = url.trim();
+  const cleanUrl = (url || "").trim();
   if (!cleanUrl) return;
   setReferenceImageFromData(cleanUrl);
 }
@@ -1815,7 +1913,7 @@ async function generateRoyaltyFreeFromReference() {
   const resultImg = document.getElementById("ai-gen-result-img");
 
   if (!prompt && !currentRefImageBase64) {
-    showAlert("Lütfen en az bir referans görsel yapıştırın veya kompozisyon açıklaması girin!", "error");
+    showAlert("Lütfen önce bir referans görsel yapıştırın/yükleyin veya açıklama girin!", "error");
     return;
   }
 
@@ -1827,76 +1925,75 @@ async function generateRoyaltyFreeFromReference() {
   const timestamp = Date.now();
   const filename = `ai-ref-${timestamp}.jpg`;
 
-  // 1. Try Backend generate-from-reference API
-  if (isLocalhost) {
-    const res = await safeFetchJson(`/api/routes/${currentRouteId}/generate-from-reference`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: prompt,
-        reference_base64: currentRefImageBase64 || "",
-        notes: prompt
-      })
-    });
+  try {
+    // 1. Try Backend generate-from-reference API with a 10s timeout controller
+    if (isLocalhost) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    if (res.ok && res.data && res.data.path) {
-      savedImagePath = res.data.path;
-    }
-  }
-
-  // 2. Client-side browser fallback
-  if (!savedImagePath) {
-    try {
-      const cleanPrompt = (prompt || `${currentRouteId} train railway travel landscape`).replace(/[^a-zA-Z0-9\s]/g, " ").trim();
-      const seed = Math.floor(Math.random() * 900000);
-      const pollUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanPrompt)}?width=1280&height=720&nologo=true&seed=${seed}`;
-      
-      const imgFetch = await fetch(pollUrl);
-      if (imgFetch.ok) {
-        const blob = await imgFetch.blob();
-        const b64 = await new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.readAsDataURL(blob);
+      try {
+        const res = await safeFetchJson(`/api/routes/${currentRouteId}/generate-from-reference`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt: prompt,
+            reference_base64: currentRefImageBase64 || "",
+            notes: prompt
+          }),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
 
-        if (isLocalhost) {
-          const uploadRes = await safeFetchJson(`/api/routes/${currentRouteId}/upload-image`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ filename: filename, data: b64 })
-          });
-          if (uploadRes.ok && uploadRes.data) {
-            savedImagePath = uploadRes.data.path;
-          }
+        if (res.ok && res.data && res.data.path) {
+          savedImagePath = res.data.path;
         }
-        if (!savedImagePath) {
-          savedImagePath = b64;
-        }
+      } catch (e) {
+        clearTimeout(timeoutId);
+        console.warn("Backend generate note:", e);
       }
-    } catch (err) {
-      console.warn("Client fallback error:", err);
     }
+
+    // 2. Direct upload fallback if we have the reference image in memory
+    if (!savedImagePath && currentRefImageBase64) {
+      try {
+        const uploadRes = await safeFetchJson(`/api/routes/${currentRouteId}/upload-image`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename: filename, data: currentRefImageBase64 })
+        });
+        if (uploadRes.ok && uploadRes.data && uploadRes.data.path) {
+          savedImagePath = uploadRes.data.path;
+        } else {
+          savedImagePath = currentRefImageBase64;
+        }
+      } catch (err) {
+        savedImagePath = currentRefImageBase64;
+      }
+    }
+
+    if (!savedImagePath) {
+      showAlert("Görsel işlenemedi. Lütfen görseli tekrar yapıştırıp deneyin.", "error");
+      return;
+    }
+
+    lastGeneratedImagePath = savedImagePath;
+
+    if (resultImg) resultImg.src = savedImagePath;
+    if (resultBox) resultBox.classList.remove("hidden");
+
+    // Automatically insert into visual editor at designated spot WITHOUT ANY CAPTIONS
+    insertGeneratedImageToEditor();
+
+    // Refresh images gallery
+    loadImagesForRoute();
+    showAlert("🎉 Görsel başarıyla üretildi ve gezi yazısına eklendi!", "success");
+  } catch (globalErr) {
+    console.error("Image generation error:", globalErr);
+    showAlert("Bir hata oluştu: " + (globalErr.message || "İşlem tamamlanamadı"), "error");
+  } finally {
+    if (loading) loading.classList.add("hidden");
+    if (btn) btn.disabled = false;
   }
-
-  // 3. Ultimate fallback
-  if (!savedImagePath) {
-    savedImagePath = currentRefImageBase64 || `content/routes/${currentRouteId}/images/glenfinnan-viaduct.jpg`;
-  }
-
-  lastGeneratedImagePath = savedImagePath;
-
-  if (loading) loading.classList.add("hidden");
-  if (btn) btn.disabled = false;
-
-  if (resultImg) resultImg.src = savedImagePath;
-  if (resultBox) resultBox.classList.remove("hidden");
-
-  // Automatically insert into visual editor at designated spot
-  insertGeneratedImageToEditor();
-
-  // Refresh images gallery
-  loadImagesForRoute();
 }
 
 function insertGeneratedImageToEditor() {
@@ -1905,20 +2002,18 @@ function insertGeneratedImageToEditor() {
   const editor = document.getElementById("visual-editor");
   if (!editor) return;
 
-  const promptInput = document.getElementById("ai-gen-prompt");
-  const caption = (promptInput && promptInput.value.trim()) ? promptInput.value.trim() : "Yapay zeka tarafından referans alınarak üretilen telifsiz seyahat fotoğrafı.";
-
-  // Create interactive card
+  // Create interactive card WITH manual editable caption block
   const newCard = document.createElement("div");
   newCard.className = "editor-img-card";
   newCard.setAttribute("contenteditable", "false");
   newCard.innerHTML = `
-    <img src="${lastGeneratedImagePath}" alt="${caption}" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800';">
+    <img src="${lastGeneratedImagePath}" alt="Demiryolu Gezisi Fotoğrafı" onerror="this.src='https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800';">
     <div class="editor-img-toolbar">
       <button type="button" class="img-bar-btn del-btn" onclick="deleteEditorImage(this)">🗑️ Resmi Sil</button>
       <button type="button" class="img-bar-btn replace-btn" onclick="replaceEditorImage(this)">🎨 Görsel Stüdyosunda Değiştir</button>
+      <button type="button" class="img-bar-btn caption-btn" onclick="toggleEditorImageCaption(this)">✍️ Altyazı Ekle / Düzenle</button>
     </div>
-    <p class="editor-img-caption" contenteditable="true"><em>${caption}</em></p>
+    <figcaption class="editor-img-caption" contenteditable="true" data-placeholder="Fotoğraf için altyazı girmek için tıklayın..."></figcaption>
   `;
 
   if (editorInsertMode === "replace" && editorTargetImageToReplace && editorTargetImageToReplace.parentNode) {

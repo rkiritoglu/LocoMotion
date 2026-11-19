@@ -1,5 +1,16 @@
 /* LocoMotion Admin Styling */
 
+.hidden {
+  display: none !important;
+}
+
+.ai-gen-loading.hidden,
+.ai-gen-result-box.hidden,
+.ref-preview-wrapper.hidden,
+.ref-method-panel.hidden {
+  display: none !important;
+}
+
 /* Admin Security Lock Overlay */
 .admin-lock-overlay {
   position: fixed;
@@ -1458,20 +1469,45 @@
   border-color: #a78bfa;
 }
 
+.img-bar-btn.caption-btn:hover {
+  background: #0284c7;
+  border-color: #38bdf8;
+}
+
 .editor-img-caption {
   display: block;
-  font-size: 0.85rem;
-  color: #64748b;
+  font-family: var(--font-serif), 'Playfair Display', Georgia, 'Times New Roman', serif;
   font-style: italic;
-  margin-top: 8px;
+  font-size: 0.88rem;
+  color: #4b5563;
   text-align: center;
-  padding: 2px 8px;
-  border-radius: 4px;
+  margin-top: 8px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  min-height: 1.6em;
+  outline: none;
+  transition: all 0.15s ease;
+  line-height: 1.5;
+  cursor: text;
+}
+
+.editor-img-caption:empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  font-family: var(--font-serif), 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  cursor: text;
+}
+
+.editor-img-caption:hover {
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .editor-img-caption:focus {
-  outline: 1px dashed var(--accent-gold);
   background: #fdfbf7;
+  border-bottom: 2px solid var(--accent-gold);
+  color: var(--primary);
 }
 
 /* Pulsing Insertion Target Marker in Visual Editor */
@@ -1504,60 +1540,144 @@
 }
 
 /* ==========================================================================
-   AI REFERENCE IMAGE STUDIO CLIPBOARD & PASTE DROPZONE
+   AI REFERENCE IMAGE STUDIO SELECTION & TABS
    ========================================================================== */
 
-.ref-paste-dropzone {
-  min-height: 220px;
-  border: 2px dashed #a78bfa;
-  border-radius: 12px;
-  background: #faf8ff;
+.ref-method-tabs {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 16px;
-  position: relative;
+  gap: 6px;
+  margin-bottom: 14px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.ref-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748b;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
-.ref-paste-dropzone:hover,
-.ref-paste-dropzone:focus,
-.ref-paste-dropzone.dragover {
-  border-color: #7c3aed;
-  background: #f3e8ff;
-  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
-  outline: none;
+.ref-tab-btn:hover {
+  color: #1e293b;
 }
 
-.ref-preview-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.ref-tab-btn.active {
+  background: #ffffff;
+  color: #4f46e5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.ref-method-panel.hidden {
+  display: none !important;
+}
+
+.clean-paste-box,
+.clean-upload-box {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: #faf8ff;
+  border: 2px dashed #a78bfa;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 200px;
 }
 
-.ref-preview-wrapper img {
+.clean-paste-box:hover,
+.clean-paste-box:focus,
+.clean-upload-box:hover {
+  background: #f3e8ff;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+  outline: none;
+}
+
+.clean-url-box {
+  padding: 20px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.paste-icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.paste-title {
+  color: #4338ca;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.paste-sub {
+  color: #64748b;
+  font-size: 0.82rem;
+  margin-bottom: 12px;
+}
+
+.btn-paste-action {
+  background: #ffffff;
+  border: 1px solid #8b5cf6;
+  color: #6d28d9;
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.15);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-paste-action:hover {
+  background: #6d28d9;
+  color: #ffffff;
+}
+
+.ref-preview-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.ref-preview-card img {
   max-width: 100%;
-  max-height: 240px;
-  border-radius: 8px;
+  max-height: 220px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ref-preview-badge {
   margin-top: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  width: 100%;
   background: #ecfdf5;
   border: 1px solid #6ee7b7;
   color: #065f46;
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 6px 12px;
+  border-radius: 8px;
   font-size: 0.82rem;
   font-weight: 600;
 }
@@ -1566,9 +1686,9 @@
   background: #fee2e2;
   border: 1px solid #fca5a5;
   color: #b91c1c;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.15s ease;

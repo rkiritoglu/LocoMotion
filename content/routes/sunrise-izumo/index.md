@@ -38,8 +38,6 @@ Saat 21.30 sularında Tokyo Garı'nın 9. peronunda bej ve bordo renkli 285 seri
 Kompartımanıma girdiğimde her yolcu için özenle katlanmış bir pamuklu yukata, terlikler ve temiz bir yün battaniye hazırlanmıştı. Tren saat tam 21:50'de bir santimetre bile sarsılmadan hareket etti; Tokyo Kulesi ve Shinjuku'nun gökdelen ışıkları camdan geriye doğru kayarken rayların ritmik ninisi başladı.
 
 ![Japonya Gece Treni](images/tokyo-night-departure.jpg)
-*Tokyo'nun gece ışıklarından kırsal Japonya'ya uzanan huzurlu raylar.*
-
 ---
 
 ## Durak Durak Gece Masalı
@@ -62,8 +60,6 @@ Shikoku'ya geçen Seto treni, dünyanın en uzun çift katlı asma köprüsü ol
 Kuzeye giden Izumo treni ise Chugoku dağlarının derin nehir vadilerini aşarak Shinji Gölü kıyısından Japonya'nın en eski Şinto tapınağı olan **Izumo Taisha**'nın bulunduğu varış noktasına ulaştı.
 
 ![Fuji Manzarası](images/fuji-morning-view.jpg)
-*Gündoğumunda sisler arasından beliren Fuji Dağı ve sabah yolculuğu.*
-
 ---
 
 ## 📜 Rayların Arkasındaki Tarih: Japonya'nın Son Gece Treni Efsanesi

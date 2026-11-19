@@ -59,8 +59,7 @@ Ahşap panelli Mark 1 vagonumun kapısını açıp ağır pirinç kolu çevirdim
 LocoMotion günlüğümün bu sayfasını açarken, pencereye dökülen ilk yağmur damlaları manzarayı bir suluboya tablosuna dönüştürüyordu bile.
 
 ![Vagon İçi Atmosfer](content/routes/jacobite-steam-train/images/carriage-interior.jpg)
-
-*Pencere kenarında sıcak bir Highland çayı ve yağmurla yıkanan İskoç bozkırları.*
+*Viktorya döneminden kalma ahşap kompartıman ve sıcak bir çay molası.*
 
 ---
 
@@ -82,8 +81,6 @@ Pencereden dışarı sarktığınızda trenin kendi kıvrımını, vagonların a
 
 ![Glenfinnan Viyadüğü](content/routes/jacobite-steam-train/images/glenfinnan-viaduct.jpg)
 
-*21 kemerli Glenfinnan Viyadüğü'nden süzülen Jacobite ve uzakta pusuya yatan Loch Shiel.*
-
 ### 3. Arisaig: Britanya'nın En Batı Ucu
 
 Glenfinnan'dan sonra tren vahşi meşe ormanları arasından geçerek Arisaig İstasyonu'na varıyor. Burası, Büyük Britanya ana karasındaki en batı demiryolu istasyonu unvanına sahip. İstasyon binasının ahşap sundurmasında asılı çiçekler ve serin okyanus rüzgarı, Atlantik kıyısına yaklaştığımızın ilk habercisi.
@@ -99,8 +96,6 @@ Son tünelden çıkıp kıyıya indiğimizde önümüzde Mallaig Limanı açıld
 İstasyonda perona indiğimde yüzüme çarpan tuzlu okyanus meltemi ve lokomotif tekerleklerinin altından tüten hafif buhar, bu 67 kilometrelik epik yolculuğun en güzel vedasıydı.
 
 ![Mallaig Limanı Varış](content/routes/jacobite-steam-train/images/mallaig-harbour.jpg)
-
-*Yolculuğun son durağı: Atlantik kıyısındaki tarihi Mallaig balıkçı limanı.*
 
 ---
 
