@@ -23,6 +23,7 @@ CONTENT_DIR = BASE_DIR / "content"
 ROUTES_DIR = CONTENT_DIR / "routes"
 CONFIG_FILE = BASE_DIR / "config.json"
 SUGGESTIONS_FILE = CONTENT_DIR / "suggestions.json"
+ROUTES_MANIFEST_FILE = CONTENT_DIR / "routes.json"
 PORT = 8080
 
 def read_json_file(file_path, default_val=None):
@@ -61,6 +62,133 @@ def parse_frontmatter(content):
                 else:
                     meta[k] = v
     return meta, body
+
+
+def extract_clean_excerpt(body, max_len=190):
+    text = re.sub(r"<table[\s\S]*?</table>", " ", body, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", text)
+    text = re.sub(r"^#{1,6}\s+.*$", " ", text, flags=re.MULTILINE)
+    text = re.sub(r"^\s*---+\s*$", " ", text, flags=re.MULTILINE)
+    text = re.sub(r"^\s*>\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"[*_`\"]+", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) > max_len:
+        cut = text[:max_len]
+        if " " in cut:
+            cut = cut.rsplit(" ", 1)[0]
+        text = cut.rstrip(".,;:- ") + "..."
+    return text
+
+
+def extract_markdown_images(route_id, body, valid_images_set):
+    found = []
+    for match in re.finditer(r"!\[[^\]]*\]\(([^)]+)\)", body):
+        raw_src = match.group(1).strip()
+        fname = raw_src.split("/")[-1].split("?")[0]
+        if fname in valid_images_set:
+            rel_path = f"content/routes/{route_id}/images/{fname}"
+            if rel_path not in found:
+                found.append(rel_path)
+    return found
+
+
+def split_distance_duration(raw_duration, raw_distance=""):
+    raw_duration = (raw_duration or "").strip()
+    raw_distance = (raw_distance or "").strip()
+    if "•" in raw_duration:
+        left, right = raw_duration.split("•", 1)
+        return (left.strip() or raw_distance or "Demiryolu Hattı", right.strip() or "Özel Rota")
+    return (raw_distance or "Demiryolu Hattı", raw_duration or "Özel Rota")
+
+
+def build_routes_catalog(include_markdown=False):
+    existing_manifest = read_json_file(ROUTES_MANIFEST_FILE, {})
+    existing_created = {
+        r.get("id"): r.get("createdAt")
+        for r in existing_manifest.get("routes", [])
+        if isinstance(r, dict) and r.get("id") and r.get("createdAt") is not None
+    }
+
+    routes = []
+    if not ROUTES_DIR.exists():
+        return routes
+
+    for entry in sorted(ROUTES_DIR.iterdir()):
+        if not entry.is_dir():
+            continue
+        index_file = entry / "index.md"
+        if not index_file.exists():
+            continue
+
+        images_dir = entry / "images"
+        images = []
+        if images_dir.exists():
+            images = sorted([
+                img.name for img in images_dir.iterdir()
+                if img.is_file() and not img.name.startswith(".") and img.stat().st_size > 500
+            ])
+
+        content = index_file.read_text(encoding="utf-8")
+        meta, body = parse_frontmatter(content)
+        markdown_images = extract_markdown_images(entry.name, body, set(images))
+        hero_image = markdown_images[0] if markdown_images else (
+            f"content/routes/{entry.name}/images/{images[0]}" if images else ""
+        )
+
+        updated_at = int(index_file.stat().st_mtime)
+        if entry.name in existing_created:
+            created_at = int(existing_created[entry.name])
+        else:
+            ts_match = re.search(r"-(\d{9,11})$", entry.name)
+            created_at = int(ts_match.group(1)) if ts_match else updated_at
+
+        raw_tags = meta.get("tags", [])
+        if isinstance(raw_tags, str):
+            tags = [raw_tags] if raw_tags else ["Demiryolu Rotası"]
+        elif isinstance(raw_tags, list):
+            tags = [str(t) for t in raw_tags if str(t).strip()] or ["Demiryolu Rotası"]
+        else:
+            tags = ["Demiryolu Rotası"]
+
+        category = tags[0]
+        distance, duration = split_distance_duration(meta.get("duration", ""), meta.get("distance", ""))
+
+        route_data = {
+            "id": entry.name,
+            "title": meta.get("title") or entry.name,
+            "routeName": meta.get("route_name") or meta.get("title") or entry.name,
+            "country": meta.get("country") or "Demiryolu Rotası",
+            "category": category,
+            "tags": tags,
+            "distance": distance,
+            "duration": duration,
+            "locomotive": meta.get("locomotive") or "Lokomotif",
+            "excerpt": extract_clean_excerpt(body),
+            "images": images,
+            "markdownImages": markdown_images,
+            "heroImage": hero_image,
+            "markdownPath": f"content/routes/{entry.name}/index.md",
+            "has_content": True,
+            "metadata": meta,
+            "createdAt": created_at,
+            "updatedAt": updated_at,
+        }
+        if include_markdown:
+            route_data["markdown"] = content
+        routes.append(route_data)
+
+    routes.sort(key=lambda r: (r.get("createdAt", 0), r.get("updatedAt", 0)), reverse=True)
+    return routes
+
+
+def sync_routes_manifest():
+    catalog = build_routes_catalog(include_markdown=False)
+    write_json_file(ROUTES_MANIFEST_FILE, {
+        "generated_at": int(time.time()),
+        "routes": catalog
+    })
+    return catalog
 
 class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
@@ -105,29 +233,7 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
         path = parsed.path
 
         if path == "/api/routes":
-            routes = []
-            if ROUTES_DIR.exists():
-                for entry in sorted(ROUTES_DIR.iterdir()):
-                    if entry.is_dir():
-                        index_file = entry / "index.md"
-                        images_dir = entry / "images"
-                        images = []
-                        if images_dir.exists():
-                            images = [img.name for img in images_dir.iterdir() if img.is_file() and not img.name.startswith(".")]
-
-                        route_data = {
-                            "id": entry.name,
-                            "images": sorted(images),
-                            "has_content": index_file.exists()
-                        }
-                        if index_file.exists():
-                            content = index_file.read_text(encoding="utf-8")
-                            meta, body = parse_frontmatter(content)
-                            route_data["metadata"] = meta
-                            route_data["excerpt"] = body[:200].replace("\n", " ").strip() + "..."
-                            route_data["markdown"] = content
-                        routes.append(route_data)
-            self.send_json({"routes": routes})
+            self.send_json({"routes": build_routes_catalog(include_markdown=True)})
             return
 
         elif path.startswith("/api/routes/") and path.endswith("/images"):
@@ -309,6 +415,7 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                 img_bytes = base64.b64decode(data_b64)
                 target_file = img_dir / filename
                 target_file.write_bytes(img_bytes)
+                sync_routes_manifest()
                 self.send_json({"success": True, "filename": filename, "path": f"content/routes/{route_id}/images/{filename}"})
             except Exception as e:
                 self.send_json({"error": f"Failed to save image: {e}"}, 500)
@@ -393,6 +500,7 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                     saved = True
 
             if saved:
+                sync_routes_manifest()
                 self.send_json({
                     "success": True,
                     "filename": filename,
@@ -415,6 +523,7 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
             route_dir.mkdir(parents=True, exist_ok=True)
             index_file = route_dir / "index.md"
             index_file.write_text(markdown, encoding="utf-8")
+            sync_routes_manifest()
             self.send_json({"success": True, "message": f"Route '{route_id}' updated successfully"})
             return
 
@@ -468,6 +577,9 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
 
             logs = []
             try:
+                # 0. Statik site (GitHub Pages) için content/routes.json manifestosunu güncelle
+                sync_routes_manifest()
+
                 # 1. git add .
                 add_res = subprocess.run(["git", "add", "."], cwd=BASE_DIR, capture_output=True, text=True)
                 logs.append(f"Git Add: {add_res.returncode}")
@@ -526,6 +638,7 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
             img_file = ROUTES_DIR / route_id / "images" / filename
             if img_file.exists():
                 img_file.unlink()
+                sync_routes_manifest()
                 self.send_json({"success": True, "message": f"{filename} deleted"})
             else:
                 self.send_json({"error": "Image not found"}, 404)
@@ -541,6 +654,7 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
                     if f.is_file():
                         f.unlink()
                         deleted_count += 1
+            sync_routes_manifest()
             self.send_json({"success": True, "deleted_count": deleted_count, "message": f"{deleted_count} görsel silindi"})
             return
 
@@ -567,6 +681,7 @@ def find_available_port(start_port=8080, max_attempts=30):
     return start_port
 
 def run():
+    sync_routes_manifest()
     socketserver.TCPServer.allow_reuse_address = True
     desired_port = int(os.environ.get("PORT", 8080))
     port = find_available_port(desired_port)

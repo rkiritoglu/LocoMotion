@@ -694,6 +694,8 @@ body {
   line-height: 1.85;
   font-size: 1.12rem;
   color: #2c383e;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .article-bottom-nav {
@@ -819,6 +821,17 @@ body {
   margin-bottom: 26px;
   line-height: 1.5;
   letter-spacing: 0.2px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.article-content pre,
+.article-content code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .article-content table,

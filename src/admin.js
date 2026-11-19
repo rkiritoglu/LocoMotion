@@ -397,7 +397,7 @@ function updateEnvironmentBadge() {
       <span class="status-dot online"></span>
       <span>Yerel Yönetim Sunucusu</span>
     </div>
-    <p class="status-url">http://localhost:8080</p>
+    <p class="status-url">${window.location.origin}</p>
   `;
 }
 
@@ -635,7 +635,7 @@ function generateAiDraftForCurrentRoute() {
   `;
 
   if (editor) {
-    editor.innerHTML = detailedDraft;
+    editor.innerHTML = detailedDraft.replace(/^[ \t]+/gm, "").trim();
     setupEditorImageInteractions();
     updateCharCount();
     showAlert(`✨ '${title}' için detaylı ve zengin makale taslağı başarıyla oluşturuldu!`);
@@ -865,8 +865,16 @@ function promptInsertImage() {
 }
 
 function htmlToMarkdown(container) {
+  const BLOCK_CONTAINERS = new Set(["ul", "ol", "div", "table", "thead", "tbody", "tr", "section", "article", "figure"]);
+
   function processNode(node) {
-    if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+    if (node.nodeType === Node.TEXT_NODE) {
+      const parentTag = node.parentNode && node.parentNode.tagName ? node.parentNode.tagName.toLowerCase() : "";
+      if ((node.parentNode === container || BLOCK_CONTAINERS.has(parentTag)) && node.textContent.trim() === "") {
+        return "";
+      }
+      return node.textContent;
+    }
     if (node.nodeType !== Node.ELEMENT_NODE) return "";
 
     const tag = node.tagName.toLowerCase();
@@ -892,6 +900,31 @@ function htmlToMarkdown(container) {
       return "";
     }
 
+    if (tag === "ul") {
+      const items = Array.from(node.children)
+        .filter(el => el.tagName.toLowerCase() === "li")
+        .map(li => `* ${Array.from(li.childNodes).map(processNode).join("").trim()}`)
+        .filter(line => line.length > 2);
+      return items.length ? `\n\n${items.join("\n")}\n\n` : "";
+    }
+
+    if (tag === "ol") {
+      const items = Array.from(node.children)
+        .filter(el => el.tagName.toLowerCase() === "li")
+        .map((li, idx) => `${idx + 1}. ${Array.from(li.childNodes).map(processNode).join("").trim()}`)
+        .filter(line => !/^\d+\.\s*$/.test(line));
+      return items.length ? `\n\n${items.join("\n")}\n\n` : "";
+    }
+
+    if (tag === "pre") {
+      const rawText = (node.textContent || "").replace(/^[ \t]+/gm, "").trim();
+      if (!rawText) return "";
+      if (/^(\* |\d+\. )/m.test(rawText)) {
+        return `\n\n${rawText}\n\n`;
+      }
+      return `\n\n\`\`\`\n${rawText}\n\`\`\`\n\n`;
+    }
+
     const children = Array.from(node.childNodes).map(processNode).join("");
 
     switch (tag) {
@@ -905,19 +938,20 @@ function htmlToMarkdown(container) {
       case "em": case "i": return `*${children}*`;
       case "hr": return `\n\n---\n\n`;
       case "br": return `\n`;
-      case "ul": return `\n\n${children}\n\n`;
-      case "ol": return `\n\n${children}\n\n`;
       case "li": return `* ${children.trim()}\n`;
       case "img":
         const alt = node.getAttribute("alt") || "Demiryolu Gezisi Fotoğrafı";
         let src = node.getAttribute("src") || "";
         return `\n\n![${alt}](${src})\n\n`;
-      case "table": return `\n\n${node.outerHTML}\n\n`;
+      case "table": return `\n\n${node.outerHTML.replace(/^[ \t]+/gm, "")}\n\n`;
       default: return children;
     }
   }
 
-  return processNode(container).replace(/\n{3,}/g, "\n\n").trim();
+  return processNode(container)
+    .replace(/^[ \t]+$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 async function saveVisualArticle() {

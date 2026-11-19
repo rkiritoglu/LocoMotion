@@ -1,0 +1,492 @@
+{
+  "generated_at": 1795098812,
+  "routes": [
+    {
+      "id": "jacobite-steam-train",
+      "title": "Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni ile Zamanda Yolculuk",
+      "routeName": "Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni ile Zamanda Yolculuk",
+      "country": "İskoçya, Birleşik Krallık",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "2 saat 15 dakika (tek yön)",
+      "locomotive": "LMS Stanier Class 5 (Black Five) / LNER Peppercorn K1",
+      "excerpt": "Lokomotifin kömür kokulu ilk nefesi peronu kapladığında, sadece İskoçya'nın batı kıyılarına doğru değil; klan savaşlarının, sürgün edilmiş prenslerin ve Viktorya dönemi demiryolu...",
+      "images": [
+        "ai-ref-1794945396.jpg",
+        "carriage-interior.jpg",
+        "glenfinnan-viaduct.jpg",
+        "mallaig-harbour.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/jacobite-steam-train/images/carriage-interior.jpg",
+        "content/routes/jacobite-steam-train/images/glenfinnan-viaduct.jpg",
+        "content/routes/jacobite-steam-train/images/mallaig-harbour.jpg"
+      ],
+      "heroImage": "content/routes/jacobite-steam-train/images/carriage-interior.jpg",
+      "markdownPath": "content/routes/jacobite-steam-train/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni ile Zamanda Yolculuk",
+        "route_name": "Kuzeyin Dumanı: İskoç Dağlarında Jacobite Buharlı Treni ile Zamanda Yolculuk",
+        "country": "İskoçya, Birleşik Krallık",
+        "duration": "2 saat 15 dakika (tek yön)",
+        "locomotive": "LMS Stanier Class 5 (Black Five) / LNER Peppercorn K1",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795095775,
+      "updatedAt": 1795095775
+    },
+    {
+      "id": "centovalli-express",
+      "title": "Yüz Vadinin Masalı: Centovalli Panoramik Treni ile İsviçre'den İtalya'ya",
+      "routeName": "Yüz Vadinin Masalı: Centovalli Panoramik Treni ile İsviçre'den İtalya'ya",
+      "country": "İsviçre & İtalya (Ticino - Piyemonte)",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "Yaklaşık 2 Saat",
+      "locomotive": "ABe 4/8 Panoramik Elektrikli Tren",
+      "excerpt": "Locarno'nun palmiyelerle süslü göl kıyısından hareket ettiğimizde, raylar bizi birkaç dakika içinde derin bir kestane ormanının ve kükreyen dağ nehirlerinin kollarına bıraktı. 'Centovalli'...",
+      "images": [
+        "ai-ref-1795095039.jpg",
+        "ai-ref-1795095153.jpg",
+        "centovalli-train.jpg",
+        "isorno-viaduct.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/centovalli-express/images/ai-ref-1795095039.jpg",
+        "content/routes/centovalli-express/images/isorno-viaduct.jpg",
+        "content/routes/centovalli-express/images/ai-ref-1795095153.jpg"
+      ],
+      "heroImage": "content/routes/centovalli-express/images/ai-ref-1795095039.jpg",
+      "markdownPath": "content/routes/centovalli-express/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Yüz Vadinin Masalı: Centovalli Panoramik Treni ile İsviçre'den İtalya'ya",
+        "route_name": "Yüz Vadinin Masalı: Centovalli Panoramik Treni ile İsviçre'den İtalya'ya",
+        "country": "İsviçre & İtalya (Ticino - Piyemonte)",
+        "duration": "Yaklaşık 2 Saat",
+        "locomotive": "ABe 4/8 Panoramik Elektrikli Tren",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795095191,
+      "updatedAt": 1795095191
+    },
+    {
+      "id": "rovos-rail",
+      "title": "Afrika'nın Gururu: Rovos Rail Safari Ekspresi ile Zaman Yolculuğu",
+      "routeName": "Afrika'nın Gururu: Rovos Rail Safari Ekspresi ile Zaman Yolculuğu",
+      "country": "Güney Afrika",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "3 Gün / 2 Gece",
+      "locomotive": "Klasik Buharlı (Class 19D / 25NC) & Dizel Safari Lokomotifi",
+      "excerpt": "Pretoria'nın jakaranda ağaçlarıyla kaplı peronundan hareket eden Edward dönemi maun vagonlar, gümüş şamdanlar ve vagonun en arkasındaki açık hava balkonunda Afrika rüzgarını solumak...",
+      "images": [
+        "ai-ref-1795084748.jpg",
+        "ai-ref-1795084778.jpg",
+        "ai-ref-1795090107.jpg",
+        "ai-ref-1795090413.jpg",
+        "karoo-sunset.jpg",
+        "rovos-safari-train.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/rovos-rail/images/ai-ref-1795090107.jpg",
+        "content/routes/rovos-rail/images/ai-ref-1795090413.jpg",
+        "content/routes/rovos-rail/images/karoo-sunset.jpg"
+      ],
+      "heroImage": "content/routes/rovos-rail/images/ai-ref-1795090107.jpg",
+      "markdownPath": "content/routes/rovos-rail/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Afrika'nın Gururu: Rovos Rail Safari Ekspresi ile Zaman Yolculuğu",
+        "route_name": "Afrika'nın Gururu: Rovos Rail Safari Ekspresi ile Zaman Yolculuğu",
+        "country": "Güney Afrika",
+        "duration": "3 Gün / 2 Gece",
+        "locomotive": "Klasik Buharlı (Class 19D / 25NC) & Dizel Safari Lokomotifi",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795093622,
+      "updatedAt": 1795093622
+    },
+    {
+      "id": "california-zephyr-1795090986",
+      "title": "Vahsi Amerika'nin Kalbine: California Zephyr (ABD)",
+      "routeName": "Vahsi Amerika'nin Kalbine: California Zephyr (ABD)",
+      "country": "Kayalik Daglar & Sierra Nevada, ABD",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "3,924 km",
+      "duration": "51 Saat",
+      "locomotive": "GE Genesis P42DC Cift Lokomotif & Superliner",
+      "excerpt": "Kondüktörün düdüğü çaldığında, pencereden akıp giden sadece bozkırlar ya da karlı zirveler değil; zamanın ta kendisidir. Bu hatta her ray tıkırtısı, asırlık bir efsanenin fısıltısını taşır...",
+      "images": [
+        "ai-ref-1795097325.jpg",
+        "ai-ref-1795097499.jpg",
+        "ai-ref-1795097643.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/california-zephyr-1795090986/images/ai-ref-1795097499.jpg",
+        "content/routes/california-zephyr-1795090986/images/ai-ref-1795097325.jpg"
+      ],
+      "heroImage": "content/routes/california-zephyr-1795090986/images/ai-ref-1795097499.jpg",
+      "markdownPath": "content/routes/california-zephyr-1795090986/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Vahsi Amerika'nin Kalbine: California Zephyr (ABD)",
+        "route_name": "Vahsi Amerika'nin Kalbine: California Zephyr (ABD)",
+        "country": "Kayalik Daglar & Sierra Nevada, ABD",
+        "duration": "3,924 km • 51 Saat",
+        "locomotive": "GE Genesis P42DC Cift Lokomotif & Superliner",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795090986,
+      "updatedAt": 1795098773
+    },
+    {
+      "id": "sunrise-izumo",
+      "title": "Gece Güneşi: Sunrise Express ile Tokyo'dan Seto İç Denizi'ne",
+      "routeName": "Gece Güneşi: Sunrise Express ile Tokyo'dan Seto İç Denizi'ne",
+      "country": "Japonya (Honshu & Shikoku)",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "Yaklaşık 12 Saat",
+      "locomotive": "285 Series Sunrise Express Çift Katlı Elektrikli Dizi",
+      "excerpt": "Tokyo'nun gece yarısı neon parıltıları geride kalırken, ahşap kokulu 'Nobi Nobi' tatami kompartımanında uzanıp pencereden kayıp giden istasyon ışıklarını izlemek... Sabah gözlerinizi...",
+      "images": [
+        "ai-ref-1795084289.jpg",
+        "ai-ref-1795084389.jpg",
+        "fuji-morning-view.jpg",
+        "tokyo-night-departure.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/sunrise-izumo/images/ai-ref-1795084289.jpg",
+        "content/routes/sunrise-izumo/images/ai-ref-1795084389.jpg",
+        "content/routes/sunrise-izumo/images/fuji-morning-view.jpg"
+      ],
+      "heroImage": "content/routes/sunrise-izumo/images/ai-ref-1795084289.jpg",
+      "markdownPath": "content/routes/sunrise-izumo/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Gece Güneşi: Sunrise Express ile Tokyo'dan Seto İç Denizi'ne",
+        "route_name": "Gece Güneşi: Sunrise Express ile Tokyo'dan Seto İç Denizi'ne",
+        "country": "Japonya (Honshu & Shikoku)",
+        "duration": "Yaklaşık 12 Saat",
+        "locomotive": "285 Series Sunrise Express Çift Katlı Elektrikli Dizi",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795090875,
+      "updatedAt": 1795090875
+    },
+    {
+      "id": "rocky-mountaineer",
+      "title": "Vahşi Batının Zirvesi: Rocky Mountaineer ile Kanada Kanyonları",
+      "routeName": "Vahşi Batının Zirvesi: Rocky Mountaineer ile Kanada Kanyonları",
+      "country": "Kanada (British Columbia & Alberta)",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "2 Gün (Sadece Gündüz Seyahati)",
+      "locomotive": "EMD GP40-2W / SD70M Dizel Lokomotif",
+      "excerpt": "Cam kubbeli çift katlı vagonun tavanından göğe uzanan karlı zirveler, köpüren buzul nehirleri ve rayların birkaç metre ötesinde nehirde somon avlayan bozayılar... Rocky Mountaineer, Kuzey...",
+      "images": [
+        "ai-ref-1794928543.jpg",
+        "ai-ref-1794928710.jpg",
+        "ai-ref-1794928882.jpg",
+        "ai-ref-1794928932.jpg",
+        "ai-ref-1794929585.jpg",
+        "canadian-river-canyon.jpg",
+        "rocky-mountains.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/rocky-mountaineer/images/rocky-mountains.jpg",
+        "content/routes/rocky-mountaineer/images/ai-ref-1794928932.jpg",
+        "content/routes/rocky-mountaineer/images/ai-ref-1794928710.jpg",
+        "content/routes/rocky-mountaineer/images/canadian-river-canyon.jpg",
+        "content/routes/rocky-mountaineer/images/ai-ref-1794928543.jpg"
+      ],
+      "heroImage": "content/routes/rocky-mountaineer/images/rocky-mountains.jpg",
+      "markdownPath": "content/routes/rocky-mountaineer/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Vahşi Batının Zirvesi: Rocky Mountaineer ile Kanada Kanyonları",
+        "route_name": "Vahşi Batının Zirvesi: Rocky Mountaineer ile Kanada Kanyonları",
+        "country": "Kanada (British Columbia & Alberta)",
+        "duration": "2 Gün (Sadece Gündüz Seyahati)",
+        "locomotive": "EMD GP40-2W / SD70M Dizel Lokomotif",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795090559,
+      "updatedAt": 1795090559
+    },
+    {
+      "id": "kandy-ella",
+      "title": "Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella Mavi Treni",
+      "routeName": "Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella Mavi Treni",
+      "country": "Sri Lanka",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "6 - 7 Saat",
+      "locomotive": "Class S12 Mavi Dizel Lokomotif",
+      "excerpt": "Pencereleri ve kapıları ardına kadar açık mavi bir tren, Seylan çayı plantasyonlarının kokusu ve vadilerden süzülen muson sisi... Kandy'den Ella'ya uzanan bu hat, tren yolculuğunun saf...",
+      "images": [
+        "ai-ref-1795083496.jpg",
+        "ai-ref-1795083652.jpg",
+        "ai-ref-1795083788.jpg",
+        "ai-ref-1795084008.jpg",
+        "blue-train-tea-fields.jpg",
+        "nine-arches-bridge.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/kandy-ella/images/ai-ref-1795083788.jpg",
+        "content/routes/kandy-ella/images/ai-ref-1795084008.jpg"
+      ],
+      "heroImage": "content/routes/kandy-ella/images/ai-ref-1795083788.jpg",
+      "markdownPath": "content/routes/kandy-ella/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella Mavi Treni",
+        "route_name": "Zümrüt Tepeler ve 9 Kemerli Köprü: Kandy - Ella Mavi Treni",
+        "country": "Sri Lanka",
+        "duration": "6 - 7 Saat",
+        "locomotive": "Class S12 Mavi Dizel Lokomotif",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795084087,
+      "updatedAt": 1795084087
+    },
+    {
+      "id": "tren-a-las-nubes",
+      "title": "Bulutların Treni: Tren a las Nubes ile And Dağları'nın Göğüne",
+      "routeName": "Bulutların Treni: Tren a las Nubes ile And Dağları'nın Göğüne",
+      "country": "Arjantin",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "Yaklaşık 8 Saat",
+      "locomotive": "General Motors GT22CU Yüksek İrtifa Dizel Lokomotifi",
+      "excerpt": "Salta Vadisi'nden yükselen tren, kaktüs tarlalarını ve derin kanyonları geride bırakıp 4,220 metreye tırmandığında altınızda raylar değil; sadece bulut denizi kalır. Tren a las Nubes...",
+      "images": [
+        "ai-ref-1795081055.jpg",
+        "ai-ref-1795081119.jpg",
+        "ai-ref-1795082842.jpg",
+        "andes-valley.jpg",
+        "polvorilla-bridge.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/tren-a-las-nubes/images/ai-ref-1795081119.jpg",
+        "content/routes/tren-a-las-nubes/images/ai-ref-1795082842.jpg"
+      ],
+      "heroImage": "content/routes/tren-a-las-nubes/images/ai-ref-1795081119.jpg",
+      "markdownPath": "content/routes/tren-a-las-nubes/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Bulutların Treni: Tren a las Nubes ile And Dağları'nın Göğüne",
+        "route_name": "Bulutların Treni: Tren a las Nubes ile And Dağları'nın Göğüne",
+        "country": "Arjantin",
+        "duration": "Yaklaşık 8 Saat",
+        "locomotive": "General Motors GT22CU Yüksek İrtifa Dizel Lokomotifi",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795082899,
+      "updatedAt": 1795082899
+    },
+    {
+      "id": "flam-railway",
+      "title": "Fiyortların Zirvesine: Flåm Demiryolu ile Norveç Masalı",
+      "routeName": "Fiyortların Zirvesine: Flåm Demiryolu ile Norveç Masalı",
+      "country": "Norveç Fiyortları",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "Yaklaşık 1 Saat",
+      "locomotive": "El 17 Özel Çift Frenli Dağ Lokomotifi",
+      "excerpt": "Aynamsı sularıyla Aurlandsfjord'un kıyısından hareket ettiğimizde, tren sanki fiyordun derinliklerinden gökyüzüne doğru bir ipe asılmış gibi tırmanmaya başladı. 20 kilometrede 866 metre...",
+      "images": [
+        "ai-ref-1794942827.jpg",
+        "ai-ref-1794942939.jpg",
+        "ai-ref-1794943236.jpg",
+        "ai-ref-1794943353.jpg",
+        "flam-fjord-train.jpg",
+        "kjosfossen-waterfall.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/flam-railway/images/ai-ref-1794942939.jpg",
+        "content/routes/flam-railway/images/ai-ref-1794943353.jpg"
+      ],
+      "heroImage": "content/routes/flam-railway/images/ai-ref-1794942939.jpg",
+      "markdownPath": "content/routes/flam-railway/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Fiyortların Zirvesine: Flåm Demiryolu ile Norveç Masalı",
+        "route_name": "Fiyortların Zirvesine: Flåm Demiryolu ile Norveç Masalı",
+        "country": "Norveç Fiyortları",
+        "duration": "Yaklaşık 1 Saat",
+        "locomotive": "El 17 Özel Çift Frenli Dağ Lokomotifi",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795080801,
+      "updatedAt": 1795080801
+    },
+    {
+      "id": "orient-express",
+      "title": "Efsanelerin ve Casusların Rotası: Doğu Ekspresi ile Paris'ten İstanbul'a",
+      "routeName": "Efsanelerin ve Casusların Rotası: Doğu Ekspresi ile Paris'ten İstanbul'a",
+      "country": "Fransa - İsviçre - İtalya - Avusturya - Macaristan - Romanya - Bulgaristan - Türkiye",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "5 Gün / 4 Gece",
+      "locomotive": "1920'ler CIWL Art Deco Tarihi Lüks Vagonları",
+      "excerpt": "Kondüktörün frakındaki pirinç düğmeler, kristal kadehlerde çınlayan Fransız şampanyası ve Paris'in sonbahar sisinden Boğaz'ın tuzlu sularına uzanan 3100 kilometrelik bir efsane... Orient...",
+      "images": [
+        "ai-ref-1794941417.jpg",
+        "orient-express-carriage.jpg",
+        "sirkeci-arrival.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/orient-express/images/orient-express-carriage.jpg",
+        "content/routes/orient-express/images/ai-ref-1794941417.jpg",
+        "content/routes/orient-express/images/sirkeci-arrival.jpg"
+      ],
+      "heroImage": "content/routes/orient-express/images/orient-express-carriage.jpg",
+      "markdownPath": "content/routes/orient-express/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Efsanelerin ve Casusların Rotası: Doğu Ekspresi ile Paris'ten İstanbul'a",
+        "route_name": "Efsanelerin ve Casusların Rotası: Doğu Ekspresi ile Paris'ten İstanbul'a",
+        "country": "Fransa - İsviçre - İtalya - Avusturya - Macaristan - Romanya - Bulgaristan - Türkiye",
+        "duration": "5 Gün / 4 Gece",
+        "locomotive": "1920'ler CIWL Art Deco Tarihi Lüks Vagonları",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1795080651,
+      "updatedAt": 1795080651
+    },
+    {
+      "id": "bernina-express",
+      "title": "Buzullardan Palmiyelere: Bernina Express ile Alplerin Kalbine Yolculuk",
+      "routeName": "Buzullardan Palmiyelere: Bernina Express ile Alplerin Kalbine Yolculuk",
+      "country": "İsviçre & İtalya",
+      "category": "Buharlı Tren",
+      "tags": [
+        "Buharlı Tren",
+        "Dağ Manzarası",
+        "Tarihi Hat"
+      ],
+      "distance": "Demiryolu Hattı",
+      "duration": "4 saat 15 dakika",
+      "locomotive": "Allegra Panoramik Elektrikli Tren (ABe 8/12)",
+      "excerpt": "Sabah Chur'un serin vadisinde başladığınız yolculukta, önce 2253 metredeki buzulların fırtınasını buğulu camdan izler; birkaç saat sonra İtalya'nın Tirano kasabasında palmiyelerin altında...",
+      "images": [
+        "brusio-spiral.jpg",
+        "landwasser-viaduct.jpg"
+      ],
+      "markdownImages": [
+        "content/routes/bernina-express/images/landwasser-viaduct.jpg",
+        "content/routes/bernina-express/images/brusio-spiral.jpg"
+      ],
+      "heroImage": "content/routes/bernina-express/images/landwasser-viaduct.jpg",
+      "markdownPath": "content/routes/bernina-express/index.md",
+      "has_content": true,
+      "metadata": {
+        "title": "Buzullardan Palmiyelere: Bernina Express ile Alplerin Kalbine Yolculuk",
+        "route_name": "Buzullardan Palmiyelere: Bernina Express ile Alplerin Kalbine Yolculuk",
+        "country": "İsviçre & İtalya",
+        "duration": "4 saat 15 dakika",
+        "locomotive": "Allegra Panoramik Elektrikli Tren (ABe 8/12)",
+        "tags": [
+          "Buharlı Tren",
+          "Dağ Manzarası",
+          "Tarihi Hat"
+        ]
+      },
+      "createdAt": 1794944918,
+      "updatedAt": 1794944918
+    }
+  ]
+}

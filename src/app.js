@@ -949,8 +949,83 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Load any custom routes added from admin or backend
+// Load any custom/new routes from static routes.json manifest (GitHub Pages + Local), backend API (Local), and localStorage
 async function loadDynamicCustomRoutes() {
+  const FALLBACK_HERO = "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800";
+
+  function mergeExternalRoutes(extRoutes) {
+    if (!Array.isArray(extRoutes) || extRoutes.length === 0) return;
+    const newRoutes = [];
+
+    extRoutes.forEach(dr => {
+      if (!dr || !dr.id) return;
+      const meta = dr.metadata || {};
+      const existing = routesData.find(r => r.id === dr.id);
+      const mdImages = dr.markdownImages || [];
+      const fallbackImg = (dr.images && dr.images.length)
+        ? `content/routes/${dr.id}/images/${dr.images[0]}`
+        : FALLBACK_HERO;
+      const resolvedHero = dr.heroImage || fallbackImg;
+
+      if (!existing) {
+        newRoutes.push({
+          id: dr.id,
+          title: dr.title || meta.title || dr.id,
+          routeName: dr.routeName || meta.route_name || meta.title || dr.id,
+          country: dr.country || meta.country || "Demiryolu Rotası",
+          category: dr.category || (Array.isArray(meta.tags) && meta.tags.length ? meta.tags[0] : "Özel Rota"),
+          tags: dr.tags || meta.tags || ["Özel Rota"],
+          heroImage: resolvedHero,
+          fallbackHero: FALLBACK_HERO,
+          excerpt: dr.excerpt || `${dr.country || meta.country || ''} rotasında yeni keşfedilen demiryolu hattı.`,
+          distance: dr.distance || meta.duration || "Belirleniyor",
+          duration: dr.duration || "Özel Rota",
+          locomotive: dr.locomotive || meta.locomotive || "Lokomotif",
+          markdownPath: dr.markdownPath || `content/routes/${dr.id}/index.md`,
+          content: dr.markdown || ""
+        });
+      } else {
+        if (dr.title || meta.title) existing.title = dr.title || meta.title;
+        if (dr.country || meta.country) existing.country = dr.country || meta.country;
+        if (dr.locomotive || meta.locomotive) existing.locomotive = dr.locomotive || meta.locomotive;
+        if (dr.markdownPath) existing.markdownPath = dr.markdownPath;
+        if (dr.heroImage && !mdImages.includes(existing.heroImage)) {
+          existing.heroImage = dr.heroImage;
+        }
+      }
+    });
+
+    if (newRoutes.length > 0) {
+      routesData = [...newRoutes, ...routesData];
+    }
+  }
+
+  // 1. Statik rota manifestosu (GitHub Pages ve yerel sunucuda tüm disk rotalarını yükler)
+  try {
+    const manifestRes = await fetch(`content/routes.json?v=${Date.now()}`, { cache: "no-store" });
+    if (manifestRes.ok) {
+      const manifestData = await manifestRes.json();
+      if (manifestData && manifestData.routes) {
+        mergeExternalRoutes(manifestData.routes);
+      }
+    }
+  } catch (e) {}
+
+  // 2. Yerel sunucu API'si (henüz manifestoya yazılmamış anlık disk değişiklikleri için)
+  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+  if (isLocal) {
+    try {
+      const res = await fetch("/api/routes", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.routes) {
+          mergeExternalRoutes(data.routes);
+        }
+      }
+    } catch (e) {}
+  }
+
+  // 3. Tarayıcı localStorage'ında kalmış, henüz diske yazılmamış özel taslaklar (sadece yoksa ekle)
   try {
     let custom = JSON.parse(localStorage.getItem("locomotion_custom_routes") || "[]");
     // Clean up any orphan contovalli/centovalli drafts from localStorage so they resolve cleanly to the official route
@@ -973,49 +1048,18 @@ async function loadDynamicCustomRoutes() {
           country: cr.country || "Demiryolu Rotası",
           category: "Özel Rota",
           tags: ["Özel Rota", "Tarihi Hat"],
-          heroImage: (cr.images && cr.images.length) ? `content/routes/${cr.id}/images/${cr.images[0]}` : "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
-          fallbackHero: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
+          heroImage: (cr.images && cr.images.length) ? `content/routes/${cr.id}/images/${cr.images[0]}` : FALLBACK_HERO,
+          fallbackHero: FALLBACK_HERO,
           excerpt: `${cr.country} coğrafyasında rayların izinde özel gezi günlüğü ve durak rehberi.`,
           distance: cr.distTime || "Belirleniyor",
           duration: "Özel Rota",
           locomotive: cr.engine || "Lokomotif",
+          markdownPath: `content/routes/${cr.id}/index.md`,
           content: cr.content || ""
         });
       }
     });
   } catch (e) {}
-
-  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-  if (isLocal) {
-    try {
-      const res = await fetch("/api/routes");
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.routes) {
-          data.routes.forEach(dr => {
-            if (!routesData.some(r => r.id === dr.id)) {
-              const meta = dr.metadata || {};
-              routesData.unshift({
-                id: dr.id,
-                title: meta.title || dr.id,
-                routeName: meta.route_name || meta.title || dr.id,
-                country: meta.country || "Demiryolu Rotası",
-                category: "Özel Rota",
-                tags: meta.tags || ["Özel Rota"],
-                heroImage: (dr.images && dr.images.length) ? `content/routes/${dr.id}/images/${dr.images[0]}` : "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
-                fallbackHero: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800",
-                excerpt: dr.excerpt || `${meta.country || ''} rotasında yeni keşfedilen demiryolu hattı.`,
-                distance: meta.duration || "Belirleniyor",
-                duration: "Özel Rota",
-                locomotive: meta.locomotive || "Lokomotif",
-                content: dr.markdown || ""
-              });
-            }
-          });
-        }
-      }
-    } catch (e) {}
-  }
 
   if (window.refreshRouteSearchDropdown) {
     window.refreshRouteSearchDropdown();
@@ -1323,22 +1367,22 @@ async function openRouteArticle(routeId) {
   if (!route || !articlePage || !body) return;
 
   let loadedContent = route.content || "";
+  const mdPath = route.markdownPath || `content/routes/${routeId}/index.md`;
 
-  if (route.markdownPath) {
-    try {
-      const response = await fetch(route.markdownPath);
-      if (response.ok) {
-        let text = await response.text();
-        if (!text.includes("<!DOCTYPE") && !text.includes("<html")) {
-          loadedContent = text.replace(/^---[\s\S]*?---\n/, "");
-        }
+  try {
+    const response = await fetch(`${mdPath}?v=${Date.now()}`, { cache: "no-store" });
+    if (response.ok) {
+      const text = await response.text();
+      if (!text.includes("<!DOCTYPE") && !text.includes("<html") && text.trim().length > 0) {
+        loadedContent = text;
       }
-    } catch (err) {
-      console.warn("Using embedded fallback:", err);
     }
+  } catch (err) {
+    console.warn("Using embedded fallback:", err);
   }
 
   if (loadedContent) {
+    loadedContent = loadedContent.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
     let processedContent = loadedContent.replace(/!\[(.*?)\]\(images\//g, `![$1](content/routes/${routeId}/images/`);
     body.innerHTML = parseMarkdownSafe(processedContent);
   } else {
