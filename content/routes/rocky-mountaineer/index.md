@@ -60,8 +60,7 @@ Vancouver İstasyonu'nun peronunda sabah saat 07.00'de gayda melodileri eşliği
 
 Kondüktörün "All aboard!" anonsuyla tren süzüldüğünde, alt kattaki gurme restorandan taze demlenmiş kahve ve sıcak tereyağlı kruvasan kokuları yükseliyordu. Tren Pasifik kıyısını geride bırakıp Fraser Vadisi'nin zümrüt yeşili ormanlarına daldı.
 
-![Kanada Kayalık Dağları](content/routes/rocky-mountaineer/images/rocky-mountains.jpg)
----
+## ![Kanada Kayalık Dağları](content/routes/rocky-mountaineer/images/rocky-mountains.jpg)
 
 ## Durak Durak Vahşi Batı
 
@@ -70,6 +69,7 @@ Kondüktörün "All aboard!" anonsuyla tren süzüldüğünde, alt kattaki gurme
 Yolculuğun ilk gününde tren, Fraser Nehri'nin daralarak dakikada 750 milyon litre suyun köpürdüğü devasa bir yarığa dönüştüğü **Hell's Gate** kanyonuna girdi. Raylar nehrin hemen onlarca metre üzerindeki kaya balkonlarına asılmış gibiydi.
 
 ![Vahşi Batının Zirvesi: Rocky Mountaineer ile Kanada Kanyonları, scenic train traveling through iconic landscape, viaduct, atmospheric lighting, 35mm film travel photography, cinematic 35mm photography, high detail railway](content/routes/rocky-mountaineer/images/ai-ref-1794928932.jpg)
+
 ### 2. Kamloops ve Yarı-Çöl Bozkırları (1. Gün Sonu)
 
 Tren yemyeşil yağmur ormanlarından çıkıp şaşırtıcı bir tezatla Thompson Nehri boyunca uzanan kurak, kanyonlu bir çöl platosuna girdi. Akşam saatlerinde ilk günün son durağı olan Kamloops kasabasına vardık ve geceyi yerel otelde geçirdik (Rocky Mountaineer gece seyahat etmez; hiçbir manzarayı karanlıkta kaçırmazsınız!).
@@ -79,6 +79,7 @@ Tren yemyeşil yağmur ormanlarından çıkıp şaşırtıcı bir tezatla Thomps
 İkinci gün sabah erken saatlerde tren, 7 Kasım 1885'te Doğu ve Batı Kanada demiryollarının birleştiği tarihi Craigellachie noktasına vardı. Kanada'yı tek bir ulus haline getiren son altın kaplama çivinin çakıldığı anıt rayların hemen kenarında nöbet tutuyordu.
 
 ### ![Vahşi Batının Zirvesi: Rocky Mountaineer ile Kanada Kanyonları, scenic train traveling through iconic landscape, viaduct, atmospheric lighting, 35mm film travel photography](content/routes/rocky-mountaineer/images/ai-ref-1794928710.jpg)
+
 ### 4. Spiral Tüneller: Dağın İçinde 360 Derecelik Kavis
 
 Kicking Horse Geçidi'ne geldiğimizde mühendislik tarihinin en büyük zaferlerinden biri belirdi. %4.5'lik ölümcül eğimi aşmak için Mount Ogden ve Cathedral dağlarının kalbine kazılan iki devasa spiral tünelde tren kendi kuyruğunu izleyerek dağın içinden iki kat yukarıya tırmandı.
@@ -87,14 +88,14 @@ Kicking Horse Geçidi'ne geldiğimizde mühendislik tarihinin en büyük zaferle
 
 1,627 metredeki Kıta Bölünmesi (Continental Divide) noktasını aştığımızda artık sular Pasifik yerine Atlantik Okyanusu'na akıyordu. Ufukta masmavi buzul gölleri ve Castle Dağı'nın karlı zirveleri belirdiğinde Banff Milli Parkı'nın kalbine ulaştık.
 
-![Kanada Kanyon Nehri](content/routes/rocky-mountaineer/images/canadian-river-canyon.jpg)
----
+## ![Kanada Kanyon Nehri](content/routes/rocky-mountaineer/images/canadian-river-canyon.jpg)
 
 ## 📜 Rayların Arkasındaki Tarih: Kanada'yı Kanada Yapan Demiryolu
 
 1871 yılında British Columbia eyaleti, Kanada Konfederasyonu'na katılmak için tek bir şart koştu: 10 yıl içinde doğudaki Montreal'i batıdaki Pasifik Okyanusu'na bağlayacak bir transkontinental demiryolu inşa edilmesi. Aksi halde eyalet Amerika Birleşik Devletleri'ne katılacaktı.
 
 ![Vahşi Batının Zirvesi: Rocky Mountaineer (Kanada), scenic train traveling through iconic landscape, viaduct, atmospheric lighting, 35mm film travel photography](content/routes/rocky-mountaineer/images/ai-ref-1794928543.jpg)
+
 Canadian Pacific Railway (CPR) projesi işte bu varoluşsal krizle doğdu. Kışın eksi 40 derecede sarp kayalıkları dinamitleyen, uçurumlara ahşap köprüler ören binlerce işçinin emeğiyle hat 1885'te tamamlandı ve Kanada tek parça bir ülke olarak tarihteki yerini aldı. Rocky Mountaineer bugün bu tarihi fethin en lüks mirasçısıdır.
 
 ---

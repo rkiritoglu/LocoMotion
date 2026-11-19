@@ -57,6 +57,7 @@ Sabahın ilk ışıkları Salta'nın sömürge dönemi çan kulelerini kızıla 
 Kondüktörün düdüğüyle tren hareket ettiğinde, saniyeler içinde kentin banliyöleri geride kaldı ve And Dağları'nın devasa kırmızı kanyonları vagonları yuttu.
 
 ![Demiryolu Gezisi Fotoğrafı](content/routes/tren-a-las-nubes/images/ai-ref-1795081119.jpg)
+*Por Véronique Debord-Lazaro - https://www.flickr.com/photos/debord/2764196594/, CC BY-SA 2.0, https://commons.wikimedia.org/wiki/Special:Redirect/page/11948654*
 
 ---
 
@@ -78,7 +79,8 @@ Eğim o kadar dikleşti ki trenin düz tırmanması imkansız hale geldi. Amerik
 
 Günün doruk noktası: 224 metre uzunluğunda, 64 metre yüksekliğinde ve tam 4,220 metre irtifadaki hilal biçimli devasa çelik viyadük! Tren viyadüğe girdiğinde pencereden aşağıya baktığınızda hiçbir zemin göremiyorsunuz; tren kelimenin tam anlamıyla bulutların üzerinde süzülüyor. Lokomotif viyadüğün ortasında durur, Arjantin milli marşı çalınır ve gökyüzünün sonsuz maviliğinde bayrak dalgalanır.
 
-![La Polvorilla Köprüsü](content/routes/tren-a-las-nubes/images/polvorilla-bridge.jpg)
+![Demiryolu Gezisi Fotoğrafı](content/routes/tren-a-las-nubes/images/ai-ref-1795082842.jpg)
+*By Gavieiro Juan M - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/Special:Redirect/page/17250824*
 
 ---
 
