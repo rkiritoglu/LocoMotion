@@ -1097,19 +1097,19 @@ async function deleteImage(filename) {
 }
 
 function clearAllLocalCacheAndReload() {
-  if (!confirm("Tarayıcınızdaki tüm geçici taslaklar ve önbellek temizlenecek, diskteki orijinal veriler yüklenecektir. Emin misiniz?")) return;
+  if (!confirm("Tarayıcınızdaki tüm geçici taslaklar ve önbellek temizlenecek, diskteki orijinal veriler yüklenecektir. (API anahtarlarınız korunur). Emin misiniz?")) return;
 
   const keysToRemove = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key && key.startsWith("locomotion_")) {
+    if (key && key.startsWith("locomotion_") && key !== "locomotion_settings" && key !== "locomotion_admin_password") {
       keysToRemove.push(key);
     }
   }
   keysToRemove.forEach(k => localStorage.removeItem(k));
   sessionStorage.clear();
 
-  showAlert("🧹 Tüm tarayıcı önbelleği başarıyla temizlendi! Sayfa disk verileriyle yenileniyor...", "success");
+  showAlert("🧹 Tüm geçici taslak önbelleği temizlendi! Sayfa yenileniyor...", "success");
   setTimeout(() => window.location.reload(), 1000);
 }
 
@@ -1541,24 +1541,36 @@ async function loadApiSettings() {
   }
 
   const effectiveRepo = backendCfg?.github_repo || localCfg.github_repo || "rkiritoglu/LocoMotion";
-  const hasGemini = Boolean(backendCfg?.has_gemini_key || localCfg.gemini_api_key);
-  const hasUnsplash = Boolean(backendCfg?.has_unsplash_key || localCfg.unsplash_api_key);
-  const hasToken = Boolean(backendCfg?.has_github_token || localCfg.github_token);
+  const geminiVal = backendCfg?.gemini_api_key || localCfg.gemini_api_key || "";
+  const unsplashVal = backendCfg?.unsplash_api_key || localCfg.unsplash_api_key || "";
+  const tokenVal = backendCfg?.github_token || localCfg.github_token || "";
+
+  const hasGemini = Boolean(geminiVal || backendCfg?.has_gemini_key);
+  const hasUnsplash = Boolean(unsplashVal || backendCfg?.has_unsplash_key);
+  const hasToken = Boolean(tokenVal || backendCfg?.has_github_token);
 
   if (repoInput) repoInput.value = effectiveRepo;
 
   if (gStatus) {
-    gStatus.innerText = hasGemini ? "✅ Tanımlı" : "⚠️ Tanımlanmamış";
+    gStatus.innerText = hasGemini ? "✅ Tanımlı ve Kayıtlı" : "⚠️ Tanımlanmamış";
     if (hasGemini) gStatus.classList.add("active");
+    else gStatus.classList.remove("active");
   }
   if (uStatus) {
-    uStatus.innerText = hasUnsplash ? "✅ Tanımlı" : "Tanımsız (Opsiyonel)";
+    uStatus.innerText = hasUnsplash ? "✅ Tanımlı ve Kayıtlı" : "Tanımsız (Opsiyonel)";
     if (hasUnsplash) uStatus.classList.add("active");
+    else uStatus.classList.remove("active");
+  }
+  const ghStatus = document.getElementById("github-token-status");
+  if (ghStatus) {
+    ghStatus.innerText = hasToken ? "✅ Tanımlı ve Kayıtlı" : "⚠️ Tanımlanmamış";
+    if (hasToken) ghStatus.classList.add("active");
+    else ghStatus.classList.remove("active");
   }
 
-  if (geminiInput && localCfg.gemini_api_key) geminiInput.value = localCfg.gemini_api_key;
-  if (unsplashInput && localCfg.unsplash_api_key) unsplashInput.value = localCfg.unsplash_api_key;
-  if (tokenInput && localCfg.github_token) tokenInput.value = localCfg.github_token;
+  if (geminiInput) geminiInput.value = geminiVal;
+  if (unsplashInput) unsplashInput.value = unsplashVal;
+  if (tokenInput) tokenInput.value = tokenVal;
 
   const adminPassInput = document.getElementById("admin-pass-setting");
   if (adminPassInput) {

@@ -166,17 +166,16 @@ class LocoMotionHandler(http.server.SimpleHTTPRequestHandler):
 
         elif path == "/api/settings":
             cfg = read_json_file(CONFIG_FILE, {})
-            # Mask sensitive tokens for safe display
-            safe_cfg = {
-                "gemini_api_key": "***" + cfg.get("gemini_api_key", "")[-4:] if cfg.get("gemini_api_key") else "",
+            self.send_json({
+                "gemini_api_key": cfg.get("gemini_api_key", ""),
                 "has_gemini_key": bool(cfg.get("gemini_api_key")),
-                "unsplash_api_key": "***" + cfg.get("unsplash_api_key", "")[-4:] if cfg.get("unsplash_api_key") else "",
+                "unsplash_api_key": cfg.get("unsplash_api_key", ""),
                 "has_unsplash_key": bool(cfg.get("unsplash_api_key")),
-                "github_repo": cfg.get("github_repo", ""),
-                "github_username": cfg.get("github_username", ""),
+                "github_repo": cfg.get("github_repo", "rkiritoglu/LocoMotion"),
+                "github_username": cfg.get("github_username", "rkiritoglu"),
+                "github_token": cfg.get("github_token", ""),
                 "has_github_token": bool(cfg.get("github_token"))
-            }
-            self.send_json(safe_cfg)
+            })
             return
 
         elif path == "/api/git/status":
